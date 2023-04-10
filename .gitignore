@@ -37,3 +37,6 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Excel files in raw data directory
+raw_data/*.xlsx
