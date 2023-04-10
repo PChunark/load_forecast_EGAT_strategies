@@ -1,0 +1,1 @@
+# load_forecast_EGAT_strategies
