@@ -1,5 +1,5 @@
-library(tidyverse)
-library(readxl)
+library(tidyverse)  # Package for data manipulation
+library(readxl) #Package for reading excel file. It is not a core package in tidyverse package
 
 vsppcontractcapPDP2018R1 <-
   
