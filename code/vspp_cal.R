@@ -63,6 +63,6 @@ vsppenergyPDP2022C7 <-
   select(!Total) %>% 
   rename_all(tolower) %>% 
   # rename(ind_waste = "industrial waste") %>% 
-  pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh") %>% 
-  ggplot(aes(x = as.factor(year), y = vspp_gwh, group = fuel, color = fuel)) + 
-  geom_line()
+  pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh") #%>% 
+  # ggplot(aes(x = as.factor(year), y = vspp_gwh, group = fuel, color = fuel)) + 
+  # geom_line()
