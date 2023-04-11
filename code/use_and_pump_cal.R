@@ -54,6 +54,6 @@ total_usepump <-
          use_statserv = use_statserv$ely_gwh,
          use_maemoh   = use_maemoh$ely_gwh,
          use_pump     = use_pump$ely_gwh,
-         total        = ely_gwh + use_egatsub + use_statserv + use_maemoh + use_pump)
+         total_usepump  = ely_gwh + use_egatsub + use_statserv + use_maemoh + use_pump)
 
 
