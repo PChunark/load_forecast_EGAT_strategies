@@ -1,8 +1,12 @@
 source("code/vspp_cal.R")
+source("code/use_and_pump_cal.R")
+source("code/tran_loss_percent.R")
 
 # Equations of electricity load in Thailand power system
 ## EGT_TOT_SLE[t] = MEA[t] + PEA[t] + DSE[t]
-## EGT_DST[t] = EGT_TOT_SLE[t] + LSS[t]
+## EGT_DBT[t] = EGT_TOT_SLE[t] + LSS[t]
+### LSS[t] = EGT_TOT_SLE[t] * %LSS[t]
+### EGT_TOT_SLE = EGT_DBT[T] / (1 + %LSS[T])
 ## EGT_NET_GEN[t] = EGT_DBT[t] + USE[t] + PUMP[t]
 ## NET_GEN_3U[t] = EGT_NET_GEN[t] + VSPP[t]
 ## GEN_THA_SYS[t] = NET_GEN_3U[t] + IPS[t]
@@ -33,6 +37,10 @@ newload3u %>%
          filter(year >= 2019,
                fuel == "total") %>% 
          select(vspp_gwh),
-         egt_net_gen = netGenEne3u_gwh - vspp_gwh
+         egt_net_gen = netGenEne3u_gwh - vspp_gwh,
+         total_usepump %>% filter(year >= 2019) %>% select(total_usepump),
+         egt_dbt = egt_net_gen-total_usepump,
+         egt_tot_sle = egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss))
+         
          ) 
   
