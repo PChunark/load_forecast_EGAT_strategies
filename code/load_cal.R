@@ -1,3 +1,4 @@
+source("code/vspp_ext_cal.R")
 source("code/vspp_cal.R")
 source("code/use_and_pump_cal.R")
 source("code/tran_loss_percent.R")
@@ -12,6 +13,7 @@ source("code/pea_ene_cal.R")
 ### EGT_TOT_SLE = EGT_DBT[T] / (1 + %LSS[T])
 ## EGT_NET_GEN[t] = EGT_DBT[t] + USE[t] + PUMP[t]
 ## NET_GEN_3U[t] = EGT_NET_GEN[t] + VSPP[t]
+### VSPP[t] = MEA_VSPP[t] + PEA_VSPP[t] + PEA_DEDE[t] + PEA_SFGEN[t]
 ## GEN_THA_SYS[t] = NET_GEN_3U[t] + IPS[t]
 
 
