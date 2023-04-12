@@ -1,6 +1,10 @@
 library(tidyverse)  # Package for data manipulation
 library(readxl) #Package for reading excel file. It is not a core package in tidyverse package
 
+# Equation for VSPP estimation
+### VSPP[t] = MEA_VSPP[t] + PEA_VSPP[t] + PEA_DEDE[t] + PEA_SFGEN[t]
+
+
 vsppcontractcapPDP2018R1 <-
   
   read_excel("raw_data/Domeสรุป VSPP_PDP18R1 and ร่าง PDP2022 เคส 7_เพิ่ม vspp.xlsx",
