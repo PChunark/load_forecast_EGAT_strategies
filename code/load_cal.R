@@ -2,6 +2,8 @@ source("code/vspp_cal.R")
 source("code/use_and_pump_cal.R")
 source("code/tran_loss_percent.R")
 source("code/direct_cus_cal.R")
+source("code/mea_ene_cal.R")
+source("code/pea_ene_cal.R")
 
 # Equations of electricity load in Thailand power system
 ## EGT_TOT_SLE[t] = MEA[t] + PEA[t] + DSE[t]
@@ -43,6 +45,7 @@ newload3u %>%
          egt_dbt = egt_net_gen-total_usepump,
          egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss)),
          newdc_ene %>% select(dc_gwh),
-         mea_pea = percent_loss-dc_gwh
+         mea_pea = percent_loss-dc_gwh,
+         mea_pea_ene %>% select(mea_pea_gwh)
          ) 
   
