@@ -50,8 +50,16 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
 
 
 cbind(mea_vspp_ene_ext %>% 
-        filter(fuel == "Total"), 
+        filter(fuel == "Total") %>% 
+        select(year, year_th, mea_existing_gwh), 
       pea_vspp_ene_ext %>% 
         filter(fuel == "Total") %>% 
-        select(pea_existing_gwh)  
-        )
+        select(pea_existing_gwh),
+      pea_dede_ene %>% 
+        filter(year >= 2015) %>% 
+        select(pea_dede_gwh),
+      pea_sfgen_ene %>% 
+        filter(year >= 2015) %>% 
+        select(pea_sfgen_gwh)
+        ) %>% 
+  mutate(tot_vspp_ext = mea_existing_gwh + pea_existing_gwh + pea_dede_gwh + pea_sfgen_gwh)
