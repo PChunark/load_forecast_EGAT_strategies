@@ -47,7 +47,6 @@ newload3u %>%
          egt_dbt = egt_net_gen-total_usepump,
          egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss)),
          newdc_ene %>% select(dc_gwh),
-         mea_pea = percent_loss-dc_gwh,
-         mea_pea_ene %>% select(mea_pea_gwh)
+         mea_pea = percent_loss-dc_gwh
          ) 
   
