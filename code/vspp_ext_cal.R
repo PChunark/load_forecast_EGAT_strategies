@@ -19,15 +19,18 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
 pea_vspp_ene_ext <-
   
   read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
-           sheet = "VSPP_forecast",
-           range = "A3:I38",
-           col_names = c("fuel", "variable", 2015:2021))%>%
-  filter(variable == "GWh") %>% 
-  pivot_longer(-fuel&-variable, names_to = "year",values_to = "pea_existing_gwh") %>% 
-  mutate(year_th = as.numeric(year)+543) #%>%
-  # ggplot(aes(x = year, y = pea_existing_gwh, group = fuel,  color = fuel)) +
+           sheet = "I_Actual",
+           range = "DK7:DT31",
+           col_names = c("solar","pvrftop", "wind", "biomass", "biogas", "msw", "hydro", "enecrop", "cogen", "pea_vspp_gwh"))%>%
+  replace(is.na(.),0) %>% 
+  mutate(year = 1997:2021,
+         year_th = year + 543) %>% 
+  select(year, year_th,everything()) %>%
+  pivot_longer(-year&-year_th, names_to = "fuel", values_to = "pea_vspp_gwh") #%>%
+  # ggplot(aes(x = year, y = pea_vspp_gwh, group = fuel, color = fuel)) +
   # geom_line(show.legend = FALSE) +
   # facet_wrap(~fuel, scales = "free_y")
+
 
 pea_dede_ene <-
   
