@@ -3,16 +3,14 @@ library(readxl)
 
 mea_vspp_ene_ext <-
 
-read_excel("raw_data/ข้อมูล VSPP - IPS MEA_cal.xlsx",
-           sheet = "VSPP COD (หน่วยตรงเดือน)",
-           range = "A3:I38",
-           col_names = c("fuel", "variable", 2015:2021))%>%
- filter(variable == "GWh") %>% 
- pivot_longer(-fuel&-variable, names_to = "year",values_to = "mea_existing_gwh") %>% 
-  mutate(year_th = as.numeric(year)+543) #%>%
-  # ggplot(aes(x = year, y = mea_existing_gwh, group = fuel, , color = fuel)) + 
-  # geom_line()+
-  # facet_wrap(~fuel, scales = "free_y")
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+           sheet = "I_Actual",
+           range = "CM7:CM31",
+           col_names = "mea_vspp_gwh")%>%
+  mutate(year = 1997:2021) %>% 
+  mutate(mea_vspp_gwh = if_else(is.na(mea_vspp_gwh), 0, mea_vspp_gwh)) #%>%
+  # ggplot(aes(x = year, y = mea_vspp_gwh)) +
+  # geom_line()
 
 pea_vspp_ene_ext <-
   
