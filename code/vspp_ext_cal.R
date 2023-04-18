@@ -1,4 +1,5 @@
 library(tidyverse)
+library(readxl)
 
 mea_vspp_ene_ext <-
 
@@ -25,6 +26,28 @@ pea_vspp_ene_ext <-
   # ggplot(aes(x = year, y = pea_existing_gwh, group = fuel,  color = fuel)) + 
   # geom_line() +
   # facet_wrap(~fuel, scales = "free_y")
+
+pea_dede_ene <-
+  
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+           sheet = "I_Actual",
+           range = "ET7:ET31",
+           col_names = "pea_dede_gwh") %>% 
+  mutate(year = 1997:2021,
+         year_th = year +543)
+
+pea_sfgen_ene <-
+  
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+           sheet = "I_Actual",
+           range = "EZ7:EZ31",
+           col_names = "pea_sfgen_gwh") %>% 
+  mutate(year = 1997:2021,
+         year_th = year +543) %>% print(n=50)
+
+
+#
+
 
 cbind(mea_vspp_ene_ext %>% 
         filter(fuel == "Total"), 
