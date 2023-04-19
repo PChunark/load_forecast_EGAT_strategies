@@ -1,3 +1,5 @@
+source("code/vspp_ext_cal.R")
+
 library(tidyverse)  # Package for data manipulation
 library(readxl) #Package for reading excel file. It is not a core package in tidyverse package
 
@@ -66,3 +68,25 @@ vsppenergyPDP2022C7 <-
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh") #%>% 
   # ggplot(aes(x = as.factor(year), y = vspp_gwh, group = fuel, color = fuel)) + 
   # geom_line()
+
+## Merge existing vspp data and forecast vspp data
+
+merge_vspp_ext <- 
+  
+tot_vspp_ext %>% 
+  filter(vspp == "tot_vspp_ext_gwh",
+         year >= 2019) %>% 
+  select(!vspp)
+
+merge_vspp_pdp2018r1 <-
+  
+vsppenergyPDP2018R1 %>% 
+  filter(fuel =="total",
+         year >= 2022) %>% 
+  select(!fuel)
+
+merge_vspp_ext_pdp <-
+  full_join(merge_vspp_ext,
+          merge_vspp_pdp2018r1,
+          by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
+
