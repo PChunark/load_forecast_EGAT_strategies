@@ -38,11 +38,9 @@ newload3u <- rbind(x = b_load, y = pdp2022_load) %>%
 
 newload3u %>% 
   select(!netGenPeak3U_mw) %>% 
-  mutate(vsppenergyPDP2018R1 %>% 
-         filter(year >= 2019,
-               fuel == "total") %>% 
-         select(vspp_gwh),
-         egt_net_gen = netGenEne3u_gwh - vspp_gwh,
+  mutate(merge_vspp_ext_pdp %>% 
+           select(ene_vspp_ext_gwh),  
+         egt_net_gen = netGenEne3u_gwh - ene_vspp_ext_gwh,
          total_usepump %>% filter(year >= 2019) %>% select(total_usepump),
          egt_dbt = egt_net_gen-total_usepump,
          egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss)),
