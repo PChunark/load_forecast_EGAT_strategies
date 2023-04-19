@@ -75,3 +75,4 @@ cbind(mea_vspp_ene_ext %>%
   # ggplot(aes(x = year, y = ene_vspp_ext_gwh, group = vspp, color = vspp))+
   # geom_line(show.legend = FALSE)+
   # facet_wrap(~vspp, scales = "free_y")
+
