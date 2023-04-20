@@ -36,8 +36,8 @@ vsppenergyPDP2018R1 <-
   rename(ind_waste = "industrial waste",
          total = "รวม") %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh") #%>% 
-  # ggplot(aes(x = year, y = vspp_gwh, group = fuel, , color = fuel)) + 
-  # geom_line()
+   # ggplot(aes(x = year, y = vspp_gwh, group = fuel, color = fuel)) + 
+   # geom_line()
 
 
 vsppcontractcapPDP2022C7<-
@@ -66,10 +66,10 @@ vsppenergyPDP2022C7 <-
   pivot_wider(names_from = vspp_gwh, values_from = energy_gwh) %>% 
   rename_all(tolower) %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh") #%>% 
-  # ggplot(aes(x = as.factor(year), y = vspp_gwh, group = fuel, color = fuel)) + 
+  # ggplot(aes(x = as.factor(year), y = vspp_gwh, group = fuel, color = fuel)) +
   # geom_line()
 
-## Merge existing vspp data and forecast vspp data
+## Merge existing vspp data and forecast vspp data in PDP2018R1
 
 merge_vspp_ext <- 
   
@@ -90,3 +90,16 @@ merge_vspp_ext_pdp <-
           merge_vspp_pdp2018r1,
           by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
 
+## Merge existing vspp data and forecast vspp data in PDP2023 Case7
+
+merge_vspp_pdp2023c7 <-
+  
+  vsppenergyPDP2022C7 %>% 
+  filter(fuel =="total",
+         year >= 2022) %>% 
+  select(!fuel)
+
+merge_vspp_ext_pdp2023c7 <-
+  full_join(merge_vspp_ext,
+            merge_vspp_pdp2023c7,
+            by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
