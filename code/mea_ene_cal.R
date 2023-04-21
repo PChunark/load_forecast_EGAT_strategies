@@ -41,4 +41,23 @@ newmea_ene <-
   # ggplot(aes(x = year, y = mea_gwh, group = sector))+
   # geom_line()
  
+
+read_excel("raw_data/01 Load_PDP2018 ปรับ VSPP_13Jan2020_Final (PDP2018R1).xlsx",
+           sheet = "I_VSPP",
+           range = "B29:L51",
+           col_names = c("year","solar", "wind", "hydro", "biomass", "biogas", "waste", "crop", "geothermal", "re_eeothers", "cogen")) %>%
+  replace(is.na(.), 0 )
+  
+  select(!a) %>% 
+  drop_na() %>% 
+  pivot_longer(-sector, names_to = "year", values_to = "mea_gwh") %>%
+  # ggplot(aes(x = year, y = mea_gwh, group = sector, color = sector))+
+  # geom_line(show.legend = FALSE)+
+  # facet_wrap(~sector, scales = "free_y")
+  mutate(year_th = as.numeric(year) + 543) %>% 
+  filter(sector == "From EGAT")
+
+
+
+
   
