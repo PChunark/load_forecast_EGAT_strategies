@@ -63,3 +63,19 @@ newload3u %>%
          mea_pea * mea_pea_ene %>% select(shr_mea),
          mea_pea * mea_pea_ene %>% select(shr_pea)
   ) 
+
+
+newload3u %>% 
+  select(!netGenPeak3U_mw) %>%
+  mutate(netGenEne3u_gwh1 = netGenEne3u_gwh*(1+grw_3u))
+  mutate(merge_vspp_ext_pdp2023c7 %>% 
+           select(ene_vspp_ext_gwh),  
+         egt_net_gen = netGenEne3u_gwh - ene_vspp_ext_gwh,
+         total_usepump %>% filter(year >= 2019) %>% select(total_usepump),
+         egt_dbt = egt_net_gen-total_usepump,
+         egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss)),
+         newdc_ene %>% select(dc_gwh),
+         mea_pea = percent_loss-dc_gwh,
+         mea_pea * mea_pea_ene %>% select(shr_mea),
+         mea_pea * mea_pea_ene %>% select(shr_pea)
+  ) 
