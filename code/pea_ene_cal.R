@@ -105,8 +105,18 @@ mea_pea_ene <- cbind(newmea_ene, newpea_ene %>% select(pea_gwh)) %>%
  # geom_line(show.legend = FALSE)+
  # facet_wrap(~fuel, scales = "free_y")
  
-# Combine DEDE & PEA SELFGEN 
-
+# Combine DEDE & PEA SELFGEN
+ 
+pea_dede_slfgen_pdp2018r1 <-
+  
+ left_join(pea_dede_pdp2018r1 %>% filter(fuel == "total"),
+           pea_slfgen_pdp2018r1 %>% filter(fuel == "total")) %>% 
+   mutate(total = rowSums(across(c(pea_dede_gwh, pea_slfgen_gwh)))) %>% 
+   select(!fuel&!year_th) %>% 
+   pivot_longer(-year, names_to = "variables", values_to = "pea_dede_slfgen_gwh") #%>% 
+# ggplot(aes(x = year, y = pea_dede_slfgen_gwh, group = variables, color = variables))+
+# geom_line(show.legend = FALSE)+
+# facet_wrap(~variables, scales = "free_y")
     
 # Select MEA vspp and new vspp from PDP2018REV1
 tot_pea_vspp_pdp2018r1 <- 
@@ -129,10 +139,10 @@ tot_pea_vspp_pdp2018rev1 <-
 
 #Calculate EGAT sale from PDP2018REV1
 
-egt_sle_pea_pdp2018r1 <-
+# egt_sle_pea_pdp2018r1 <-
   
   left_join(newpea_ene,
             tot_pea_vspp_pdp2018rev1%>% 
               select(year,tot_pea_gwh) %>% 
               filter(year >= 2019)) %>% 
-  mutate(egatsale = mea_gwh - tot_mea_gwh)
+  mutate(egatsale = pea_gwh - tot_pea_gwh)
