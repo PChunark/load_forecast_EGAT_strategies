@@ -58,6 +58,20 @@ mea_vspp_pdp2018r1 <-
 # geom_line(show.legend = FALSE)+
 # facet_wrap(~fuel, scales = "free_y")
 
+mea_newvspp_pdp2018r1 <-
+  
+  read_excel("raw_data/01 Load_PDP2018 ปรับ VSPP_13Jan2020_Final (PDP2018R1).xlsx",
+             sheet = "I_VSPP",
+             range = "M29:T51",
+             col_names = c("biomass", "biogas", "solar_community", "waste", "wind", "ind_waste", "biomass_community", "ee")) %>%
+  replace(is.na(.), 0 ) %>%
+  mutate(year = 2015:2037,
+         total = rowSums(across(c(biomass:ee)))) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "mea_gwh") %>% 
+  mutate(year_th = as.numeric(year) + 543) %>% 
+ggplot(aes(x = year, y = mea_gwh, group = fuel, color = fuel))+
+geom_line(show.legend = FALSE)+
+facet_wrap(~fuel, scales = "free_y")
 
 
 
