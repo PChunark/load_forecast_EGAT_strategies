@@ -68,11 +68,24 @@ mea_newvspp_pdp2018r1 <-
   mutate(year = 2015:2037,
          total = rowSums(across(c(biomass:ee)))) %>% 
   pivot_longer(-year, names_to = "fuel", values_to = "mea_gwh") %>% 
-  mutate(year_th = as.numeric(year) + 543) %>% 
-ggplot(aes(x = year, y = mea_gwh, group = fuel, color = fuel))+
-geom_line(show.legend = FALSE)+
-facet_wrap(~fuel, scales = "free_y")
+  mutate(year_th = as.numeric(year) + 543) #%>% 
+# ggplot(aes(x = year, y = mea_gwh, group = fuel, color = fuel))+
+# geom_line(show.legend = FALSE)+
+# facet_wrap(~fuel, scales = "free_y")
 
-
-
+tot_mea_vspp_pdp2018r1 <- 
   
+mea_vspp_pdp2018r1 %>% 
+  select(year,fuel, mea_gwh) %>% 
+  filter(fuel == "total")
+
+tot_mea_newvspp_pdp2018r1 <-
+  
+mea_newvspp_pdp2018r1 %>% 
+  select(year,fuel, mea_gwh) %>% 
+  filter(fuel == "total")
+
+tot_mea_vspp_pdp2018rev1 <-
+
+tot_mea_vspp_pdp2018r1 %>% 
+  mutate(tot_mea_gwh = mea_gwh + tot_mea_newvspp_pdp2018r1$mea_gwh)
