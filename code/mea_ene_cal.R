@@ -1,4 +1,5 @@
 library(tidyverse)
+library(readxl)
 
 #Extract budget load from MEA @budget load 66-67
 b_mea_ene <-
@@ -41,21 +42,21 @@ newmea_ene <-
   # ggplot(aes(x = year, y = mea_gwh, group = sector))+
   # geom_line()
  
+#Extract VSPP from MEA in PDP2018REV1
 
-read_excel("raw_data/01 Load_PDP2018 ปรับ VSPP_13Jan2020_Final (PDP2018R1).xlsx",
+mea_vspp_pdp2018r1 <-
+  
+  read_excel("raw_data/01 Load_PDP2018 ปรับ VSPP_13Jan2020_Final (PDP2018R1).xlsx",
            sheet = "I_VSPP",
            range = "B29:L51",
            col_names = c("year","solar", "wind", "hydro", "biomass", "biogas", "waste", "crop", "geothermal", "re_eeothers", "cogen")) %>%
-  replace(is.na(.), 0 )
-  
-  select(!a) %>% 
-  drop_na() %>% 
-  pivot_longer(-sector, names_to = "year", values_to = "mea_gwh") %>%
-  # ggplot(aes(x = year, y = mea_gwh, group = sector, color = sector))+
-  # geom_line(show.legend = FALSE)+
-  # facet_wrap(~sector, scales = "free_y")
-  mutate(year_th = as.numeric(year) + 543) %>% 
-  filter(sector == "From EGAT")
+  replace(is.na(.), 0 ) %>%
+  mutate(total = rowSums(across(c(solar:cogen)))) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "mea_gwh") %>% 
+  mutate(year_th = as.numeric(year) + 543) #%>% 
+# ggplot(aes(x = year, y = mea_gwh, group = fuel, color = fuel))+
+# geom_line(show.legend = FALSE)+
+# facet_wrap(~fuel, scales = "free_y")
 
 
 
