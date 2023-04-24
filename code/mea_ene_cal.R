@@ -14,8 +14,9 @@ b_mea_ene <-
   # ggplot(aes(x = year, y = mea_gwh, group = sector, color = sector))+
   # geom_line(show.legend = FALSE)+
   # facet_wrap(~sector, scales = "free_y")
-  mutate(year_th = as.numeric(year) + 543) %>% 
-  filter(sector == "From EGAT")
+  mutate(year = as.numeric(year),
+         year_th = as.numeric(year) + 543) %>% 
+  filter(sector == "MEA's System Requirement")
   
 #Extract PDP2022 load from MEA in NIDA _BAU_ND_EE70
 pdp2022_mea_ene <-
@@ -30,8 +31,9 @@ read_excel("raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_
   # ggplot(aes(x = year, y = mea_gwh, group = sector, color = sector))+
   # geom_line(show.legend = FALSE)+
   # facet_wrap(~sector, scales = "free_y")
-  mutate(year_th = as.numeric(year) + 543) %>% 
-  filter(sector == "From EGAT")
+  mutate(year = as.numeric(year),
+         year_th = as.numeric(year) + 543) %>% 
+  filter(sector == "MEA's System Requirement")
 
 #Combine budget load and PDP2022 load
 
@@ -68,11 +70,13 @@ mea_newvspp_pdp2018r1 <-
   mutate(year = 2015:2037,
          total = rowSums(across(c(biomass:ee)))) %>% 
   pivot_longer(-year, names_to = "fuel", values_to = "mea_gwh") %>% 
-  mutate(year_th = as.numeric(year) + 543) #%>% 
+  mutate(year = as.numeric(year),
+         year_th = as.numeric(year + 543)) #%>% 
 # ggplot(aes(x = year, y = mea_gwh, group = fuel, color = fuel))+
 # geom_line(show.legend = FALSE)+
 # facet_wrap(~fuel, scales = "free_y")
 
+# Select MEA vspp and new vspp from PDP2018REV1
 tot_mea_vspp_pdp2018r1 <- 
   
 mea_vspp_pdp2018r1 %>% 
@@ -88,4 +92,15 @@ mea_newvspp_pdp2018r1 %>%
 tot_mea_vspp_pdp2018rev1 <-
 
 tot_mea_vspp_pdp2018r1 %>% 
-  mutate(tot_mea_gwh = mea_gwh + tot_mea_newvspp_pdp2018r1$mea_gwh)
+  mutate(tot_mea_gwh = mea_gwh + tot_mea_newvspp_pdp2018r1$mea_gwh) %>% 
+  select(!mea_gwh) %>% print(n=30)
+
+#Calculate EGAT sale from PDP2018REV1
+
+egt_sle_mea_pdp2018r1 <-
+
+left_join(newmea_ene,
+          tot_mea_vspp_pdp2018rev1%>% 
+            select(year,tot_mea_gwh) %>% 
+            filter(year >= 2019)) %>% 
+  mutate(egatsale = mea_gwh - tot_mea_gwh)
