@@ -36,6 +36,10 @@ pdp2022_load <- read_excel("raw_data/load25aug2022andbudegetload.xlsx", skip = 3
 newload3u <- rbind(x = b_load, y = pdp2022_load) %>% 
   rename(netGenPeak3U_mw = a, netGenEne3u_gwh=b)
 
+#Calculate the electricity sale in the base case
+basecase_netgen3u <-
+  
+  
 newload3u %>% 
   select(!netGenPeak3U_mw) %>% 
   mutate(merge_vspp_ext_pdp %>% 
@@ -46,9 +50,11 @@ newload3u %>%
          egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss)),
          newdc_ene %>% select(dc_gwh),
          mea_pea = percent_loss-dc_gwh,
-         mea_pea * mea_pea_ene %>% select(shr_mea),
-         mea_pea * mea_pea_ene %>% select(shr_pea)
+         mea_pea * shr_mea_pea_pdp2018r1 %>% select(shr_egatsle_mea),
+         mea_pea * shr_mea_pea_pdp2018r1 %>% select(shr_egatsle_pea)
          ) 
+
+# bestcase_netgen3u <-
 
 newload3u %>% 
   select(!netGenPeak3U_mw) %>% 
