@@ -169,3 +169,66 @@ mutate(egatsle_to_pea = egt_sle_pea_pdp2018r1$egatsale,
        shr_egatsle_mea = egatsale/rowSums(across(c(egatsale, egatsle_to_pea))),
        shr_egatsle_pea = egatsle_to_pea/rowSums(across(c(egatsale, egatsle_to_pea)))
        )
+
+
+# Extract vspp energy from NAC region in PDP2023case7
+
+
+read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
+           sheet = "NAC",
+           range = "A28:Q49",
+           col_names = c("fuel", 2022:2037)) %>%
+  replace(is.na(.), 0 ) %>% 
+  pivot_longer(-fuel, names_to = "year", values_to = "nac_pea_gwh") %>% 
+  mutate(year = as.numeric(year)) %>% 
+  pivot_wider(names_from = fuel, values_from = nac_pea_gwh) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "tot_nac_gwh") %>% 
+  filter(fuel == "total")
+
+# Extract vspp energy from NEC region in PDP2023case7
+
+
+read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
+           sheet = "NEC",
+           range = "A28:Q49",
+           col_names = c("fuel", 2022:2037)) %>%
+  replace(is.na(.), 0 ) %>% 
+  pivot_longer(-fuel, names_to = "year", values_to = "nec_pea_gwh") %>% 
+  mutate(year = as.numeric(year)) %>% 
+  pivot_wider(names_from = fuel, values_from = nec_pea_gwh) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "tot_nec_gwh") %>% 
+  filter(fuel == "total")
+
+
+# Extract vspp energy from CAC region in PDP2023case7
+
+
+read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
+           sheet = "CAC",
+           range = "A28:Q49",
+           col_names = c("fuel", 2022:2037)) %>%
+  replace(is.na(.), 0 ) %>% 
+  pivot_longer(-fuel, names_to = "year", values_to = "cac_pea_gwh") %>% 
+  mutate(year = as.numeric(year)) %>% 
+  pivot_wider(names_from = fuel, values_from = cac_pea_gwh) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "tot_cac_gwh") %>% 
+  filter(fuel == "total")
+
+
+# Extract vspp energy from SAC region in PDP2023case7
+
+
+read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
+           sheet = "SAC",
+           range = "A28:Q49",
+           col_names = c("fuel", 2022:2037)) %>%
+  replace(is.na(.), 0 ) %>% 
+  pivot_longer(-fuel, names_to = "year", values_to = "sac_pea_gwh") %>% 
+  mutate(year = as.numeric(year)) %>% 
+  pivot_wider(names_from = fuel, values_from = sac_pea_gwh) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "tot_sac_gwh") %>% 
+  filter(fuel == "total")
