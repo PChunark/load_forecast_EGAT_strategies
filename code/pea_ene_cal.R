@@ -1,4 +1,5 @@
 library(tidyverse)
+library(readxl)
 
 #Extract budget load from PEA @budget load 66-67
 
@@ -118,29 +119,40 @@ pea_dede_slfgen_pdp2018r1 <-
 # geom_line(show.legend = FALSE)+
 # facet_wrap(~variables, scales = "free_y")
     
-# Select MEA vspp and new vspp from PDP2018REV1
+# Select PEA vspp, new vspp, DEDE, PEA selfgen from PDP2018REV1
+#Select total PEA vspp
 tot_pea_vspp_pdp2018r1 <- 
   
   pea_vspp_pdp2018r1 %>% 
   select(year,fuel, pea_gwh) %>% 
   filter(fuel == "total")
-    
+
+# Select total new vspp
 tot_pea_newvspp_pdp2018r1 <-
   
   pea_newvspp_pdp2018r1 %>% 
   select(year,fuel, pea_gwh) %>% 
   filter(fuel == "total")
 
+# Select total DEDE and PEA selfgen
+tot_pea_dedesefgen_pdp2018r1 <-
+  
+  pea_dede_slfgen_pdp2018r1 %>% 
+  filter(variables == "total")
+
+# Combine total vspp
 tot_pea_vspp_pdp2018rev1 <-
   
   tot_pea_vspp_pdp2018r1 %>% 
-  mutate(tot_pea_gwh = pea_gwh + tot_pea_newvspp_pdp2018r1$pea_gwh) %>% 
+  mutate(tot_pea_gwh = pea_gwh + 
+                       tot_pea_newvspp_pdp2018r1$pea_gwh +
+                       tot_pea_dedesefgen_pdp2018r1$pea_dede_slfgen_gwh) %>% 
   select(!pea_gwh)    
 
 #Calculate EGAT sale from PDP2018REV1
 
-# egt_sle_pea_pdp2018r1 <-
-  
+egt_sle_pea_pdp2018r1 <-
+
   left_join(newpea_ene,
             tot_pea_vspp_pdp2018rev1%>% 
               select(year,tot_pea_gwh) %>% 
