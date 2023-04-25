@@ -70,7 +70,8 @@ cbind(mea_vspp_ene_ext %>%
         filter(year >= 2015) %>% 
         select(pea_sfgen_gwh)
         ) %>% 
-  mutate(tot_vspp_ext_gwh = mea_vspp_gwh + pea_vspp_gwh + pea_dede_gwh + pea_sfgen_gwh) %>% 
+  mutate(tot_pea_vspp_gwh = pea_vspp_gwh + pea_dede_gwh + pea_sfgen_gwh,
+         tot_vspp_ext_gwh = mea_vspp_gwh + pea_vspp_gwh + pea_dede_gwh + pea_sfgen_gwh) %>% 
   pivot_longer(-year&-year_th,names_to = "vspp",values_to = "ene_vspp_ext_gwh") #%>% 
   # ggplot(aes(x = year, y = ene_vspp_ext_gwh, group = vspp, color = vspp))+
   # geom_line(show.legend = FALSE)+
