@@ -1,7 +1,7 @@
 library(tidyverse)
 library(readxl)
 
-#Extract budget load from MEA @budget load 66-67
+# Extract budget load from MEA @budget load 66-67 ####
 b_mea_ene <-
   
   read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
@@ -18,7 +18,7 @@ b_mea_ene <-
          year_th = as.numeric(year) + 543) %>% 
   filter(sector == "MEA's System Requirement")
   
-#Extract PDP2022 load from MEA in NIDA _BAU_ND_EE70
+# Extract PDP2022 load from MEA in NIDA _BAU_ND_EE70 ####
 pdp2022_mea_ene <-
   
 read_excel("raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_EE70__Sent.xlsx",
@@ -35,7 +35,7 @@ read_excel("raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_
          year_th = as.numeric(year) + 543) %>% 
   filter(sector == "MEA's System Requirement")
 
-#Combine budget load and PDP2022 load
+# Combine budget load and PDP2022 load ####
 
 newmea_ene <-
   
@@ -44,7 +44,7 @@ newmea_ene <-
   # ggplot(aes(x = year, y = mea_gwh, group = sector))+
   # geom_line()
  
-#Extract VSPP from MEA in PDP2018REV1
+# Extract VSPP from MEA in PDP2018REV1 ####
 
 mea_vspp_pdp2018r1 <-
   
@@ -76,7 +76,7 @@ mea_newvspp_pdp2018r1 <-
 # geom_line(show.legend = FALSE)+
 # facet_wrap(~fuel, scales = "free_y")
 
-# Select MEA vspp and new vspp from PDP2018REV1
+# Select MEA vspp and new vspp from PDP2018REV1 ####
 tot_mea_vspp_pdp2018r1 <- 
   
 mea_vspp_pdp2018r1 %>% 
@@ -95,7 +95,7 @@ tot_mea_vspp_pdp2018r1 %>%
   mutate(tot_mea_gwh = mea_gwh + tot_mea_newvspp_pdp2018r1$mea_gwh) %>% 
   select(!mea_gwh) %>% print(n=30)
 
-#Calculate EGAT sale from PDP2018REV1
+# Calculate EGAT sale from PDP2018REV1 ####
 
 egt_sle_mea_pdp2018r1 <-
 
@@ -104,3 +104,44 @@ left_join(newmea_ene,
             select(year,tot_mea_gwh) %>% 
             filter(year >= 2019)) %>% 
   mutate(egatsale = mea_gwh - tot_mea_gwh)
+
+# Extract VSPP in MEA region from PDP2023 case7
+
+tot_mea_vspp_pdp2022c7 <-
+  
+  
+read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
+           sheet = "MAC",
+           range = "A28:Q49",
+           col_names = c("fuel", 2022:2037)) %>%
+  replace(is.na(.), 0 ) %>% 
+  pivot_longer(-fuel, names_to = "year", values_to = "mea_gwh") %>% 
+  mutate(year = as.numeric(year)) %>% 
+  pivot_wider(names_from = fuel, values_from = mea_gwh) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "tot_mea_gwh") %>% 
+  filter(fuel == "total")
+
+
+tot_mea_vspp_ene_pdp2022c7 <-
+  
+full_join(mea_vspp_ene_ext %>% 
+  filter(year >= 2015,
+         fuel == "tot_vspp_gwh") %>% 
+  select(year, year_th, mea_vspp_gwh),
+tot_mea_vspp_pdp2022c7%>% 
+  select(year,tot_mea_gwh) %>% 
+  filter(year >= 2019) ,
+by= c("mea_vspp_gwh" = "tot_mea_gwh",
+      "year" = "year")) %>% 
+  select(!year_th) 
+
+#
+egt_sle_mea_pdp2022c7 <-
+  
+  left_join(newmea_ene,
+            tot_mea_vspp_ene_pdp2022c7 %>% 
+              select(year,mea_vspp_gwh) %>% 
+              filter(year >= 2019)) %>% 
+  mutate(egatsale = mea_gwh - mea_vspp_gwh)
+  
