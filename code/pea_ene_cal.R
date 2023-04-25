@@ -158,3 +158,14 @@ egt_sle_pea_pdp2018r1 <-
               select(year,tot_pea_gwh) %>% 
               filter(year >= 2019)) %>% 
   mutate(egatsale = pea_gwh - tot_pea_gwh)
+
+# Calculate share of PEA and MEA using vspp from PDP2018 rev1
+
+shr_mea_pea_pdp2018r1 <-
+  
+egt_sle_mea_pdp2018r1 %>% 
+  select(year, egatsale) %>% 
+mutate(egatsle_to_pea = egt_sle_pea_pdp2018r1$egatsale,
+       shr_egatsle_mea = egatsale/rowSums(across(c(egatsale, egatsle_to_pea))),
+       shr_egatsle_pea = egatsle_to_pea/rowSums(across(c(egatsale, egatsle_to_pea)))
+       )
