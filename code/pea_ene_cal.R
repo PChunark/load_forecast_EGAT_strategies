@@ -1,3 +1,4 @@
+source("code/mea_ene_cal.R")
 library(tidyverse)
 library(readxl)
 
@@ -173,7 +174,8 @@ mutate(egatsle_to_pea = egt_sle_pea_pdp2018r1$egatsale,
 
 # Extract vspp energy from NAC region in PDP2023case7
 
-
+nac_vspp_pdp2022c7 <-
+  
 read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
            sheet = "NAC",
            range = "A28:Q49",
@@ -188,6 +190,7 @@ read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
 
 # Extract vspp energy from NEC region in PDP2023case7
 
+nec_vspp_pdp2022c7 <-
 
 read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
            sheet = "NEC",
@@ -204,7 +207,8 @@ read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
 
 # Extract vspp energy from CAC region in PDP2023case7
 
-
+cac_vspp_pdp2022c7 <-
+  
 read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
            sheet = "CAC",
            range = "A28:Q49",
@@ -220,7 +224,8 @@ read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
 
 # Extract vspp energy from SAC region in PDP2023case7
 
-
+sac_vspp_pdp2022c7<-
+  
 read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
            sheet = "SAC",
            range = "A28:Q49",
@@ -232,3 +237,21 @@ read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
   rename_all(tolower) %>% 
   pivot_longer(-year, names_to = "fuel", values_to = "tot_sac_gwh") %>% 
   filter(fuel == "total")
+
+# Combine VSPP from PEA 
+tot_pea_vspp_ene_pdp2022c7 <-
+  
+nac_vspp_pdp2022c7 %>%
+  select(!fuel) %>% 
+  mutate(nec_vspp_pdp2022c7 %>% 
+           select(tot_nec_gwh)) %>% 
+  mutate(cac_vspp_pdp2022c7 %>% 
+           select(tot_cac_gwh)) %>% 
+  mutate(sac_vspp_pdp2022c7 %>% 
+           select(tot_sac_gwh)) %>% 
+  mutate(tot_gwh = rowSums(across(c(tot_nac_gwh:tot_sac_gwh)))) %>% 
+  select(year, tot_gwh)
+  
+
+
+
