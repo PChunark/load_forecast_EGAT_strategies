@@ -1,7 +1,5 @@
 source("code/vspp_ext_cal.R")
 source("code/mea_ene_cal.R")
-library(tidyverse)
-library(readxl)
 
 #Extract budget load from PEA @budget load 66-67
 
@@ -253,7 +251,10 @@ nac_vspp_pdp2022c7 %>%
   mutate(tot_gwh = rowSums(across(c(tot_nac_gwh:tot_sac_gwh)))) %>% 
   select(year, tot_gwh)
 
+# Combine pea vspp existing and vspp from PDP2022 Case 7
 
+tot_pea_vspp_pdp2022c7 <- 
+  
 full_join(tot_vspp_ext %>% 
          filter(year >= 2019,
                 vspp == "tot_pea_vspp_gwh") %>% 
