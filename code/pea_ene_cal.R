@@ -1,3 +1,4 @@
+source("code/vspp_ext_cal.R")
 source("code/mea_ene_cal.R")
 library(tidyverse)
 library(readxl)
@@ -251,7 +252,24 @@ nac_vspp_pdp2022c7 %>%
            select(tot_sac_gwh)) %>% 
   mutate(tot_gwh = rowSums(across(c(tot_nac_gwh:tot_sac_gwh)))) %>% 
   select(year, tot_gwh)
-  
 
+
+full_join(tot_vspp_ext %>% 
+         filter(year >= 2019,
+                vspp == "tot_pea_vspp_gwh") %>% 
+         select(year, ene_vspp_ext_gwh),
+         tot_pea_vspp_ene_pdp2022c7,
+         by = c("ene_vspp_ext_gwh" = "tot_gwh",
+                "year" = "year")
+         )
+
+
+# Calculate EGAT sale to PEA in PDP2022c7
+
+# egt_sle_pea_pdp2022c7 <-
+  
+  left_join(newpea_ene,
+            tot_pea_vspp_ene_pdp2022c7) %>% 
+  mutate(egatsale = pea_gwh - tot_pea_gwh)
 
 
