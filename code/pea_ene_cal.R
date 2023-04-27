@@ -267,10 +267,21 @@ full_join(tot_vspp_ext %>%
 
 # Calculate EGAT sale to PEA in PDP2022c7
 
-# egt_sle_pea_pdp2022c7 <-
+egt_sle_pea_pdp2022c7 <-
   
   left_join(newpea_ene,
-            tot_pea_vspp_ene_pdp2022c7) %>% 
-  mutate(egatsale = pea_gwh - tot_pea_gwh)
+            tot_pea_vspp_pdp2022c7) %>% 
+  mutate(egatsale = pea_gwh - ene_vspp_ext_gwh) 
 
 
+  # Calculate share of PEA and MEA using vspp from PDP2018 rev1
+  
+shr_mea_pea_pdp2022c7 <-
+  
+  egt_sle_mea_pdp2022c7 %>% 
+  select(year, egatsale) %>% 
+  mutate(egatsle_to_pea = egt_sle_pea_pdp2022c7$egatsale,
+         shr_egatsle_mea = egatsale/rowSums(across(c(egatsale, egatsle_to_pea))),
+         shr_egatsle_pea = egatsle_to_pea/rowSums(across(c(egatsale, egatsle_to_pea)))
+  )
+  
