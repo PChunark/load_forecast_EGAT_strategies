@@ -54,7 +54,7 @@ newload3u %>%
          mea_pea * shr_mea_pea_pdp2018r1 %>% select(shr_egatsle_pea)
          ) 
 
-# bestcase_netgen3u <-
+bestcase_netgen3u <-
 
 newload3u %>% 
   select(!netGenPeak3U_mw) %>% 
@@ -66,11 +66,12 @@ newload3u %>%
          egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss)),
          newdc_ene %>% select(dc_gwh),
          mea_pea = percent_loss-dc_gwh,
-         mea_pea * mea_pea_ene %>% select(shr_mea),
-         mea_pea * mea_pea_ene %>% select(shr_pea)
+         mea_pea * shr_mea_pea_pdp2022c7 %>% select(shr_egatsle_mea),
+         mea_pea * shr_mea_pea_pdp2022c7 %>% select(shr_egatsle_pea)
   ) 
 
-
+worstcase_netgen3u <-
+  
 newload3u %>% 
   select(!netGenPeak3U_mw) %>%
   mutate(netGenEne3u_gwh1 = netGenEne3u_gwh*(1+grw_3u))
