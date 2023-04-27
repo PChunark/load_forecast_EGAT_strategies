@@ -1,3 +1,4 @@
+source("code/excel_control.R")
 source("code/vspp_ext_cal.R")
 source("code/vspp_cal.R")
 source("code/use_and_pump_cal.R")
@@ -70,7 +71,7 @@ newload3u %>%
          mea_pea * shr_mea_pea_pdp2022c7 %>% select(shr_egatsle_pea)
   ) 
 
-worstcase_netgen3u <-
+# worstcase_netgen3u <-
   
 newload3u %>% 
   select(!netGenPeak3U_mw) %>%
