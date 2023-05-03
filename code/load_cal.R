@@ -71,15 +71,27 @@ newload3u %>%
          mea_pea * shr_mea_pea_pdp2022c7 %>% select(shr_egatsle_pea)
   ) %>% 
   arrange(year) %>% 
-  mutate(diff_year = year - lag(year),
-         diff_growth = shr_egatsle_pea - lag(shr_egatsle_pea))
+  mutate(diff_year = c(1,diff(year)),
+         diff_growth = c(0,diff(shr_egatsle_pea)),
+         rate_percent = ((diff_growth / diff_year)/lag(shr_egatsle_pea,default = 1))*100,
+         lag_x = (grw_3u)*lag(shr_egatsle_pea, n= 0)*diff_year+lag(shr_egatsle_pea, n = 0),
+         # growth = c(NA,exp(diff(log(shr_egatsle_pea)))-1)*100
+         )
 
 # worstcase_netgen3u <-
   
 newload3u %>% 
   select(!netGenPeak3U_mw) %>%
-  mutate(netGenEne3u_gwh1 = netGenEne3u_gwh*(1+grw_3u))
-  mutate(merge_vspp_ext_pdp2023c7 %>% 
+  arrange(year) %>%
+  mutate(x = netGenEne3u_gwh*((grw_3u)^(year - first(year))),
+         xx= if_else(,netGenEne3u_gwh,0)*((grw_3u)^(year - first(year))))
+  
+
+
+
+
+
+mutate(merge_vspp_ext_pdp2023c7 %>% 
            select(ene_vspp_ext_gwh),  
          egt_net_gen = netGenEne3u_gwh - ene_vspp_ext_gwh,
          total_usepump %>% filter(year >= 2019) %>% select(total_usepump),
