@@ -79,17 +79,16 @@ newload3u %>%
 # worstcase_netgen3u <-
   
 newload3u %>% 
-  select(!netGenPeak3U_mw) %>%
-  arrange(year) %>%
-  mutate(x = netGenEne3u_gwh*((grw_3u)^(year - first(year)))),
-         xx= if_else(,netGenEne3u_gwh,0)*((grw_3u)^(year - first(year))))
-  
+  select(!netGenPeak3U_mw) %>% 
+  mutate(cumulative = lag(cumprod(grw_3u$growth),n = 0,default = 1)) %>% 
+  mutate(netGenEne3u_gwh = newload3u %>% 
+           select(!netGenPeak3U_mw) %>%
+           filter(year == previous_year_grw) %>% 
+           select(netGenEne3u_gwh) %>% 
+           pull() * cumulative) %>% 
+  select(!cumulative) %>% 
 
-
-
-
-
-mutate(merge_vspp_ext_pdp2023c7 %>% 
+  mutate(merge_vspp_ext_pdp %>% 
            select(ene_vspp_ext_gwh),  
          egt_net_gen = netGenEne3u_gwh - ene_vspp_ext_gwh,
          total_usepump %>% filter(year >= 2019) %>% select(total_usepump),
@@ -97,6 +96,7 @@ mutate(merge_vspp_ext_pdp2023c7 %>%
          egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss)),
          newdc_ene %>% select(dc_gwh),
          mea_pea = percent_loss-dc_gwh,
-         mea_pea * mea_pea_ene %>% select(shr_mea),
-         mea_pea * mea_pea_ene %>% select(shr_pea)
+         mea_pea * shr_mea_pea_pdp2018r1 %>% select(shr_egatsle_mea),
+         mea_pea * shr_mea_pea_pdp2018r1 %>% select(shr_egatsle_pea)
   ) 
+
