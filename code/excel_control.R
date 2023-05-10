@@ -1,26 +1,25 @@
 library(tidyverse)
 library(readxl)
 
-grw_3u <- 
-  
+## Extract data from excel control sheet
+grw_3u_excel <-
   read_excel("process_data/excel_control.xlsx",
-           sheet = "grw_3u",
-           range = "A1:B83") %>% 
-  drop_na() %>% 
+             sheet = "grw_3u",
+             range = "A1:B83") %>% 
+  drop_na()
+
+
+grw_3u <- 
+  grw_3u_excel %>% 
   select(growth)
 
-read_excel("process_data/excel_control.xlsx",
-           sheet = "grw_3u",
-           range = "A1:B83") %>% 
-  drop_na() %>% 
-  mutate(year_slc = if_else(growth < 1, 
-                            read_excel("process_data/excel_control.xlsx",
-                                       sheet = "grw_3u",
-                                       range = "A1:B83") %>% 
-                              drop_na() %>% 
-                              mutate(yesr = year - 1), 
-                            read_excel("process_data/excel_control.xlsx",
-                                       sheet = "grw_3u",
-                                       range = "A1:B83") %>% 
-                              drop_na() %>% 
-                              mutate(yesr = year + 1)))
+
+previous_year_grw <-
+grw_3u_excel %>%
+  mutate(years = growth<1 | growth > 1) %>% 
+  filter(years == first(years)) %>% 
+  last() %>% 
+  select(year) %>% 
+pull(year)
+
+######################################################
