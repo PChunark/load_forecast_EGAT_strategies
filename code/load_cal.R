@@ -55,7 +55,7 @@ newload3u %>%
          mea_pea * shr_mea_pea_pdp2018r1 %>% select(shr_egatsle_pea)
          ) 
 
-# bestcase_netgen3u <-
+bestcase_netgen3u <-
 
 newload3u %>% 
   select(!netGenPeak3U_mw) %>% 
@@ -74,8 +74,6 @@ newload3u %>%
   mutate(diff_year = c(1,diff(year)),
          diff_growth = c(0,diff(shr_egatsle_pea)),
          rate_percent = ((diff_growth / diff_year)/lag(shr_egatsle_pea,default = 1))*100,
-         lag_x = (grw_3u)*lag(shr_egatsle_pea, n= 0)*diff_year+lag(shr_egatsle_pea, n = 0),
-         # growth = c(NA,exp(diff(log(shr_egatsle_pea)))-1)*100
          )
 
 # worstcase_netgen3u <-
@@ -83,7 +81,7 @@ newload3u %>%
 newload3u %>% 
   select(!netGenPeak3U_mw) %>%
   arrange(year) %>%
-  mutate(x = netGenEne3u_gwh*((grw_3u)^(year - first(year))),
+  mutate(x = netGenEne3u_gwh*((grw_3u)^(year - first(year)))),
          xx= if_else(,netGenEne3u_gwh,0)*((grw_3u)^(year - first(year))))
   
 
