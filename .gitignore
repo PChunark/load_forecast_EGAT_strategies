@@ -40,7 +40,6 @@ vignettes/*.pdf
 
 # Excel files in raw data directory
 raw_data/*.xlsx
-process_data/*.xlsx
 
 # File in document folder
 /documents
