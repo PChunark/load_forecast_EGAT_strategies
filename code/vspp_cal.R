@@ -36,8 +36,9 @@ vsppenergyPDP2018R1 <-
   rename(ind_waste = "industrial waste",
          total = "รวม") %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh") #%>% 
-   # ggplot(aes(x = year, y = vspp_gwh, group = fuel, color = fuel)) + 
-   # geom_line()
+  # filter(fuel != "total") %>% 
+  #  ggplot(aes(x = year, y = vspp_gwh, group = fuel, color = fuel)) +
+  #  geom_line()
 
 
 vsppcontractcapPDP2022C7<-
@@ -66,6 +67,7 @@ vsppenergyPDP2022C7 <-
   pivot_wider(names_from = vspp_gwh, values_from = energy_gwh) %>% 
   rename_all(tolower) %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh") #%>% 
+  # filter(fuel != "total") %>% 
   # ggplot(aes(x = as.factor(year), y = vspp_gwh, group = fuel, color = fuel)) +
   # geom_line()
 
