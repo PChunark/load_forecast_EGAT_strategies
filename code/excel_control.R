@@ -11,7 +11,8 @@ grw_3u_excel <-
 
 grw_3u <- 
   grw_3u_excel %>% 
-  select(1+growth)
+  select(growth) %>% 
+  mutate(growth = 1+growth)
 
 
 previous_year_grw <-
@@ -34,7 +35,8 @@ grw_mea_dmd_excel <-
 
 grw_mea_dmd <- 
   grw_mea_dmd_excel %>% 
-  select(1+growth)
+  select(growth)%>% 
+  mutate(growth = 1+growth)
 
 previous_year_mea_dmd_grw <-
   grw_mea_dmd_excel %>%
@@ -56,7 +58,8 @@ grw_pea_dmd_excel <-
 
 grw_pea_dmd <- 
   grw_pea_dmd_excel %>% 
-  select(1+growth)
+  select(growth)%>% 
+  mutate(growth = 1+growth)
 
 previous_year_pea_dmd_grw <-
   grw_pea_dmd_excel %>%
