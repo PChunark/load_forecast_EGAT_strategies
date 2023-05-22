@@ -4,6 +4,8 @@ source("code/vspp_cal.R")
 source("code/use_and_pump_cal.R")
 source("code/tran_loss_percent.R")
 source("code/direct_cus_cal.R")
+source("code/mea_ene_ext.R")
+source("code/pea_ene_ext.R")
 source("code/mea_ene_cal.R")
 source("code/pea_ene_cal.R")
 
@@ -76,7 +78,7 @@ newload3u %>%
          rate_percent = ((diff_growth / diff_year)/lag(shr_egatsle_pea,default = 1))*100,
          )
 
-# worstcase_netgen3u <-
+worstcase_netgen3u <-
   
 newload3u %>% 
   select(!netGenPeak3U_mw) %>% 
@@ -87,7 +89,6 @@ newload3u %>%
            select(netGenEne3u_gwh) %>% 
            pull() * cumulative) %>% 
   select(!cumulative) %>% 
-
   mutate(merge_vspp_ext_pdp %>% 
            select(ene_vspp_ext_gwh),  
          egt_net_gen = netGenEne3u_gwh - ene_vspp_ext_gwh,
@@ -96,7 +97,7 @@ newload3u %>%
          egt_dbt / (1 + tran_loss_percent %>% filter(year >= 2019) %>% select(percent_loss)),
          newdc_ene %>% select(dc_gwh),
          mea_pea = percent_loss-dc_gwh,
-         mea_pea * shr_mea_pea_pdp2018r1 %>% select(shr_egatsle_mea),
-         mea_pea * shr_mea_pea_pdp2018r1 %>% select(shr_egatsle_pea)
+         mea_pea * shr_mea_pea_worstcase %>% select(shr_egatsle_mea), # edit this line
+         mea_pea * shr_mea_pea_worstcase %>% select(shr_egatsle_pea)  # edit this line
   ) 
 
