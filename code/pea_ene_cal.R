@@ -284,4 +284,26 @@ shr_mea_pea_pdp2022c7 <-
          shr_egatsle_mea = egatsale/rowSums(across(c(egatsale, egatsle_to_pea))),
          shr_egatsle_pea = egatsle_to_pea/rowSums(across(c(egatsale, egatsle_to_pea)))
   )
-  
+
+
+### Calculating for the worst case  
+### Calculation for PEA electricity demand
+
+# newpea_ene_req <-
+  newload3u %>% 
+  mutate(cumulative = lag(cumprod(grw_pea_dmd$growth),n = 0,default = 1)) %>% 
+  mutate(pea_ene_req_gwh = cumulative * pea_ene_latest) %>% 
+  select(year_th, year, pea_ene_req_gwh) %>% 
+  mutate(tot_pea_vspp_pdp2018rev1 %>% 
+           filter(year >= 2019))  
+
+# Calculate the share of MEA and PEA energy demand (Energy requirement)
+shr_mea_pea_worstcase <-
+newmea_ene_req %>% 
+  mutate(pea_ene_req = newpea_ene_req$pea_ene_req_gwh,
+         tot_pea_vspp_pdp2018rev1 %>% 
+           filter(year >= 2019) %>% 
+           select(tot_pea_gwh)) %>% 
+  mutate(egt_sle_pea_worst_case = pea_ene_req-tot_pea_gwh) %>% 
+  mutate(shr_egatsle_mea = egt_sle_mea_worst_case/rowSums(across(c(egt_sle_mea_worst_case, egt_sle_pea_worst_case))),
+         shr_egatsle_pea = egt_sle_pea_worst_case/rowSums(across(c(egt_sle_mea_worst_case, egt_sle_pea_worst_case))))
