@@ -1,4 +1,4 @@
-
+## Extract the MEA electricity demand till 2022
 mea_ene_ext <- 
 read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
            sheet = "MEA",
@@ -14,3 +14,10 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
          year_th = as.numeric(year) + 543) %>% 
   filter(sector == "MEA's System Requirement" &
          year %in% c(2017:2022))
+
+mea_ene_latest <-
+mea_ene_ext %>%
+  last() %>% 
+  select(mea_gwh) %>% 
+  pull()
+
