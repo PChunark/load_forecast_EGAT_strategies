@@ -90,9 +90,9 @@ mea_newvspp_pdp2018r1 %>%
 
 tot_mea_vspp_pdp2018rev1 <-
 
-tot_mea_vspp_pdp2018r1 %>% 
+tot_mea_vspp_pdp2018r1 %>%
   mutate(tot_mea_gwh = mea_gwh + tot_mea_newvspp_pdp2018r1$mea_gwh) %>% 
-  select(!mea_gwh) %>% print(n=30)
+  select(!mea_gwh)
 
 # Calculate EGAT sale from PDP2018REV1 ####
 
@@ -143,4 +143,18 @@ egt_sle_mea_pdp2022c7 <-
               select(year,mea_vspp_gwh) %>% 
               filter(year >= 2019)) %>% 
   mutate(egatsale = mea_gwh - mea_vspp_gwh)
-  
+
+
+### Calculating for worst case  
+### Calculation for MEA electricity demand
+
+newmea_ene_req <-
+newload3u %>% 
+  mutate(cumulative = lag(cumprod(grw_mea_dmd$growth),n = 0,default = 1)) %>% 
+  mutate(mea_ene_req_gwh = cumulative * mea_ene_latest) %>% 
+  select(year_th, year, mea_ene_req_gwh) %>% 
+  mutate(tot_mea_vspp_pdp2018rev1 %>% 
+           filter(year >= 2019)%>% 
+           select(-year, -fuel)) %>% 
+  select(year, year_th, mea_ene_req_gwh, mea_vspp_pdp2018r1 = tot_mea_gwh) %>% 
+  mutate(egt_sle_mea_worst_case = mea_ene_req_gwh - mea_vspp_pdp2018r1)
