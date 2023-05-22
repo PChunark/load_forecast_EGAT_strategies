@@ -6,8 +6,7 @@ source("code/tran_loss_percent.R")
 source("code/direct_cus_cal.R")
 source("code/mea_ene_ext.R")
 source("code/pea_ene_ext.R")
-source("code/mea_ene_cal.R")
-source("code/pea_ene_cal.R")
+
 
 # Equations of electricity load in Thailand power system
 ## EGT_TOT_SLE[t] = MEA[t] + PEA[t] + DSE[t]
@@ -38,6 +37,11 @@ pdp2022_load <- read_excel("raw_data/load25aug2022andbudegetload.xlsx", skip = 3
 ## Combine 2 loads budget load till 2028 & load PDP2022 from 2029-2030
 newload3u <- rbind(x = b_load, y = pdp2022_load) %>% 
   rename(netGenPeak3U_mw = a, netGenEne3u_gwh=b)
+
+############################################
+source("code/mea_ene_cal.R")
+source("code/pea_ene_cal.R")
+############################################
 
 #Calculate the electricity sale in the base case
 basecase_netgen3u <-
