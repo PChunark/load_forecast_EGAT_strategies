@@ -289,7 +289,7 @@ shr_mea_pea_pdp2022c7 <-
 ### Calculating for the worst case  
 ### Calculation for PEA electricity demand
 
-# newpea_ene_req <-
+newpea_ene_req <-
   newload3u %>% 
   mutate(cumulative = lag(cumprod(grw_pea_dmd$growth),n = 0,default = 1)) %>% 
   mutate(pea_ene_req_gwh = cumulative * pea_ene_latest) %>% 
