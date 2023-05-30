@@ -2065,7 +2065,7 @@ profile <-
          r3_tnb = profiledata$`r3&export_TNB_requirement_2019`$r3_tnb,
          r4_requirement = profiledata$r4_northern_requirement_2019$NAC,
          egt_netgen = mea_r1 + r2_edl + r3_tnb + r4_requirement) %>% 
-  select(-mea_r1, -r2_edl, -r3_tnb, r4_requirement)
+  select(-mea_r1, -r2_edl, -r3_tnb, -r4_requirement)
 
 # Summary data ####
 maxv <- ceiling(max(profile$egt_netgen)) # Get a peak MW
@@ -2128,3 +2128,78 @@ ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, uni
 profiledata <- c(profiledata, list("egt_netgen_2019" = profile))
 profilefigure <- c(profilefigure, list("egt_netgen_2019" = profile_plot))
 summarydata <- c(summarydata, list("sum_egt_netgen_2019" = summary))
+
+#----- ____ -----####
+
+#----- The 2019 transmission loss profile ----####
+# Profile data ####
+profile <-
+  
+  profiledata$`egt_netgen_2019` %>%
+  mutate(egt_sle = profiledata$egtsle_2019$egt_sle,
+         tran_loss = egt_netgen - egt_sle) %>% 
+  select(-egt_netgen, -egt_sle)
+
+# Summary data ####
+maxv <- ceiling(max(profile$tran_loss)) # Get a peak MW
+minv <- floor(min(profile$tran_loss)) # Get a min MW
+energy <- sum(profile$tran_loss)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(tran_loss == max(tran_loss)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(tran_loss == min(tran_loss)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = tran_loss,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "Transmission loss & use (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(round(minv,-3), round(maxv,-3)*1.2,200),
+                     limits = c(round(minv,-3)*1.1, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.05),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "tran_loss_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("tran_loss_2019" = profile))
+profilefigure <- c(profilefigure, list("tran_loss_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_tran_loss_2019" = summary))
+
