@@ -1216,4 +1216,915 @@ profile <-
          r4_dc4 = profiledata$"r4+dcr4_egtsle_2019"$r4_egt_sle,
          egt_sle = MEA + r1_dc1 + r2_dc2 + r3_dc3 + r4_dc4)
           
+# Summary data ####
+maxv <- ceiling(max(profile$egt_sle)) # Get a peak MW
+minv <- floor(min(profile$egt_sle)) # Get a min MW
+energy <- sum(profile$egt_sle)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(egt_sle == max(egt_sle)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(egt_sle == min(egt_sle)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
 
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = egt_sle,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "EGAT sale (MEA&PEA&DCs) (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,2000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.1,
+            vjust = 1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "egtsle_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("egtsle_2019" = profile))
+profilefigure <- c(profilefigure, list("egtsle_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_egtsle_2019" = summary))
+
+#----- ____ -----####
+
+#----- The 2019 MEA requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "AG3:AN17523"
+  ) %>% 
+  select(datetime = `Date/Time`, MAC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, MAC)
+  
+# Summary data ####
+maxv <- ceiling(max(profile$MAC)) # Get a peak MW
+minv <- floor(min(profile$MAC)) # Get a min MW
+energy <- sum(profile$MAC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(MAC == max(MAC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(MAC == min(MAC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = MAC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "MEA Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,2000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.1,
+            vjust = 1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "mea_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("mea_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("mea_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_mea_requirement_2019" = summary))
+
+#----- ____ -----####
+
+#----- The 2019 R1 (Central region) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "AG3:AN17523"
+  ) %>% 
+  select(datetime = `Date/Time`, CAC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, CAC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$CAC)) # Get a peak MW
+minv <- floor(min(profile$CAC)) # Get a min MW
+energy <- sum(profile$CAC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(CAC == max(CAC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(CAC == min(CAC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = CAC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "PEA R1 (Central region) Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,2000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.1,
+            vjust = 1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r1_central_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r1_central_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("r1_central_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r1_central_requirement_2019" = summary))
+
+#----- ____ -----####
+
+#----- The 2019 R2 (North eastern region) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "AG3:AN17523"
+  ) %>% 
+  select(datetime = `Date/Time`, NEC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, NEC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$NEC)) # Get a peak MW
+minv <- floor(min(profile$NEC)) # Get a min MW
+energy <- sum(profile$NEC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(NEC == max(NEC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(NEC == min(NEC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = NEC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "PEA R2 (North Eastern region) Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,1000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.1,
+            vjust = 1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r2_northeastern_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r2_northeastern_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("r2_northeastern_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r2_northeastern_requirement_2019" = summary))
+
+
+#----- ____ -----####
+
+#----- The 2019 R3 (Southern region) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "AG3:AN17523"
+  ) %>% 
+  select(datetime = `Date/Time`, SAC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, SAC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$SAC)) # Get a peak MW
+minv <- floor(min(profile$SAC)) # Get a min MW
+energy <- sum(profile$SAC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(SAC == max(SAC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(SAC == min(SAC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = SAC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "PEA R3 (Southern region) Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,1000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.4),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.1,
+            vjust = 1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r3_southern_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r3_southern_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("r3_southern_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r3_southern_requirement_2019" = summary))
+
+#----- ____ -----####
+
+#----- The 2019 R4 (Northern region) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "AG3:AN17523"
+  ) %>% 
+  select(datetime = `Date/Time`, NAC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, NAC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$NAC)) # Get a peak MW
+minv <- floor(min(profile$NAC)) # Get a min MW
+energy <- sum(profile$NAC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(NAC == max(NAC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(NAC == min(NAC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = NAC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "PEA R4 (Northern region) Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.4,1000),
+                     limits = c(0, round(maxv, -3)*1.4)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.4),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 1,
+            vjust = 2.5)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r4_northern_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r4_northern_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("r4_northern_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r4_northern_requirement_2019" = summary))
+
+#----- ____ -----####
+
+#----- The 2019 Export TNB (Export to Malaysia) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "AG3:AN17523"
+  ) %>% 
+  select(datetime = "Date/Time", export_tnb = "Export TNB") %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, export_tnb)
+
+# Summary data ####
+maxv <- ceiling(max(profile$export_tnb)) # Get a peak MW
+minv <- floor(min(profile$export_tnb)) # Get a min MW
+energy <- sum(profile$export_tnb)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(export_tnb == max(export_tnb)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(export_tnb == min(export_tnb)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = export_tnb,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "Export to TNB (Malaysia) Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-1)*1.2,50),
+                     limits = c(0, round(maxv, -1)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -1)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -1)*1.2),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 1,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "export_TNB_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("export_TNB_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("export_TNB_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_export_TNB_requirement_2019" = summary))
+
+
+#----- ____ -----####
+
+#----- The 2019 Export EDL (Export to Cambodia) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "AG3:AN17523"
+  ) %>% 
+  select(datetime = "Date/Time", export_edl = "Export EDL") %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, export_edl)
+
+# Summary data ####
+maxv <- ceiling(max(profile$export_edl)) # Get a peak MW
+minv <- floor(min(profile$export_edl)) # Get a min MW
+energy <- sum(profile$export_edl)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(export_edl == max(export_edl)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(export_edl == min(export_edl)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = export_edl,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "Export to EDL (Laos) Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-1)*1.2,50),
+                     limits = c(0, round(maxv, -1)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -1)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -1)*1.2),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "export_EDL_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("export_EDL_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("export_EDL_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_export_EDL_requirement_2019" = summary))
+
+#----- ____ -----####
+
+#----- The 2019 R2 + Export EDL (North Eastern + Export to Cambodia) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  
+  profiledata$r2_northeastern_requirement_2019 %>%
+  mutate(export_edl = profiledata$export_EDL_requirement_2019$export_edl,
+         r2_edl = NEC + export_edl) %>% 
+  select(-NEC, -export_edl)
+
+# Summary data ####
+maxv <- ceiling(max(profile$r2_edl)) # Get a peak MW
+minv <- floor(min(profile$r2_edl)) # Get a min MW
+energy <- sum(profile$r2_edl)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r2_edl == max(r2_edl)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r2_edl == min(r2_edl)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r2_edl,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "R2 & Export to EDL (Laos) Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.3,1000),
+                     limits = c(0, round(maxv, -3)*1.3)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r2&export_EDL_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r2&export_EDL_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("r2&export_EDL_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r2&export_EDL_requirement_2019" = summary))
+
+#----- ____ -----####
+
+#----- The 2019 R3 + Export TNB (Southern + Export to Malaysia) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  
+  profiledata$r3_southern_requirement_2019 %>%
+  mutate(export_tnb = profiledata$export_TNB_requirement_2019$export_tnb,
+         r3_tnb = SAC + export_tnb) %>% 
+  select(-SAC, -export_tnb)
+
+# Summary data ####
+maxv <- ceiling(max(profile$r3_tnb)) # Get a peak MW
+minv <- floor(min(profile$r3_tnb)) # Get a min MW
+energy <- sum(profile$r3_tnb)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r3_tnb == max(r3_tnb)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r3_tnb == min(r3_tnb)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r3_tnb,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "R3 & Export to TNB (Malaysia) Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.4,1000),
+                     limits = c(0, round(maxv, -3)*1.4)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r3&export_TNB_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r3&export_TNB_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("r3&export_TNB_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r3&export_TNB_requirement_2019" = summary))
+
+
+#----- ____ -----####
+
+#----- The 2019 MEA + R1 (MEA + CAC) requirement for EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  
+  profiledata$mea_requirement_2019 %>%
+  mutate(r1_requirement = profiledata$r1_central_requirement_2019$CAC,
+         mea_r1 = MAC + r1_requirement) %>% 
+  select(-MAC, -r1_requirement)
+
+# Summary data ####
+maxv <- ceiling(max(profile$mea_r1)) # Get a peak MW
+minv <- floor(min(profile$mea_r1)) # Get a min MW
+energy <- sum(profile$mea_r1)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(mea_r1 == max(mea_r1)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(mea_r1 == min(mea_r1)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = mea_r1,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "MEA & R1 Electricity requirement (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.4,1000),
+                     limits = c(0, round(maxv, -3)*1.4)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "mea&r1_requirement_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("mea&r1_requirement_2019" = profile))
+profilefigure <- c(profilefigure, list("mea&r1_requirement_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_mea&r1_requirement_2019" = summary))
+
+
+#----- ____ -----####
+
+#----- The 2019 EGAT NET electricity generation profile ----####
+# Profile data ####
+profile <-
+  
+  profiledata$`mea&r1_requirement_2019` %>%
+  mutate(r2_edl = profiledata$`r2&export_EDL_requirement_2019`$r2_edl,
+         r3_tnb = profiledata$`r3&export_TNB_requirement_2019`$r3_tnb,
+         r4_requirement = profiledata$r4_northern_requirement_2019$NAC,
+         egt_netgen = mea_r1 + r2_edl + r3_tnb + r4_requirement) %>% 
+  select(-mea_r1, -r2_edl, -r3_tnb, r4_requirement)
+
+# Summary data ####
+maxv <- ceiling(max(profile$egt_netgen)) # Get a peak MW
+minv <- floor(min(profile$egt_netgen)) # Get a min MW
+energy <- sum(profile$egt_netgen)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(egt_netgen == max(egt_netgen)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(egt_netgen == min(egt_netgen)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = egt_netgen,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "EGAT NET Electricity generation (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,2000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.05),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "egt_netgen_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("egt_netgen_2019" = profile))
+profilefigure <- c(profilefigure, list("egt_netgen_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_egt_netgen_2019" = summary))
