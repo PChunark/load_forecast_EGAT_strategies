@@ -2203,3 +2203,27 @@ profiledata <- c(profiledata, list("tran_loss_2019" = profile))
 profilefigure <- c(profilefigure, list("tran_loss_2019" = profile_plot))
 summarydata <- c(summarydata, list("sum_tran_loss_2019" = summary))
 
+# try using for loop
+a <- read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+           sheet = "Load Curve",
+           range = "AG3:AN17523"
+) 
+
+cname <- colnames(a)
+b <- list()
+
+for (i in cname) {
+    pf <- a %>% select(datetime = `Date/Time`, i) %>% 
+      mutate(date = date(datetime),
+             time = format(as.POSIXct(datetime),"%H:%M:%S"),
+             year = year(datetime),
+             month = month(datetime),
+             day = day(datetime)) %>% 
+      select(datetime, date, time, i)
+    print(pf)
+    b[[i]] <- pf
+}
+
+%>% 
+  select(datetime, date, time, year, month, day, i)
+
