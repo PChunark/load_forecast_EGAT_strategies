@@ -2207,13 +2207,17 @@ summarydata <- c(summarydata, list("sum_tran_loss_2019" = summary))
 a <- read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
            sheet = "Load Curve",
            range = "AG3:AN17523"
-) 
+               ) %>% 
+     select(datetime = `Date/Time`, 
+            export_tnb = `Export TNB`,
+            export_edl = `Export EDL`,
+            (1:ncol(a)))
 
 cname <- colnames(a)
 b <- list()
 
 for (i in cname) {
-    pf <- a %>% select(datetime = `Date/Time`, i) %>% 
+    pf <- a %>% select(datetime, i) %>% 
       mutate(date = date(datetime),
              time = format(as.POSIXct(datetime),"%H:%M:%S"),
              year = year(datetime),
@@ -2223,6 +2227,9 @@ for (i in cname) {
     print(pf)
     b[[i]] <- pf
 }
+b[1] <-NULL
+
+
 
 %>% 
   select(datetime, date, time, year, month, day, i)
