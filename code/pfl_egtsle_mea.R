@@ -2203,6 +2203,82 @@ profiledata <- c(profiledata, list("tran_loss_2019" = profile))
 profilefigure <- c(profilefigure, list("tran_loss_2019" = profile_plot))
 summarydata <- c(summarydata, list("sum_tran_loss_2019" = summary))
 
+#----- ____ -----####
+#----- The 2019 MEA transmission loss and use profile ----####
+# Profile data ####
+profile <-
+  
+  profiledata$mea_requirement_2019 %>%
+  mutate(mea_egt_sle = profiledata$mea_egtsle_2019$MEA,
+         mea_tran_loss = MAC - mea_egt_sle) %>% 
+  select(-MAC, -mea_egt_sle)
+
+# Summary data ####
+maxv <- ceiling(max(profile$mea_tran_loss)) # Get a peak MW
+minv <- floor(min(profile$mea_tran_loss)) # Get a min MW
+energy <- sum(profile$mea_tran_loss)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(mea_tran_loss == max(mea_tran_loss)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(mea_tran_loss == min(mea_tran_loss)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+# profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = mea_tran_loss,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "MEA transmission loss & use (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(round(minv,-3), round(maxv,-3)*1.2,200),
+                     limits = c(round(minv,-3)*1.1, round(maxv, -3))) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  # geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.8,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "mea_tran_loss_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("mea_tran_loss_2019" = profile))
+profilefigure <- c(profilefigure, list("mea_tran_loss_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_mea_tran_loss_2019" = summary))
+
+
+
 # try using for loop
 a <- read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
            sheet = "Load Curve",
@@ -2211,7 +2287,7 @@ a <- read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
      select(datetime = `Date/Time`, 
             export_tnb = `Export TNB`,
             export_edl = `Export EDL`,
-            (1:ncol(a)))
+            (1:.ncol))
 
 cname <- colnames(a)
 b <- list()
