@@ -2721,7 +2721,7 @@ profile_plot <-
             aes(x = peak_day, y = round(maxv, -2)*1.2),
             label = glue("Peak {maxv} MW \n@ {peak_day}"),
             # hjust = 1,
-            vjust = 3) +
+            vjust = 1) +
   geom_point(data=summary,
              aes(x = min_day, y = min_mw))+
   geom_text(data = summary,
@@ -2779,7 +2779,7 @@ summary <- tibble(peak_day = peak_day,
 
 # Plot a profile ####
 
-# profile_plot <-
+profile_plot <-
   ggplot() + 
   geom_line(data=profile, 
             aes(x = datetime, 
@@ -2802,7 +2802,7 @@ summary <- tibble(peak_day = peak_day,
             aes(x = peak_day, y = round(maxv, -2)*1.2),
             label = glue("Peak {maxv} MW \n@ {peak_day}"),
             # hjust = 1,
-            vjust = 3) +
+            vjust = 1) +
   geom_point(data=summary,
              aes(x = min_day, y = min_mw))+
   geom_text(data = summary,
@@ -2817,6 +2817,88 @@ ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, uni
 profiledata <- c(profiledata, list("r2_total_netgen_req_2019" = profile))
 profilefigure <- c(profilefigure, list("r2_total_netgen_req_2019" = profile_plot))
 summarydata <- c(summarydata, list("sum_r2_total_netgen_req_2019" = summary))
+
+#----- ____ -----####
+#----- The 2019 R3 (North Eastern region) Total net generation requirement profile ----####
+# --- Net generation = region requirement + VSPP 
+# Profile data ####
+profile <-
+  
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "BK3:BQ17523") %>% 
+  select(datetime = `Date/Time`, SAC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, SAC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$SAC)) # Get a peak MW
+minv <- floor(min(profile$SAC)) # Get a min MW
+energy <- sum(profile$SAC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(SAC == max(SAC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(SAC == min(SAC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = SAC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "R3 (Southern region) Total net generation requiremnet (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-2)*1.2,500),
+                     limits = c(0, round(maxv, -2)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  # geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.05,
+            vjust = -1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r3_total_netgen_req_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r3_total_netgen_req_2019" = profile))
+profilefigure <- c(profilefigure, list("r3_total_netgen_req_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r3_total_netgen_req_2019" = summary))
+
 
 
 # # try using for loop
