@@ -5,7 +5,7 @@ bookdown::gitbook:
       before: |
         <li><a href="./">Electricity generation profile book</a></li>
       after: |
-        <li><a href="https://github.com/PChunark/load_forecast_EGAT_strategies" target="blank">Published with bookdown</a></li>
+        <li><a href="https://github.com/PChunark/load_forecast_EGAT_strategies/tree/main/code_markdown/" target="blank">Published with bookdown</a></li>
     edit: https://github.com/PChunark/load_forecast_EGAT_strategies/edit/main/%s
     download: ["pdf", "epub"]
 bookdown::pdf_book:
