@@ -4,3 +4,4 @@ language:
     chapter_name: "Chapter "
 rmd_subdir: true
 output_dir: "docs"
+rmd_files: ["index.Rmd", "code_markdown/01-intro.Rmd"]
