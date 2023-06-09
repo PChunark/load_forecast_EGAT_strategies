@@ -3,4 +3,6 @@ language:
   ui:
     chapter_name: "Chapter "
 output_dir: "docs"
-rmd_files: ["index.Rmd", "code_markdown/01-intro.Rmd","code_markdown/02-elyprofile.Rmd"]
+rmd_files: [index.Rmd, 
+            code_markdown/01-intro.Rmd,
+            code_markdown/02-elyprofile.Rmd]
