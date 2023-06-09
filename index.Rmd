@@ -2,7 +2,8 @@
 title: "Electricity profiles"
 author: "Puttipong Chunark, Ph.D."
 date: "Last compile on `r format(Sys.time(), '%d %B, %Y'); Sys.time()`"
-site: "bookdown::bookdown_site"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
 documentclass: book
 # bibliography:
 description: |
