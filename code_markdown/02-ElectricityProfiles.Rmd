@@ -1,0 +1,10 @@
+# Electricity profiles
+
+This chapter provides electricity profiles and a R coding technique. 
+Electricity profiles are illustrated to give an insight into profile behavior. 
+R coding technique are given in order to understand the process flow and 
+manage the big data obtained from several sources in the organization.
+
+
+## Pre-requisite software
+
