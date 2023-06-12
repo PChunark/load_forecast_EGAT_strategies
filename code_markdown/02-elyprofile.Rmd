@@ -78,6 +78,5 @@ profile <-
          day = day(datetime)) %>% 
   select(datetime, date, time, year, month, day, MEA) #%>% 
   # mutate(strdatetime = as.factor(strptime(glue("{year}-{month}-{day} {time}"), "%Y-%m-%d %H:%M:%S")))
-view(profile)
 ```
 
