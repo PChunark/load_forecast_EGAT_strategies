@@ -211,6 +211,25 @@ manage the big data obtained from several sources in the organization.</p>
 <span id="cb4-3"><a href="electricity-profiles.html#cb4-3" aria-hidden="true" tabindex="-1"></a>profiledata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb4-4"><a href="electricity-profiles.html#cb4-4" aria-hidden="true" tabindex="-1"></a>profilefigure <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb4-5"><a href="electricity-profiles.html#cb4-5" aria-hidden="true" tabindex="-1"></a>summarydata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="electricity-profiles.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Make variable for output directory -----####</span></span>
+<span id="cb5-2"><a href="electricity-profiles.html#cb5-2" aria-hidden="true" tabindex="-1"></a>outfigdir <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;figures/&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="electricity-profiles.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- ____ -----####</span></span>
+<span id="cb6-2"><a href="electricity-profiles.html#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="electricity-profiles.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#----- The 2019 MEA EGAT sale profile ----####</span></span>
+<span id="cb6-4"><a href="electricity-profiles.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Profile data ####</span></span>
+<span id="cb6-5"><a href="electricity-profiles.html#cb6-5" aria-hidden="true" tabindex="-1"></a>profile <span class="ot">&lt;-</span> </span>
+<span id="cb6-6"><a href="electricity-profiles.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_excel</span>(<span class="st">&quot;raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx&quot;</span>,</span>
+<span id="cb6-7"><a href="electricity-profiles.html#cb6-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">sheet =</span> <span class="st">&quot;Load Curve&quot;</span>,</span>
+<span id="cb6-8"><a href="electricity-profiles.html#cb6-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">range =</span> <span class="st">&quot;C3:D17523&quot;</span></span>
+<span id="cb6-9"><a href="electricity-profiles.html#cb6-9" aria-hidden="true" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-10"><a href="electricity-profiles.html#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">datetime =</span> <span class="st">`</span><span class="at">Date/Time</span><span class="st">`</span>, MEA) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-11"><a href="electricity-profiles.html#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">date</span>(datetime),</span>
+<span id="cb6-12"><a href="electricity-profiles.html#cb6-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">time =</span> <span class="fu">format</span>(<span class="fu">as.POSIXct</span>(datetime),<span class="st">&quot;%H:%M:%S&quot;</span>),</span>
+<span id="cb6-13"><a href="electricity-profiles.html#cb6-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(datetime),</span>
+<span id="cb6-14"><a href="electricity-profiles.html#cb6-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(datetime),</span>
+<span id="cb6-15"><a href="electricity-profiles.html#cb6-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">day =</span> <span class="fu">day</span>(datetime)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-16"><a href="electricity-profiles.html#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(datetime, date, time, year, month, day, MEA) <span class="co">#%&gt;% </span></span>
+<span id="cb6-17"><a href="electricity-profiles.html#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(strdatetime = as.factor(strptime(glue(&quot;{year}-{month}-{day} {time}&quot;), &quot;%Y-%m-%d %H:%M:%S&quot;)))</span></span></code></pre></div>
 
 </div>
 </div>

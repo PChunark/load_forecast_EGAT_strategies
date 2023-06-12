@@ -7,6 +7,8 @@ manage the big data obtained from several sources in the organization.
 
 
 ## Pre-requisite software
+
+
 ```{r, library setting, results='hide', message=FALSE}
 library(tidyverse) #For data manipulation
 library(readxl) #For reading the excel sheet
@@ -51,5 +53,31 @@ linepalette2 <- c("#E41A1C","#FF7F00","#377EB8","#B3DE69","#4DAF4A","#984EA3","#
 profiledata <- list()
 profilefigure <- list()
 summarydata <- list()
+```
+
+```{r, outfigdir}
+#----- Make variable for output directory -----####
+outfigdir <- c("figures/")
+```
+
+```{r, EGAT sale for }
+#----- ____ -----####
+
+#----- The 2019 MEA EGAT sale profile ----####
+# Profile data ####
+profile <- 
+  read_excel("../raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+           sheet = "Load Curve",
+           range = "C3:D17523"
+            ) %>% 
+  select(datetime = `Date/Time`, MEA) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, MEA) #%>% 
+  # mutate(strdatetime = as.factor(strptime(glue("{year}-{month}-{day} {time}"), "%Y-%m-%d %H:%M:%S")))
+view(profile)
 ```
 
