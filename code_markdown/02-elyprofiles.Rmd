@@ -143,7 +143,7 @@ profile_plot <-
 ```
 
 , fig.width=10, fig.height=5, fig.fullwidth=TRUE
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 profile_plot
 ```
 
