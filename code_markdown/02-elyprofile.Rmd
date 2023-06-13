@@ -8,6 +8,10 @@ manage the big data obtained from several sources in the organization.
 
 ## Pre-requisite software
 
+```{r}
+knitr::opts_knit$set(root.dir = '/load_forecast_EGAT_strategies')
+```
+
 
 ```{r, library setting, results='hide', message=FALSE}
 library(tidyverse) #For data manipulation
@@ -76,7 +80,34 @@ profile <-
          year = year(datetime),
          month = month(datetime),
          day = day(datetime)) %>% 
-  select(datetime, date, time, year, month, day, MEA) #%>% 
-  # mutate(strdatetime = as.factor(strptime(glue("{year}-{month}-{day} {time}"), "%Y-%m-%d %H:%M:%S")))
+  select(datetime, date, time, year, month, day, MEA) 
+
+```
+
+Get a peak and a minimum demands in MW by creating `maxv` and `minv` variables.
+The electricity sale (in EGAT case we call "Energy") to MEA by EGAT is calculated. 
+The equation is as followed: 
+```{r, summary data}
+# Summary data ####
+maxv <- ceiling(max(profile$MEA)) # Get a peak MW
+minv <- floor(min(profile$MEA)) # Get a min MW
+energy <- sum(profile$MEA)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+            group_by(year) %>% 
+            filter(MEA == max(MEA)) %>% 
+            pull(datetime)
+min_day <- profile %>% #Find a peak day
+           group_by(year) %>% 
+           filter(MEA == min(MEA)) %>% 
+           pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
 ```
 
