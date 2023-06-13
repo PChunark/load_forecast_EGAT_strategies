@@ -15,6 +15,7 @@ library(tidyverse) #For data manipulation
 library(readxl) #For reading the excel sheet
 library(scales)
 library(glue)
+library(knitr)
 ```
 
 
@@ -141,7 +142,8 @@ profile_plot <-
               vjust = 1.5)
 ```
 
-```{r, echo=FALSE, fig.width=10, fig.height=5, fig.fullwidth=TRUE}
+, fig.width=10, fig.height=5, fig.fullwidth=TRUE
+```{r, echo=FALSE}
 profile_plot
 ```
 
