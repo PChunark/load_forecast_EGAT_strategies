@@ -9,6 +9,7 @@ manage the big data obtained from several sources in the organization.
 ## Pre-requisite software
 
 
+
 ```{r, library setting, results='hide', message=FALSE}
 library(tidyverse) #For data manipulation
 library(readxl) #For reading the excel sheet
