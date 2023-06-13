@@ -42,6 +42,7 @@ vignettes/*.pdf
 raw_data/*.xlsx
 raw_data/raw_data_profiles
 #figures/
+docs/
 
 # File in document folder
 /documents
