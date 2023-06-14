@@ -6,9 +6,9 @@ R coding technique are given in order to understand the process flow and
 manage the big data obtained from several sources in the organization.
 
 
-## Pre-requisite software
+## Electricity generation profiles for EGAT sale
 
-
+Before the project starts, library are required as follows:
 
 ```{r, library setting, results='hide', message=FALSE}
 library(tidyverse) #For data manipulation
@@ -18,7 +18,7 @@ library(glue)
 library(knitr)
 ```
 
-
+Design a theme and lines for figures
 ```{r, create theme , warning=FALSE}
 #----- Create general theme for figures -----####
 ThemeLine <- 
@@ -43,26 +43,30 @@ ThemeLine <-
   )
 ```
 
+Create line palettes for drawing figures
 ```{r, assign line color, message=FALSE}
 linepalette1 <- c("#4DAF4A","#FF7F00","#377EB8","#E41A1C","#984EA3","#F781BF","#8DD3C7","#FB8072","#80B1D3","#FDB462","#B3DE69","#FCCDE5","#D9D9D9","#BC80BD","#CCEBC5","#FFED6F","#7f878f","#A65628","#FFFF33")
 linepalette2 <- c("#E41A1C","#FF7F00","#377EB8","#B3DE69","#4DAF4A","#984EA3","#F781BF","#8DD3C7","#FB8072","#80B1D3","#FDB462","#FCCDE5","#D9D9D9","#BC80BD","#CCEBC5","#FFED6F","#7f878f","#A65628","#FFFF33")
 
 ```
 
-```{r}
-#----- Make a list of profile to store data -----####
+Create lists to store profile data, profile figure, and summary data.
+```{r, making list to store data, echo=TRUE}
 
 profiledata <- list()
 profilefigure <- list()
 summarydata <- list()
 ```
 
-```{r}
+Create a varaible to assign the output directory of figures
+```{r, making variable for out directiry, echo=TRUE}
 #----- Make variable for output directory -----####
 outfigdir <- c("figures/")
 ```
 
-```{r}
+The 2019 MEA EGAT sale profile data is extracted from the excel file provided by the "National Load Forecast Section"
+
+```{r, extract MEA EGAT sale from excel, echo=TRUE}
 #----- ____ -----####
 
 #----- The 2019 MEA EGAT sale profile ----####
@@ -79,14 +83,13 @@ profile <-
          month = month(datetime),
          day = day(datetime)) %>% 
   select(datetime, date, time, year, month, day, MEA)
-getwd()
 ```
 
 
 Get a peak and a minimum demands in MW by creating `maxv` and `minv` variables.
 The electricity sale (in EGAT case we call "Energy") to MEA by EGAT is calculated. 
 The equation is as followed: 
-```{r}
+```{r, calculate values, echo=TRUE}
 # Summary data ####
 maxv <- ceiling(max(profile$MEA)) # Get a peak MW
 minv <- floor(min(profile$MEA)) # Get a min MW
@@ -110,7 +113,7 @@ summary <- tibble(peak_day = peak_day,
                   load_factor = load_factor) # combine all data in 1 table
 ```
 
-```{r}
+```{r, MEA EGAT sale profile, echo=TRUE}
 # Plot a profile ####
  
 profile_plot <-
@@ -143,8 +146,8 @@ profile_plot <-
               vjust = 1.5)
 ```
 
-, fig.width=10, fig.height=5, fig.fullwidth=TRUE
-```{r, echo=TRUE}
+
+```{r, plot MEA EGAT sale, echo=FALSE, fig.width=10, fig.height=5, fig.fullwidth=TRUE}
 profile_plot
 ```
 
