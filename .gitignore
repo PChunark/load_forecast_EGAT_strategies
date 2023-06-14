@@ -42,7 +42,9 @@ vignettes/*.pdf
 raw_data/*.xlsx
 raw_data/raw_data_profiles
 #figures/
-docs/
+
+# Ignore book down files
+_bookdown_files/
 
 # File in document folder
 /documents
