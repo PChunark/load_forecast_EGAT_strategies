@@ -45,6 +45,7 @@ raw_data/raw_data_profiles
 
 # Ignore book down files
 _bookdown_files/
+docs/_main_files/
 
 # File in document folder
 /documents
