@@ -149,7 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="electricity-profiles.html"><a href="electricity-profiles.html"><i class="fa fa-check"></i><b>2</b> Electricity profiles</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#pre-requisite-software"><i class="fa fa-check"></i><b>2.1</b> Pre-requisite software</a></li>
+<li class="chapter" data-level="2.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#electricity-generation-profiles-for-egat-sale"><i class="fa fa-check"></i><b>2.1</b> Electricity generation profiles for EGAT sale</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/PChunark/load_forecast_EGAT_strategies/" target="blank">Published with bookdown</a></li>
@@ -177,13 +177,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Electricity profiles are illustrated to give an insight into profile behavior.
 R coding technique are given in order to understand the process flow and
 manage the big data obtained from several sources in the organization.</p>
-<div id="pre-requisite-software" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Pre-requisite software<a href="electricity-profiles.html#pre-requisite-software" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="electricity-generation-profiles-for-egat-sale" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Electricity generation profiles for EGAT sale<a href="electricity-profiles.html#electricity-generation-profiles-for-egat-sale" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before the project starts, library are required as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="electricity-profiles.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#For data manipulation</span></span>
 <span id="cb1-2"><a href="electricity-profiles.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co">#For reading the excel sheet</span></span>
 <span id="cb1-3"><a href="electricity-profiles.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
 <span id="cb1-4"><a href="electricity-profiles.html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
 <span id="cb1-5"><a href="electricity-profiles.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div>
+<p>Design a theme and lines for figures</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="electricity-profiles.html#cb2-1" tabindex="-1"></a><span class="co">#----- Create general theme for figures -----####</span></span>
 <span id="cb2-2"><a href="electricity-profiles.html#cb2-2" tabindex="-1"></a>ThemeLine <span class="ot">&lt;-</span> </span>
 <span id="cb2-3"><a href="electricity-profiles.html#cb2-3" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
@@ -205,15 +207,17 @@ manage the big data obtained from several sources in the organization.</p>
 <span id="cb2-19"><a href="electricity-profiles.html#cb2-19" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
 <span id="cb2-20"><a href="electricity-profiles.html#cb2-20" tabindex="-1"></a>    <span class="at">axis.ticks.length=</span><span class="fu">unit</span>(<span class="sc">-</span><span class="fl">0.15</span>,<span class="st">&quot;cm&quot;</span>)</span>
 <span id="cb2-21"><a href="electricity-profiles.html#cb2-21" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Create line palettes for drawing figures</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="electricity-profiles.html#cb3-1" tabindex="-1"></a>linepalette1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#FF7F00&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>,<span class="st">&quot;#F781BF&quot;</span>,<span class="st">&quot;#8DD3C7&quot;</span>,<span class="st">&quot;#FB8072&quot;</span>,<span class="st">&quot;#80B1D3&quot;</span>,<span class="st">&quot;#FDB462&quot;</span>,<span class="st">&quot;#B3DE69&quot;</span>,<span class="st">&quot;#FCCDE5&quot;</span>,<span class="st">&quot;#D9D9D9&quot;</span>,<span class="st">&quot;#BC80BD&quot;</span>,<span class="st">&quot;#CCEBC5&quot;</span>,<span class="st">&quot;#FFED6F&quot;</span>,<span class="st">&quot;#7f878f&quot;</span>,<span class="st">&quot;#A65628&quot;</span>,<span class="st">&quot;#FFFF33&quot;</span>)</span>
 <span id="cb3-2"><a href="electricity-profiles.html#cb3-2" tabindex="-1"></a>linepalette2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#FF7F00&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#B3DE69&quot;</span>,<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>,<span class="st">&quot;#F781BF&quot;</span>,<span class="st">&quot;#8DD3C7&quot;</span>,<span class="st">&quot;#FB8072&quot;</span>,<span class="st">&quot;#80B1D3&quot;</span>,<span class="st">&quot;#FDB462&quot;</span>,<span class="st">&quot;#FCCDE5&quot;</span>,<span class="st">&quot;#D9D9D9&quot;</span>,<span class="st">&quot;#BC80BD&quot;</span>,<span class="st">&quot;#CCEBC5&quot;</span>,<span class="st">&quot;#FFED6F&quot;</span>,<span class="st">&quot;#7f878f&quot;</span>,<span class="st">&quot;#A65628&quot;</span>,<span class="st">&quot;#FFFF33&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="electricity-profiles.html#cb4-1" tabindex="-1"></a><span class="co">#----- Make a list of profile to store data -----####</span></span>
-<span id="cb4-2"><a href="electricity-profiles.html#cb4-2" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="electricity-profiles.html#cb4-3" tabindex="-1"></a>profiledata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb4-4"><a href="electricity-profiles.html#cb4-4" tabindex="-1"></a>profilefigure <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb4-5"><a href="electricity-profiles.html#cb4-5" tabindex="-1"></a>summarydata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div>
+<p>Create lists to store profile data, profile figure, and summary data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="electricity-profiles.html#cb4-1" tabindex="-1"></a>profiledata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb4-2"><a href="electricity-profiles.html#cb4-2" tabindex="-1"></a>profilefigure <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb4-3"><a href="electricity-profiles.html#cb4-3" tabindex="-1"></a>summarydata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div>
+<p>Create a varaible to assign the output directory of figures</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="electricity-profiles.html#cb5-1" tabindex="-1"></a><span class="co">#----- Make variable for output directory -----####</span></span>
 <span id="cb5-2"><a href="electricity-profiles.html#cb5-2" tabindex="-1"></a>outfigdir <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;figures/&quot;</span>)</span></code></pre></div>
+<p>The 2019 MEA EGAT sale profile data is extracted from the excel file provided by the “National Load Forecast Section”</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="electricity-profiles.html#cb6-1" tabindex="-1"></a><span class="co">#----- ____ -----####</span></span>
 <span id="cb6-2"><a href="electricity-profiles.html#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="electricity-profiles.html#cb6-3" tabindex="-1"></a><span class="co">#----- The 2019 MEA EGAT sale profile ----####</span></span>
@@ -229,66 +233,62 @@ manage the big data obtained from several sources in the organization.</p>
 <span id="cb6-13"><a href="electricity-profiles.html#cb6-13" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(datetime),</span>
 <span id="cb6-14"><a href="electricity-profiles.html#cb6-14" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(datetime),</span>
 <span id="cb6-15"><a href="electricity-profiles.html#cb6-15" tabindex="-1"></a>         <span class="at">day =</span> <span class="fu">day</span>(datetime)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-16"><a href="electricity-profiles.html#cb6-16" tabindex="-1"></a>  <span class="fu">select</span>(datetime, date, time, year, month, day, MEA)</span>
-<span id="cb6-17"><a href="electricity-profiles.html#cb6-17" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
-<pre><code>## [1] &quot;D:/Rstudio/load_forecast_EGAT_strategies&quot;</code></pre>
+<span id="cb6-16"><a href="electricity-profiles.html#cb6-16" tabindex="-1"></a>  <span class="fu">select</span>(datetime, date, time, year, month, day, MEA)</span></code></pre></div>
 <p>Get a peak and a minimum demands in MW by creating <code>maxv</code> and <code>minv</code> variables.
 The electricity sale (in EGAT case we call “Energy”) to MEA by EGAT is calculated.
 The equation is as followed:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="electricity-profiles.html#cb8-1" tabindex="-1"></a><span class="co"># Summary data ####</span></span>
-<span id="cb8-2"><a href="electricity-profiles.html#cb8-2" tabindex="-1"></a>maxv <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a peak MW</span></span>
-<span id="cb8-3"><a href="electricity-profiles.html#cb8-3" tabindex="-1"></a>minv <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">min</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a min MW</span></span>
-<span id="cb8-4"><a href="electricity-profiles.html#cb8-4" tabindex="-1"></a>energy <span class="ot">&lt;-</span> <span class="fu">sum</span>(profile<span class="sc">$</span>MEA)<span class="sc">/</span><span class="dv">2000</span> <span class="co"># Calculate the energy</span></span>
-<span id="cb8-5"><a href="electricity-profiles.html#cb8-5" tabindex="-1"></a>peak_day <span class="ot">&lt;-</span> profile <span class="sc">%&gt;%</span> <span class="co">#Find a peak day</span></span>
-<span id="cb8-6"><a href="electricity-profiles.html#cb8-6" tabindex="-1"></a>            <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-7"><a href="electricity-profiles.html#cb8-7" tabindex="-1"></a>            <span class="fu">filter</span>(MEA <span class="sc">==</span> <span class="fu">max</span>(MEA)) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-8"><a href="electricity-profiles.html#cb8-8" tabindex="-1"></a>            <span class="fu">pull</span>(datetime)</span>
-<span id="cb8-9"><a href="electricity-profiles.html#cb8-9" tabindex="-1"></a>min_day <span class="ot">&lt;-</span> profile <span class="sc">%&gt;%</span> <span class="co">#Find a peak day</span></span>
-<span id="cb8-10"><a href="electricity-profiles.html#cb8-10" tabindex="-1"></a>           <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-11"><a href="electricity-profiles.html#cb8-11" tabindex="-1"></a>           <span class="fu">filter</span>(MEA <span class="sc">==</span> <span class="fu">min</span>(MEA)) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-12"><a href="electricity-profiles.html#cb8-12" tabindex="-1"></a>           <span class="fu">pull</span>(datetime)</span>
-<span id="cb8-13"><a href="electricity-profiles.html#cb8-13" tabindex="-1"></a>load_factor <span class="ot">&lt;-</span> <span class="fu">percent</span>((energy<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">/</span>(maxv<span class="sc">*</span><span class="dv">8760</span>), </span>
-<span id="cb8-14"><a href="electricity-profiles.html#cb8-14" tabindex="-1"></a>                       <span class="at">accuracy =</span> <span class="fl">0.01</span>, </span>
-<span id="cb8-15"><a href="electricity-profiles.html#cb8-15" tabindex="-1"></a>                       <span class="at">decimal.mark =</span> <span class="st">&quot;.&quot;</span>)</span>
-<span id="cb8-16"><a href="electricity-profiles.html#cb8-16" tabindex="-1"></a>summary <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">peak_day =</span> peak_day,</span>
-<span id="cb8-17"><a href="electricity-profiles.html#cb8-17" tabindex="-1"></a>                  <span class="at">min_day =</span> min_day,</span>
-<span id="cb8-18"><a href="electricity-profiles.html#cb8-18" tabindex="-1"></a>                  <span class="at">peak_mw =</span> maxv, </span>
-<span id="cb8-19"><a href="electricity-profiles.html#cb8-19" tabindex="-1"></a>                  <span class="at">min_mw =</span> minv, </span>
-<span id="cb8-20"><a href="electricity-profiles.html#cb8-20" tabindex="-1"></a>                  <span class="at">energy_gwh =</span> energy,</span>
-<span id="cb8-21"><a href="electricity-profiles.html#cb8-21" tabindex="-1"></a>                  <span class="at">load_factor =</span> load_factor) <span class="co"># combine all data in 1 table</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="electricity-profiles.html#cb9-1" tabindex="-1"></a><span class="co"># Plot a profile ####</span></span>
-<span id="cb9-2"><a href="electricity-profiles.html#cb9-2" tabindex="-1"></a> </span>
-<span id="cb9-3"><a href="electricity-profiles.html#cb9-3" tabindex="-1"></a>profile_plot <span class="ot">&lt;-</span></span>
-<span id="cb9-4"><a href="electricity-profiles.html#cb9-4" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb9-5"><a href="electricity-profiles.html#cb9-5" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>profile, </span>
-<span id="cb9-6"><a href="electricity-profiles.html#cb9-6" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> datetime, </span>
-<span id="cb9-7"><a href="electricity-profiles.html#cb9-7" tabindex="-1"></a>                  <span class="at">y =</span> MEA,</span>
-<span id="cb9-8"><a href="electricity-profiles.html#cb9-8" tabindex="-1"></a>                  <span class="at">group =</span> month,</span>
-<span id="cb9-9"><a href="electricity-profiles.html#cb9-9" tabindex="-1"></a>                  <span class="at">color =</span> <span class="fu">as.factor</span>(month)),</span>
-<span id="cb9-10"><a href="electricity-profiles.html#cb9-10" tabindex="-1"></a>              <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb9-11"><a href="electricity-profiles.html#cb9-11" tabindex="-1"></a>    ThemeLine <span class="sc">+</span></span>
-<span id="cb9-12"><a href="electricity-profiles.html#cb9-12" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb9-13"><a href="electricity-profiles.html#cb9-13" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;EGAT sale to MEA (MW)&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-14"><a href="electricity-profiles.html#cb9-14" tabindex="-1"></a>    <span class="fu">scale_x_datetime</span>(<span class="at">breaks=</span><span class="fu">date_breaks</span>(<span class="st">&quot;1 month&quot;</span>), </span>
-<span id="cb9-15"><a href="electricity-profiles.html#cb9-15" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">date_format</span>(<span class="st">&quot;%b %y&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb9-16"><a href="electricity-profiles.html#cb9-16" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">round</span>(maxv,<span class="sc">-</span><span class="dv">3</span>),<span class="dv">1000</span>),</span>
-<span id="cb9-17"><a href="electricity-profiles.html#cb9-17" tabindex="-1"></a>                       <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">round</span>(maxv, <span class="sc">-</span><span class="dv">3</span>))) <span class="sc">+</span>  </span>
-<span id="cb9-18"><a href="electricity-profiles.html#cb9-18" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> linepalette1) <span class="sc">+</span></span>
-<span id="cb9-19"><a href="electricity-profiles.html#cb9-19" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data=</span>summary,</span>
-<span id="cb9-20"><a href="electricity-profiles.html#cb9-20" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> peak_day, <span class="at">y =</span> peak_mw))<span class="sc">+</span></span>
-<span id="cb9-21"><a href="electricity-profiles.html#cb9-21" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> summary,</span>
-<span id="cb9-22"><a href="electricity-profiles.html#cb9-22" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> peak_day, <span class="at">y =</span> <span class="fu">round</span>(maxv, <span class="sc">-</span><span class="dv">3</span>)),</span>
-<span id="cb9-23"><a href="electricity-profiles.html#cb9-23" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Peak {maxv} MW </span><span class="sc">\n</span><span class="st">@ {peak_day}&quot;</span>))<span class="sc">+</span></span>
-<span id="cb9-24"><a href="electricity-profiles.html#cb9-24" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data=</span>summary,</span>
-<span id="cb9-25"><a href="electricity-profiles.html#cb9-25" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> min_mw))<span class="sc">+</span></span>
-<span id="cb9-26"><a href="electricity-profiles.html#cb9-26" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> summary,</span>
-<span id="cb9-27"><a href="electricity-profiles.html#cb9-27" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> <span class="fu">round</span>(minv, <span class="sc">-</span><span class="dv">3</span>)),</span>
-<span id="cb9-28"><a href="electricity-profiles.html#cb9-28" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Minimum {minv} MW </span><span class="sc">\n</span><span class="st">@ {min_day}&quot;</span>),</span>
-<span id="cb9-29"><a href="electricity-profiles.html#cb9-29" tabindex="-1"></a>              <span class="at">hjust =</span> <span class="dv">0</span>,</span>
-<span id="cb9-30"><a href="electricity-profiles.html#cb9-30" tabindex="-1"></a>              <span class="at">vjust =</span> <span class="fl">1.5</span>)</span></code></pre></div>
-<p>, fig.width=10, fig.height=5, fig.fullwidth=TRUE</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="electricity-profiles.html#cb10-1" tabindex="-1"></a>profile_plot</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="electricity-profiles.html#cb7-1" tabindex="-1"></a><span class="co"># Summary data ####</span></span>
+<span id="cb7-2"><a href="electricity-profiles.html#cb7-2" tabindex="-1"></a>maxv <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a peak MW</span></span>
+<span id="cb7-3"><a href="electricity-profiles.html#cb7-3" tabindex="-1"></a>minv <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">min</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a min MW</span></span>
+<span id="cb7-4"><a href="electricity-profiles.html#cb7-4" tabindex="-1"></a>energy <span class="ot">&lt;-</span> <span class="fu">sum</span>(profile<span class="sc">$</span>MEA)<span class="sc">/</span><span class="dv">2000</span> <span class="co"># Calculate the energy</span></span>
+<span id="cb7-5"><a href="electricity-profiles.html#cb7-5" tabindex="-1"></a>peak_day <span class="ot">&lt;-</span> profile <span class="sc">%&gt;%</span> <span class="co">#Find a peak day</span></span>
+<span id="cb7-6"><a href="electricity-profiles.html#cb7-6" tabindex="-1"></a>            <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-7"><a href="electricity-profiles.html#cb7-7" tabindex="-1"></a>            <span class="fu">filter</span>(MEA <span class="sc">==</span> <span class="fu">max</span>(MEA)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-8"><a href="electricity-profiles.html#cb7-8" tabindex="-1"></a>            <span class="fu">pull</span>(datetime)</span>
+<span id="cb7-9"><a href="electricity-profiles.html#cb7-9" tabindex="-1"></a>min_day <span class="ot">&lt;-</span> profile <span class="sc">%&gt;%</span> <span class="co">#Find a peak day</span></span>
+<span id="cb7-10"><a href="electricity-profiles.html#cb7-10" tabindex="-1"></a>           <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-11"><a href="electricity-profiles.html#cb7-11" tabindex="-1"></a>           <span class="fu">filter</span>(MEA <span class="sc">==</span> <span class="fu">min</span>(MEA)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-12"><a href="electricity-profiles.html#cb7-12" tabindex="-1"></a>           <span class="fu">pull</span>(datetime)</span>
+<span id="cb7-13"><a href="electricity-profiles.html#cb7-13" tabindex="-1"></a>load_factor <span class="ot">&lt;-</span> <span class="fu">percent</span>((energy<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">/</span>(maxv<span class="sc">*</span><span class="dv">8760</span>), </span>
+<span id="cb7-14"><a href="electricity-profiles.html#cb7-14" tabindex="-1"></a>                       <span class="at">accuracy =</span> <span class="fl">0.01</span>, </span>
+<span id="cb7-15"><a href="electricity-profiles.html#cb7-15" tabindex="-1"></a>                       <span class="at">decimal.mark =</span> <span class="st">&quot;.&quot;</span>)</span>
+<span id="cb7-16"><a href="electricity-profiles.html#cb7-16" tabindex="-1"></a>summary <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">peak_day =</span> peak_day,</span>
+<span id="cb7-17"><a href="electricity-profiles.html#cb7-17" tabindex="-1"></a>                  <span class="at">min_day =</span> min_day,</span>
+<span id="cb7-18"><a href="electricity-profiles.html#cb7-18" tabindex="-1"></a>                  <span class="at">peak_mw =</span> maxv, </span>
+<span id="cb7-19"><a href="electricity-profiles.html#cb7-19" tabindex="-1"></a>                  <span class="at">min_mw =</span> minv, </span>
+<span id="cb7-20"><a href="electricity-profiles.html#cb7-20" tabindex="-1"></a>                  <span class="at">energy_gwh =</span> energy,</span>
+<span id="cb7-21"><a href="electricity-profiles.html#cb7-21" tabindex="-1"></a>                  <span class="at">load_factor =</span> load_factor) <span class="co"># combine all data in 1 table</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="electricity-profiles.html#cb8-1" tabindex="-1"></a><span class="co"># Plot a profile ####</span></span>
+<span id="cb8-2"><a href="electricity-profiles.html#cb8-2" tabindex="-1"></a> </span>
+<span id="cb8-3"><a href="electricity-profiles.html#cb8-3" tabindex="-1"></a>profile_plot <span class="ot">&lt;-</span></span>
+<span id="cb8-4"><a href="electricity-profiles.html#cb8-4" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb8-5"><a href="electricity-profiles.html#cb8-5" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>profile, </span>
+<span id="cb8-6"><a href="electricity-profiles.html#cb8-6" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> datetime, </span>
+<span id="cb8-7"><a href="electricity-profiles.html#cb8-7" tabindex="-1"></a>                  <span class="at">y =</span> MEA,</span>
+<span id="cb8-8"><a href="electricity-profiles.html#cb8-8" tabindex="-1"></a>                  <span class="at">group =</span> month,</span>
+<span id="cb8-9"><a href="electricity-profiles.html#cb8-9" tabindex="-1"></a>                  <span class="at">color =</span> <span class="fu">as.factor</span>(month)),</span>
+<span id="cb8-10"><a href="electricity-profiles.html#cb8-10" tabindex="-1"></a>              <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="electricity-profiles.html#cb8-11" tabindex="-1"></a>    ThemeLine <span class="sc">+</span></span>
+<span id="cb8-12"><a href="electricity-profiles.html#cb8-12" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-13"><a href="electricity-profiles.html#cb8-13" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;EGAT sale to MEA (MW)&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-14"><a href="electricity-profiles.html#cb8-14" tabindex="-1"></a>    <span class="fu">scale_x_datetime</span>(<span class="at">breaks=</span><span class="fu">date_breaks</span>(<span class="st">&quot;1 month&quot;</span>), </span>
+<span id="cb8-15"><a href="electricity-profiles.html#cb8-15" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">date_format</span>(<span class="st">&quot;%b %y&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="electricity-profiles.html#cb8-16" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">round</span>(maxv,<span class="sc">-</span><span class="dv">3</span>),<span class="dv">1000</span>),</span>
+<span id="cb8-17"><a href="electricity-profiles.html#cb8-17" tabindex="-1"></a>                       <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">round</span>(maxv, <span class="sc">-</span><span class="dv">3</span>))) <span class="sc">+</span>  </span>
+<span id="cb8-18"><a href="electricity-profiles.html#cb8-18" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> linepalette1) <span class="sc">+</span></span>
+<span id="cb8-19"><a href="electricity-profiles.html#cb8-19" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data=</span>summary,</span>
+<span id="cb8-20"><a href="electricity-profiles.html#cb8-20" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> peak_day, <span class="at">y =</span> peak_mw))<span class="sc">+</span></span>
+<span id="cb8-21"><a href="electricity-profiles.html#cb8-21" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> summary,</span>
+<span id="cb8-22"><a href="electricity-profiles.html#cb8-22" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> peak_day, <span class="at">y =</span> <span class="fu">round</span>(maxv, <span class="sc">-</span><span class="dv">3</span>)),</span>
+<span id="cb8-23"><a href="electricity-profiles.html#cb8-23" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Peak {maxv} MW </span><span class="sc">\n</span><span class="st">@ {peak_day}&quot;</span>))<span class="sc">+</span></span>
+<span id="cb8-24"><a href="electricity-profiles.html#cb8-24" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data=</span>summary,</span>
+<span id="cb8-25"><a href="electricity-profiles.html#cb8-25" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> min_mw))<span class="sc">+</span></span>
+<span id="cb8-26"><a href="electricity-profiles.html#cb8-26" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> summary,</span>
+<span id="cb8-27"><a href="electricity-profiles.html#cb8-27" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> <span class="fu">round</span>(minv, <span class="sc">-</span><span class="dv">3</span>)),</span>
+<span id="cb8-28"><a href="electricity-profiles.html#cb8-28" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Minimum {minv} MW </span><span class="sc">\n</span><span class="st">@ {min_day}&quot;</span>),</span>
+<span id="cb8-29"><a href="electricity-profiles.html#cb8-29" tabindex="-1"></a>              <span class="at">hjust =</span> <span class="dv">0</span>,</span>
+<span id="cb8-30"><a href="electricity-profiles.html#cb8-30" tabindex="-1"></a>              <span class="at">vjust =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/plot%20MEA%20EGAT%20sale-1.png" width="960" /></p>
 
 </div>
 </div>
