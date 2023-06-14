@@ -17,7 +17,7 @@ bookdown::pdf_book:
 # bookdown::epub_book: default
 # bookdown::html_book:
 #   css: style.css
-# html_document:
-#   self_contained: false
-#   theme: united
-#   highlight: textmate
+html_document:
+  self_contained: false
+  theme: united
+  highlight: textmate
