@@ -8,12 +8,12 @@ bookdown::gitbook:
         <li><a href="https://github.com/PChunark/load_forecast_EGAT_strategies/" target="blank">Published with bookdown</a></li>
     edit: https://github.com/PChunark/load_forecast_EGAT_strategies/edit/main/%s
     download: ["pdf", "epub"]
-# bookdown::pdf_book:
-#   includes: 
-#     in_header: preamble.tex
-#   latex_engine: xelatex
-#   citation_package: natbib
-#   keep_tex: yes
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
 # bookdown::epub_book: default
 # bookdown::html_book:
 #   css: style.css
