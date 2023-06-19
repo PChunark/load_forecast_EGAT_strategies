@@ -1,4 +1,0 @@
-introduction
-electricity-profiles
-pre-requisite-software
-electricity-generation-profiles-for-egat-sale
