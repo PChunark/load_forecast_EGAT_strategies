@@ -3,7 +3,6 @@ title: "Electricity profiles"
 author: "Puttipong Chunark, Ph.D."
 date: "Last compile on `r format(Sys.time(), '%d %B, %Y'); Sys.time()`"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
 documentclass: book
 # bibliography:
 description: |
@@ -11,7 +10,7 @@ description: |
   levels. R coding techniques are included. Readers can learn how to code 
   the R language in the format of scripts, R markdown, and bookdown.
 link-citations: yes
-github-repo: "PChunark/load_forecast_EGAT_strategies"
+github-repo: PChunark/load_forecast_EGAT_strategies
 ---
 
 
