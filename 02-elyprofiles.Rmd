@@ -20,7 +20,7 @@ library(knitr)
 
 Design a theme and lines for figures
 
-```{r, theme setting, results='hide', message=FALSE}
+```{r, theme setting, results='hide', message=FALSE, warning=FALSE}
 ThemeLine <- 
   theme_bw() +
   theme(
