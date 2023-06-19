@@ -1,16 +1,8 @@
-fig:nice-fig
-tab:nice-tab
 eq:binom
 thm:tri
-about
-usage
-render-book
-preview-book
-hello-bookdown
-a-section
-cross
-chapters-and-sub-chapters
-captioned-figures-and-tables
+introduction
+electricity-profiles
+electricity-generation-profiles-for-egat-sale
 parts
 footnotes-and-citations
 footnotes
@@ -19,7 +11,3 @@ blocks
 equations
 theorems-and-proofs
 callout-blocks
-sharing-your-book
-publishing
-pages
-metadata-for-sharing

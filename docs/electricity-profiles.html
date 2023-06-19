@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Electricity profiles</title>
+  <title>Chapter 2 Electricity profiles | Electricity profiles</title>
   <meta name="description" content="<p>This webpage is created to understand the electricity load profile at all
 levels. R coding techniques are included. Readers can learn how to code
 the R language in the format of scripts, R markdown, and bookdown.</p>" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Electricity profiles" />
+  <meta property="og:title" content="Chapter 2 Electricity profiles | Electricity profiles" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This webpage is created to understand the electricity load profile at all
@@ -19,7 +19,7 @@ the R language in the format of scripts, R markdown, and bookdown.</p>" />
   <meta name="github-repo" content="PChunark/load_forecast_EGAT_strategies" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Electricity profiles" />
+  <meta name="twitter:title" content="Chapter 2 Electricity profiles | Electricity profiles" />
   
   <meta name="twitter:description" content="<p>This webpage is created to understand the electricity load profile at all
 levels. R coding techniques are included. Readers can learn how to code
@@ -35,8 +35,8 @@ the R language in the format of scripts, R markdown, and bookdown.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="parts.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -205,19 +205,31 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="electricity-profiles" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Electricity profiles<a href="electricity-profiles.html#electricity-profiles" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This chapter provides electricity profiles and a R coding technique.
+Electricity profiles are illustrated to give an insight into profile behavior.
+R coding technique are given in order to understand the process flow and
+manage the big data obtained from several sources in the organization.</p>
+<div id="electricity-generation-profiles-for-egat-sale" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Electricity generation profiles for EGAT sale<a href="electricity-profiles.html#electricity-generation-profiles-for-egat-sale" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before the project starts, library are required as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="electricity-profiles.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#For data manipulation</span></span>
+<span id="cb1-2"><a href="electricity-profiles.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co">#For reading the excel sheet</span></span>
+<span id="cb1-3"><a href="electricity-profiles.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb1-4"><a href="electricity-profiles.html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb1-5"><a href="electricity-profiles.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div>
+<p>Design a theme and lines for figures</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="parts.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -248,7 +260,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/%s",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-elyprofiles.Rmd",
 "text": "Edit"
 },
 "history": {

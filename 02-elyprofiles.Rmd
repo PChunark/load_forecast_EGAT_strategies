@@ -1,0 +1,21 @@
+# Electricity profiles
+
+This chapter provides electricity profiles and a R coding technique. 
+Electricity profiles are illustrated to give an insight into profile behavior. 
+R coding technique are given in order to understand the process flow and 
+manage the big data obtained from several sources in the organization.
+
+
+## Electricity generation profiles for EGAT sale
+
+Before the project starts, library are required as follows:
+
+```{r, library setting, results='hide', message=FALSE}
+library(tidyverse) #For data manipulation
+library(readxl) #For reading the excel sheet
+library(scales)
+library(glue)
+library(knitr)
+```
+
+Design a theme and lines for figures
