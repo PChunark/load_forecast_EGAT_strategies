@@ -30,7 +30,7 @@ ThemeLine <-
     #    axis.text.x = element_text(hjust=1,size = 10, angle = 0),
     axis.line=element_line(colour="black"),
     panel.background=element_rect(fill = "white"),
-    panel.grid.major.x=element_line(linetype="dashed",colour="grey",size=0.5),
+    panel.grid.major.x=element_line(linetype="dashed",colour="grey",linewidth = 0.5),
     panel.grid.major.y = element_blank(),
     # panel.grid.major=element_blank(),
     strip.background=element_rect(fill="white", colour="white"),
