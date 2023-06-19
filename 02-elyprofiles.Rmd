@@ -116,7 +116,7 @@ summary <- tibble(peak_day = peak_day,
 ```{r, MEA EGAT sale profile, echo=TRUE}
 # Plot a profile ####
  
-profile_plot <-
+# profile_plot <-
     ggplot() + 
     geom_line(data=profile, 
               aes(x = datetime, 
@@ -144,11 +144,11 @@ profile_plot <-
               label = glue("Minimum {minv} MW \n@ {min_day}"),
               hjust = 0,
               vjust = 1.5)
-profile_plot
+
 ```
 
 The EGAT sale to MEA 
 ```{r, plot MEA EGAT sale, echo=FALSE, fig.cap = 'EGAT sale to MEA in 2019',fig.width=10, fig.height=5, fig.align='center'}
-profile_plot
+# profile_plot
 ```
 

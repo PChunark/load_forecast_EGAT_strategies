@@ -260,7 +260,7 @@ The equation is as followed:</p>
 <span id="cb7-21"><a href="electricity-profiles.html#cb7-21" tabindex="-1"></a>                  <span class="at">load_factor =</span> load_factor) <span class="co"># combine all data in 1 table</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="electricity-profiles.html#cb8-1" tabindex="-1"></a><span class="co"># Plot a profile ####</span></span>
 <span id="cb8-2"><a href="electricity-profiles.html#cb8-2" tabindex="-1"></a> </span>
-<span id="cb8-3"><a href="electricity-profiles.html#cb8-3" tabindex="-1"></a>profile_plot <span class="ot">&lt;-</span></span>
+<span id="cb8-3"><a href="electricity-profiles.html#cb8-3" tabindex="-1"></a><span class="co"># profile_plot &lt;-</span></span>
 <span id="cb8-4"><a href="electricity-profiles.html#cb8-4" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
 <span id="cb8-5"><a href="electricity-profiles.html#cb8-5" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>profile, </span>
 <span id="cb8-6"><a href="electricity-profiles.html#cb8-6" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> datetime, </span>
@@ -287,16 +287,9 @@ The equation is as followed:</p>
 <span id="cb8-27"><a href="electricity-profiles.html#cb8-27" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> <span class="fu">round</span>(minv, <span class="sc">-</span><span class="dv">3</span>)),</span>
 <span id="cb8-28"><a href="electricity-profiles.html#cb8-28" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Minimum {minv} MW </span><span class="sc">\n</span><span class="st">@ {min_day}&quot;</span>),</span>
 <span id="cb8-29"><a href="electricity-profiles.html#cb8-29" tabindex="-1"></a>              <span class="at">hjust =</span> <span class="dv">0</span>,</span>
-<span id="cb8-30"><a href="electricity-profiles.html#cb8-30" tabindex="-1"></a>              <span class="at">vjust =</span> <span class="fl">1.5</span>)</span>
-<span id="cb8-31"><a href="electricity-profiles.html#cb8-31" tabindex="-1"></a>profile_plot</span></code></pre></div>
+<span id="cb8-30"><a href="electricity-profiles.html#cb8-30" tabindex="-1"></a>              <span class="at">vjust =</span> <span class="fl">1.5</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/MEA%20EGAT%20sale%20profile-1.png" width="672" /></p>
-The EGAT sale to MEA
-<div class="figure" style="text-align: center">
-<img src="_main_files/figure-html/plot%20MEA%20EGAT%20sale-1.png" alt="EGAT sale to MEA in 2019" width="960" />
-<p class="caption">
-(#fig:plot MEA EGAT sale)EGAT sale to MEA in 2019
-</p>
-</div>
+<p>The EGAT sale to MEA</p>
 
 </div>
 </div>
