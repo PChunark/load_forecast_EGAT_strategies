@@ -176,7 +176,8 @@ div.csl-indent {
 <li class="chapter" data-level="2.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>2.2</b> Captioned figures and tables</a></li>
 <li class="chapter" data-level="2.3" data-path="cross.html"><a href="cross.html#electricity-profiles"><i class="fa fa-check"></i><b>2.3</b> Electricity profiles</a>
 <ul>
-<li class="chapter" data-level="2.3.1" data-path="cross.html"><a href="cross.html#electricity-generation-profiles-for-egat-sale"><i class="fa fa-check"></i><b>2.3.1</b> Electricity generation profiles for EGAT sale</a></li>
+<li class="chapter" data-level="2.3.1" data-path="cross.html"><a href="cross.html#initial-settings"><i class="fa fa-check"></i><b>2.3.1</b> Initial settings</a></li>
+<li class="chapter" data-level="2.3.2" data-path="cross.html"><a href="cross.html#electricity-generation-profiles-for-egat-sale"><i class="fa fa-check"></i><b>2.3.2</b> Electricity generation profiles for EGAT sale</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>3</b> Parts</a></li>
@@ -311,8 +312,8 @@ Figure 2.1: Here is a nice figure!
 Electricity profiles are illustrated to give an insight into profile behavior.
 R coding technique are given in order to understand the process flow and
 manage the big data obtained from several sources in the organization.</p>
-<div id="electricity-generation-profiles-for-egat-sale" class="section level3 hasAnchor" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Electricity generation profiles for EGAT sale<a href="cross.html#electricity-generation-profiles-for-egat-sale" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="initial-settings" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Initial settings<a href="cross.html#initial-settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Before the project starts, library are required as follows:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="cross.html#cb3-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#For data manipulation</span></span>
 <span id="cb3-2"><a href="cross.html#cb3-2" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co">#For reading the excel sheet</span></span>
@@ -350,6 +351,10 @@ manage the big data obtained from several sources in the organization.</p>
 <span id="cb5-5"><a href="cross.html#cb5-5" tabindex="-1"></a>summarydata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="cross.html#cb6-1" tabindex="-1"></a><span class="co">#----- Make variable for output directory -----####</span></span>
 <span id="cb6-2"><a href="cross.html#cb6-2" tabindex="-1"></a>outfigdir <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;figures/&quot;</span>)</span></code></pre></div>
+</div>
+<div id="electricity-generation-profiles-for-egat-sale" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Electricity generation profiles for EGAT sale<a href="cross.html#electricity-generation-profiles-for-egat-sale" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The electricity sale profile from EGAT to MEA is given by the Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="cross.html#cb7-1" tabindex="-1"></a><span class="co">#----- The 2019 MEA EGAT sale profile ----####</span></span>
 <span id="cb7-2"><a href="cross.html#cb7-2" tabindex="-1"></a><span class="co"># Profile data ####</span></span>
 <span id="cb7-3"><a href="cross.html#cb7-3" tabindex="-1"></a>profile <span class="ot">&lt;-</span> </span>
@@ -386,7 +391,7 @@ The reason that divided by 2000 is the profile is given a time stamp in every 30
 <span id="cb9-2"><a href="cross.html#cb9-2" tabindex="-1"></a>maxv <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a peak MW</span></span>
 <span id="cb9-3"><a href="cross.html#cb9-3" tabindex="-1"></a>minv <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">min</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a min MW</span></span>
 <span id="cb9-4"><a href="cross.html#cb9-4" tabindex="-1"></a>energy <span class="ot">&lt;-</span> <span class="fu">sum</span>(profile<span class="sc">$</span>MEA)<span class="sc">/</span><span class="dv">2000</span> <span class="co"># Calculate the energy</span></span></code></pre></div>
-<p>The peak and minimum MW day are also needed to assess in order to provide the maximum and minimum a saled electricity from EGAT to MEA.</p>
+<p>The peak and minimum MW days are also needed to assess in order to provide the maximum and minimum a saled electricity from EGAT to MEA.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="cross.html#cb10-1" tabindex="-1"></a>peak_day <span class="ot">&lt;-</span> profile <span class="sc">%&gt;%</span> <span class="co">#Find a peak day</span></span>
 <span id="cb10-2"><a href="cross.html#cb10-2" tabindex="-1"></a>            <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
 <span id="cb10-3"><a href="cross.html#cb10-3" tabindex="-1"></a>            <span class="fu">filter</span>(MEA <span class="sc">==</span> <span class="fu">max</span>(MEA)) <span class="sc">%&gt;%</span> </span>
@@ -405,43 +410,75 @@ The reason that divided by 2000 is the profile is given a time stamp in every 30
 <span id="cb12-3"><a href="cross.html#cb12-3" tabindex="-1"></a>                  <span class="at">peak_mw =</span> maxv, </span>
 <span id="cb12-4"><a href="cross.html#cb12-4" tabindex="-1"></a>                  <span class="at">min_mw =</span> minv, </span>
 <span id="cb12-5"><a href="cross.html#cb12-5" tabindex="-1"></a>                  <span class="at">energy_gwh =</span> energy,</span>
-<span id="cb12-6"><a href="cross.html#cb12-6" tabindex="-1"></a>                  <span class="at">load_factor =</span> load_factor) <span class="co"># combine all data in 1 table</span></span>
-<span id="cb12-7"><a href="cross.html#cb12-7" tabindex="-1"></a>summary</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 6
-##   peak_day            min_day             peak_mw min_mw energy_gwh load_factor
-##   &lt;dttm&gt;              &lt;dttm&gt;                &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;      
-## 1 2019-04-25 14:00:00 2019-01-01 05:00:00    9526   2748     54940. 65.84%</code></pre>
-<p>The electricity sale profile from EGAT to MEA in 2019 is illustrated.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="cross.html#cb14-1" tabindex="-1"></a>profile_plot <span class="ot">&lt;-</span></span>
-<span id="cb14-2"><a href="cross.html#cb14-2" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb14-3"><a href="cross.html#cb14-3" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>profile, </span>
-<span id="cb14-4"><a href="cross.html#cb14-4" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> datetime, </span>
-<span id="cb14-5"><a href="cross.html#cb14-5" tabindex="-1"></a>                  <span class="at">y =</span> MEA,</span>
-<span id="cb14-6"><a href="cross.html#cb14-6" tabindex="-1"></a>                  <span class="at">group =</span> month,</span>
-<span id="cb14-7"><a href="cross.html#cb14-7" tabindex="-1"></a>                  <span class="at">color =</span> <span class="fu">as.factor</span>(month)),</span>
-<span id="cb14-8"><a href="cross.html#cb14-8" tabindex="-1"></a>              <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb14-9"><a href="cross.html#cb14-9" tabindex="-1"></a>    ThemeLine <span class="sc">+</span></span>
-<span id="cb14-10"><a href="cross.html#cb14-10" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb14-11"><a href="cross.html#cb14-11" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;EGAT sale to MEA (MW)&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-12"><a href="cross.html#cb14-12" tabindex="-1"></a>    <span class="fu">scale_x_datetime</span>(<span class="at">breaks=</span><span class="fu">date_breaks</span>(<span class="st">&quot;1 month&quot;</span>), </span>
-<span id="cb14-13"><a href="cross.html#cb14-13" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">date_format</span>(<span class="st">&quot;%b %y&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb14-14"><a href="cross.html#cb14-14" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">round</span>(maxv,<span class="sc">-</span><span class="dv">3</span>),<span class="dv">1000</span>),</span>
-<span id="cb14-15"><a href="cross.html#cb14-15" tabindex="-1"></a>                       <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">round</span>(maxv, <span class="sc">-</span><span class="dv">3</span>))) <span class="sc">+</span>  </span>
-<span id="cb14-16"><a href="cross.html#cb14-16" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> linepalette1) <span class="sc">+</span></span>
-<span id="cb14-17"><a href="cross.html#cb14-17" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data=</span>summary,</span>
-<span id="cb14-18"><a href="cross.html#cb14-18" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> peak_day, <span class="at">y =</span> peak_mw))<span class="sc">+</span></span>
-<span id="cb14-19"><a href="cross.html#cb14-19" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> summary,</span>
-<span id="cb14-20"><a href="cross.html#cb14-20" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> peak_day, <span class="at">y =</span> <span class="fu">round</span>(maxv, <span class="sc">-</span><span class="dv">3</span>)),</span>
-<span id="cb14-21"><a href="cross.html#cb14-21" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Peak {maxv} MW </span><span class="sc">\n</span><span class="st">@ {peak_day}&quot;</span>))<span class="sc">+</span></span>
-<span id="cb14-22"><a href="cross.html#cb14-22" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data=</span>summary,</span>
-<span id="cb14-23"><a href="cross.html#cb14-23" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> min_mw))<span class="sc">+</span></span>
-<span id="cb14-24"><a href="cross.html#cb14-24" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> summary,</span>
-<span id="cb14-25"><a href="cross.html#cb14-25" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> <span class="fu">round</span>(minv, <span class="sc">-</span><span class="dv">3</span>)),</span>
-<span id="cb14-26"><a href="cross.html#cb14-26" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Minimum {minv} MW </span><span class="sc">\n</span><span class="st">@ {min_day}&quot;</span>),</span>
-<span id="cb14-27"><a href="cross.html#cb14-27" tabindex="-1"></a>              <span class="at">hjust =</span> <span class="dv">0</span>,</span>
-<span id="cb14-28"><a href="cross.html#cb14-28" tabindex="-1"></a>              <span class="at">vjust =</span> <span class="fl">1.5</span>)</span>
-<span id="cb14-29"><a href="cross.html#cb14-29" tabindex="-1"></a>profile_plot</span></code></pre></div>
-<p><img src="electricity-profiles_files/figure-html/EGAT%20sale%20to%20MEA%20in%202019-1.png" width="672" /></p>
+<span id="cb12-6"><a href="cross.html#cb12-6" tabindex="-1"></a>                  <span class="at">load_factor =</span> load_factor) <span class="co"># combine all data in 1 table</span></span></code></pre></div>
+<p>In 2019, the electricity sale to MEA by EGAT reached it peak <strong>9,526</strong> MW on <strong>2019-04-25 14:00:00</strong>. The energy (electricity) sale to MEA was <strong>54,939.73</strong> GWh.
+The summary of the electricity sale to MEA by EGAT in 2019 is given in Table <a href="cross.html#tab:sum-egat-to-mea-2019">2.2</a>.</p>
+<table style="width:100%;">
+<caption><span id="tab:sum-egat-to-mea-2019">Table 2.2: </span>Summary of EGAT sale to MEA in 2019!</caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="10%" />
+<col width="8%" />
+<col width="14%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">peak_day</th>
+<th align="left">min_day</th>
+<th align="right">peak_mw</th>
+<th align="right">min_mw</th>
+<th align="right">energy_gwh</th>
+<th align="left">load_factor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2019-04-25 14:00:00</td>
+<td align="left">2019-01-01 05:00:00</td>
+<td align="right">9526</td>
+<td align="right">2748</td>
+<td align="right">54939.73</td>
+<td align="left">65.84%</td>
+</tr>
+</tbody>
+</table>
+<p>The electricity sale profile from EGAT to MEA in 2019 is illustrated (see Figure <a href="cross.html#fig:EGAT-sale-to-MEA-2019">2.2</a>).</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="cross.html#cb13-1" tabindex="-1"></a>profile_plot <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href="cross.html#cb13-2" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb13-3"><a href="cross.html#cb13-3" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data=</span>profile, </span>
+<span id="cb13-4"><a href="cross.html#cb13-4" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> datetime, </span>
+<span id="cb13-5"><a href="cross.html#cb13-5" tabindex="-1"></a>                  <span class="at">y =</span> MEA,</span>
+<span id="cb13-6"><a href="cross.html#cb13-6" tabindex="-1"></a>                  <span class="at">group =</span> month,</span>
+<span id="cb13-7"><a href="cross.html#cb13-7" tabindex="-1"></a>                  <span class="at">color =</span> <span class="fu">as.factor</span>(month)),</span>
+<span id="cb13-8"><a href="cross.html#cb13-8" tabindex="-1"></a>              <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="cross.html#cb13-9" tabindex="-1"></a>    ThemeLine <span class="sc">+</span></span>
+<span id="cb13-10"><a href="cross.html#cb13-10" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb13-11"><a href="cross.html#cb13-11" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;EGAT sale to MEA (MW)&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-12"><a href="cross.html#cb13-12" tabindex="-1"></a>    <span class="fu">scale_x_datetime</span>(<span class="at">breaks=</span><span class="fu">date_breaks</span>(<span class="st">&quot;1 month&quot;</span>), </span>
+<span id="cb13-13"><a href="cross.html#cb13-13" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">date_format</span>(<span class="st">&quot;%b %y&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="cross.html#cb13-14" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">round</span>(maxv,<span class="sc">-</span><span class="dv">3</span>),<span class="dv">1000</span>),</span>
+<span id="cb13-15"><a href="cross.html#cb13-15" tabindex="-1"></a>                       <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">round</span>(maxv, <span class="sc">-</span><span class="dv">3</span>))) <span class="sc">+</span>  </span>
+<span id="cb13-16"><a href="cross.html#cb13-16" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> linepalette1) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="cross.html#cb13-17" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data=</span>summary,</span>
+<span id="cb13-18"><a href="cross.html#cb13-18" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> peak_day, <span class="at">y =</span> peak_mw))<span class="sc">+</span></span>
+<span id="cb13-19"><a href="cross.html#cb13-19" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> summary,</span>
+<span id="cb13-20"><a href="cross.html#cb13-20" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> peak_day, <span class="at">y =</span> <span class="fu">round</span>(maxv, <span class="sc">-</span><span class="dv">3</span>)),</span>
+<span id="cb13-21"><a href="cross.html#cb13-21" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Peak {maxv} MW </span><span class="sc">\n</span><span class="st">@ {peak_day}&quot;</span>))<span class="sc">+</span></span>
+<span id="cb13-22"><a href="cross.html#cb13-22" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data=</span>summary,</span>
+<span id="cb13-23"><a href="cross.html#cb13-23" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> min_mw))<span class="sc">+</span></span>
+<span id="cb13-24"><a href="cross.html#cb13-24" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> summary,</span>
+<span id="cb13-25"><a href="cross.html#cb13-25" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">x =</span> min_day, <span class="at">y =</span> <span class="fu">round</span>(minv, <span class="sc">-</span><span class="dv">3</span>)),</span>
+<span id="cb13-26"><a href="cross.html#cb13-26" tabindex="-1"></a>              <span class="at">label =</span> <span class="fu">glue</span>(<span class="st">&quot;Minimum {minv} MW </span><span class="sc">\n</span><span class="st">@ {min_day}&quot;</span>),</span>
+<span id="cb13-27"><a href="cross.html#cb13-27" tabindex="-1"></a>              <span class="at">hjust =</span> <span class="dv">0</span>,</span>
+<span id="cb13-28"><a href="cross.html#cb13-28" tabindex="-1"></a>              <span class="at">vjust =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:EGAT-sale-to-MEA-2019"></span>
+<img src="electricity-profiles_files/figure-html/EGAT-sale-to-MEA-2019-1.png" alt="EGAT electricity sale profile to MEA in 2019." width="90%" />
+<p class="caption">
+Figure 2.2: EGAT electricity sale profile to MEA in 2019.
+</p>
+</div>
 
 </div>
 </div>

@@ -1,45 +1,10 @@
-# Cross-references {#cross}
-
-Cross-references make it easier for your readers to find and link to elements in your book.
-
-## Chapters and sub-chapters
-
-There are two steps to cross-reference any heading:
-
-1. Label the heading: `# Hello world {#nice-label}`. 
-    - Leave the label off if you like the automated heading generated based on your heading title: for example, `# Hello world` = `# Hello world {#hello-world}`.
-    - To label an un-numbered heading, use: `# Hello world {-#nice-label}` or `{# Hello world .unnumbered}`.
-
-1. Next, reference the labeled heading anywhere in the text using `\@ref(nice-label)`; for example, please see Chapter \@ref(cross). 
-    - If you prefer text as the link instead of a numbered reference use: [any text you want can go here](#cross).
-
-## Captioned figures and tables
-
-Figures and tables *with captions* can also be cross-referenced from elsewhere in your book using `\@ref(fig:chunk-label)` and `\@ref(tab:chunk-label)`, respectively.
-
-See Figure \@ref(fig:nice-fig).
-
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center', fig.alt='Plot with connected points showing that vapor pressure of mercury increases exponentially as temperature increases.'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
-```
-
-Don't miss Table \@ref(tab:nice-tab).
-
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(pressure, 10), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
-
-## Electricity profiles
+# Electricity profiles
 This chapter provides electricity profiles and a R coding technique. 
 Electricity profiles are illustrated to give an insight into profile behavior. 
 R coding technique are given in order to understand the process flow and 
 manage the big data obtained from several sources in the organization.
 
-### Electricity generation profiles for EGAT sale
+## Initial settings
 
 Before the project starts, library are required as follows:
 
@@ -93,7 +58,8 @@ summarydata <- list()
 #----- Make variable for output directory -----####
 outfigdir <- c("figures/")
 ```
-
+## The EGAT electrity sale profile to MEA
+The electricity sale profile from EGAT to MEA is given by the Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า).
 ```{r, MEA EGAT sale}
 #----- The 2019 MEA EGAT sale profile ----####
 # Profile data ####
@@ -112,9 +78,12 @@ profile <-
 profile
 ```
 
-Calculate the peak, minimun in the unit of MW, and electricity sale to MEA in GWh of the profile.
-The electricity saled to MEA (in GWh) is calculated by the summation of profile in MW divided by 2000.
-The reason that divided by 2000 is the profile is given a time stamp in every 30-min. There are 17520 values. Therefore, the summation of profile is divided by 2 to get the results in every 1 hr. We divided the output again by 1000 to convert the unit from MWh to GWh. 
+Calculate the peak, minimun in the unit of MW, and electricity sale to MEA in GWh from the profile.
+The electricity sale to MEA (in GWh) is calculated by the summation of profile in MW divided by 2000.
+
+The reason that divided by **2000** is the profile is given a time stamp in **every 30-min**. There are **17520** values. Therefore, the summation of profile is divided by **2** to get the results in **every 1 hr**. We divided the output again by **1000** to convert the unit **from MWh to GWh**. 
+$$ Ene_{i/2}=\frac{\sum_{i=1}^{17520} (profile_{i})}{2*1000}$$
+
 ```{r, find peak and min MW}
 # Summary data ####
 maxv <- ceiling(max(profile$MEA)) # Get a peak MW
@@ -122,7 +91,7 @@ minv <- floor(min(profile$MEA)) # Get a min MW
 energy <- sum(profile$MEA)/2000 # Calculate the energy
 ```
 
-The peak and minimum MW day are also needed to assess in order to provide the maximum and minimum a saled electricity from EGAT to MEA.
+The peak and minimum MW days are also needed to assess in order to provide the maximum and minimum a saled electricity from EGAT to MEA.
 ```{r, peak & min day}
 peak_day <- profile %>% #Find a peak day
             group_by(year) %>% 
@@ -134,7 +103,7 @@ min_day <- profile %>% #Find a peak day
            pull(datetime)
 ```
 
-Load factor is calculated by the energy divided a maximum energy. A maximum energy is the peak multiplied by 8760.
+Load factor is calculated by the energy divided a maximum energy. A maximum energy is **the peak multiplied by 8760**.
 ```{r, load factor}
 load_factor <- percent((energy*10^3)/(maxv*8760), 
                        accuracy = 0.01, 
@@ -149,10 +118,19 @@ summary <- tibble(peak_day = peak_day,
                   min_mw = minv, 
                   energy_gwh = energy,
                   load_factor = load_factor) # combine all data in 1 table
-summary
+```
+In 2019, the electricity sale to MEA by EGAT reached it peak **`r format(maxv, scientific=FALSE, big.mark = ",")`** MW on **`r peak_day`**. The energy (electricity) sale to MEA was **`r format(energy, scientific=FALSE, big.mark = ",")`** GWh.
+The summary of the electricity sale to MEA by EGAT in 2019 is given in Table \@ref(tab:sum-egat-to-mea-2019).
+
+```{r sum-egat-to-mea-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of EGAT sale to MEA in 2019!',
+  booktabs = TRUE
+)
 ```
 
-The electricity sale profile from EGAT to MEA in 2019 is illustrated.
+
+The electricity sale profile from EGAT to MEA in 2019 is illustrated (see Figure \@ref(fig:EGAT-sale-to-MEA-2019)).
 ```{r, EGAT sale to MEA in 2019}
 profile_plot <-
     ggplot() + 
@@ -182,6 +160,10 @@ profile_plot <-
               label = glue("Minimum {minv} MW \n@ {min_day}"),
               hjust = 0,
               vjust = 1.5)
+```
+
+
+```{r, EGAT-sale-to-MEA-2019, echo=FALSE, fig.cap='EGAT electricity sale profile to MEA in 2019.', fig.align='center', out.width= '90%'}
 profile_plot
 ```
 

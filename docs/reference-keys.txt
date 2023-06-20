@@ -1,13 +1,11 @@
-fig:nice-fig
-tab:nice-tab
+tab:sum-egat-to-mea-2019
+fig:EGAT-sale-to-MEA-2019
 eq:binom
 thm:tri
 introduction
-cross
-chapters-and-sub-chapters
-captioned-figures-and-tables
 electricity-profiles
-electricity-generation-profiles-for-egat-sale
+initial-settings
+the-egat-electrity-sale-profile-to-mea
 parts
 footnotes-and-citations
 footnotes
