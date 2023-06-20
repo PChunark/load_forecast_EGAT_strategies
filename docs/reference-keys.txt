@@ -1,3 +1,5 @@
+eq:energycal
+eq:loadfactorcal
 tab:sum-egat-to-mea-2019
 fig:EGAT-sale-to-MEA-2019
 eq:binom
@@ -5,7 +7,9 @@ thm:tri
 introduction
 electricity-profiles
 initial-settings
-the-egat-electrity-sale-profile-to-mea
+the-egat-electrity-sale-profiles
+the-2019-mea-egat-sale-profile
+the-2019-mea-egat-sale-profile-1
 parts
 footnotes-and-citations
 footnotes

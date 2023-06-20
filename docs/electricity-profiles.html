@@ -173,7 +173,11 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="electricity-profiles.html"><a href="electricity-profiles.html"><i class="fa fa-check"></i><b>2</b> Electricity profiles</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#initial-settings"><i class="fa fa-check"></i><b>2.1</b> Initial settings</a></li>
-<li class="chapter" data-level="2.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-egat-electrity-sale-profile-to-mea"><i class="fa fa-check"></i><b>2.2</b> The EGAT electrity sale profile to MEA</a></li>
+<li class="chapter" data-level="2.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.2</b> The EGAT electrity sale profiles</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-mea-egat-sale-profile"><i class="fa fa-check"></i><b>2.2.1</b> The 2019 MEA EGAT sale profile</a></li>
+<li class="chapter" data-level="2.2.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-mea-egat-sale-profile-1"><i class="fa fa-check"></i><b>2.2.2</b> The 2019 MEA EGAT sale profile</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>3</b> Parts</a></li>
 <li class="chapter" data-level="4" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>4</b> Footnotes and citations</a>
@@ -260,9 +264,11 @@ manage the big data obtained from several sources in the organization.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="electricity-profiles.html#cb4-1" tabindex="-1"></a><span class="co">#----- Make variable for output directory -----####</span></span>
 <span id="cb4-2"><a href="electricity-profiles.html#cb4-2" tabindex="-1"></a>outfigdir <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;figures/&quot;</span>)</span></code></pre></div>
 </div>
-<div id="the-egat-electrity-sale-profile-to-mea" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> The EGAT electrity sale profile to MEA<a href="electricity-profiles.html#the-egat-electrity-sale-profile-to-mea" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The electricity sale profile from EGAT to MEA is given by the Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า).</p>
+<div id="the-egat-electrity-sale-profiles" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> The EGAT electrity sale profiles<a href="electricity-profiles.html#the-egat-electrity-sale-profiles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="the-2019-mea-egat-sale-profile" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> The 2019 MEA EGAT sale profile<a href="electricity-profiles.html#the-2019-mea-egat-sale-profile" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The electricity sale profile from EGAT is given by the Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า).</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="electricity-profiles.html#cb5-1" tabindex="-1"></a><span class="co">#----- The 2019 MEA EGAT sale profile ----####</span></span>
 <span id="cb5-2"><a href="electricity-profiles.html#cb5-2" tabindex="-1"></a><span class="co"># Profile data ####</span></span>
 <span id="cb5-3"><a href="electricity-profiles.html#cb5-3" tabindex="-1"></a>profile <span class="ot">&lt;-</span> </span>
@@ -292,10 +298,13 @@ manage the big data obtained from several sources in the organization.</p>
 ##  9 2019-01-01 04:00:00 2019-01-01 04:00:00  2019     1     1 2801.
 ## 10 2019-01-01 04:30:00 2019-01-01 04:30:00  2019     1     1 2760.
 ## # ℹ 17,510 more rows</code></pre>
-<p>Calculate the peak, minimun in the unit of MW, and electricity sale to MEA in GWh from the profile.
+<p>The peak, minimun in the unit of MW, and an electricity sale to MEA in GWh from the profile are calculated.
 The electricity sale to MEA (in GWh) is calculated by the summation of profile in MW divided by 2000.</p>
-<p>The reason that divided by <strong>2000</strong> is the profile is given a time stamp in <strong>every 30-min</strong>. There are <strong>17520</strong> values. Therefore, the summation of profile is divided by <strong>2</strong> to get the results in <strong>every 1 hr</strong>. We divided the output again by <strong>1000</strong> to convert the unit <strong>from MWh to GWh</strong>.
-<span class="math display">\[ Ene_{i/2}=\frac{\sum_{i=1}^{17520} (profile_{i})}{2*1000}\]</span></p>
+<p>The reason that divided by <strong>2000</strong> is the profile is given a time stamp in <strong>every 30-min</strong>. There are <strong>17520</strong> values. Therefore, the summation of profile is divided by <strong>2</strong> to get the results in <strong>every 1 hr</strong>. We divided the output again by <strong>1000</strong> to convert the unit <strong>from MWh to GWh</strong> (see equation <a href="electricity-profiles.html#eq:energycal">(2.1)</a>).</p>
+<p><span class="math display" id="eq:energycal">\[\begin{equation}
+Ene_{i/2}=\frac{\sum_{i=1}^{17520} (profile_{i})}{2*1000}
+\tag{2.1}
+\end{equation}\]</span></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="electricity-profiles.html#cb7-1" tabindex="-1"></a><span class="co"># Summary data ####</span></span>
 <span id="cb7-2"><a href="electricity-profiles.html#cb7-2" tabindex="-1"></a>maxv <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a peak MW</span></span>
 <span id="cb7-3"><a href="electricity-profiles.html#cb7-3" tabindex="-1"></a>minv <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">min</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a min MW</span></span>
@@ -309,7 +318,14 @@ The electricity sale to MEA (in GWh) is calculated by the summation of profile i
 <span id="cb8-6"><a href="electricity-profiles.html#cb8-6" tabindex="-1"></a>           <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-7"><a href="electricity-profiles.html#cb8-7" tabindex="-1"></a>           <span class="fu">filter</span>(MEA <span class="sc">==</span> <span class="fu">min</span>(MEA)) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-8"><a href="electricity-profiles.html#cb8-8" tabindex="-1"></a>           <span class="fu">pull</span>(datetime)</span></code></pre></div>
-<p>Load factor is calculated by the energy divided a maximum energy. A maximum energy is <strong>the peak multiplied by 8760</strong>.</p>
+<p>Load factor is calculated by the energy in equation <a href="electricity-profiles.html#eq:energycal">(2.1)</a> divided a maximum energy. A maximum energy is <strong>the peak multiplied by 8760 hours</strong>. Result is presented in a percentage.</p>
+<p><span class="math display" id="eq:loadfactorcal">\[\begin{equation}
+LF_{t}=\frac{Energy_{t}}{Peak_{d,h} * 8760}*100
+\tag{2.2}
+\end{equation}\]</span></p>
+<p>Where, <span class="math inline">\(LF_{t}\)</span> denotes the load factor at year <span class="math inline">\(t\)</span> in percentage.<br />
+<span class="math inline">\(Energy_{t}\)</span> denotes the calculated energy from equation <a href="electricity-profiles.html#eq:energycal">(2.1)</a> at year <span class="math inline">\(t\)</span> in GWh.<br />
+<span class="math inline">\(Peak_{d,h}\)</span> denotes the peak electricity sale on the date <span class="math inline">\(d\)</span> at time <span class="math inline">\(h\)</span>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="electricity-profiles.html#cb9-1" tabindex="-1"></a>load_factor <span class="ot">&lt;-</span> <span class="fu">percent</span>((energy<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">/</span>(maxv<span class="sc">*</span><span class="dv">8760</span>), </span>
 <span id="cb9-2"><a href="electricity-profiles.html#cb9-2" tabindex="-1"></a>                       <span class="at">accuracy =</span> <span class="fl">0.01</span>, </span>
 <span id="cb9-3"><a href="electricity-profiles.html#cb9-3" tabindex="-1"></a>                       <span class="at">decimal.mark =</span> <span class="st">&quot;.&quot;</span>)</span></code></pre></div>
@@ -388,7 +404,24 @@ The summary of the electricity sale to MEA by EGAT in 2019 is given in Table <a 
 Figure 2.1: EGAT electricity sale profile to MEA in 2019.
 </p>
 </div>
+<p>Outputs are saved. Outputs are listed as follows:</p>
+<ul>
+<li>Create a file name</li>
+<li>Save a plot in a directory</li>
+<li>Save profile data in a list</li>
+<li>Save figures in a list</li>
+<li>Save summary data in a list</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="electricity-profiles.html#cb12-1" tabindex="-1"></a>outputfigure <span class="ot">&lt;-</span> <span class="fu">paste0</span>(outfigdir, <span class="st">&quot;mea_egtsle_2019.png&quot;</span>)</span>
+<span id="cb12-2"><a href="electricity-profiles.html#cb12-2" tabindex="-1"></a><span class="fu">ggsave</span>(profile_plot, <span class="at">file =</span> outputfigure, <span class="at">dpi =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">15</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">limitsize =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-3"><a href="electricity-profiles.html#cb12-3" tabindex="-1"></a>profiledata <span class="ot">&lt;-</span> <span class="fu">c</span>(profiledata, <span class="fu">list</span>(<span class="st">&quot;mea_egtsle_2019&quot;</span> <span class="ot">=</span> profile))</span>
+<span id="cb12-4"><a href="electricity-profiles.html#cb12-4" tabindex="-1"></a>profilefigure <span class="ot">&lt;-</span> <span class="fu">c</span>(profilefigure, <span class="fu">list</span>(<span class="st">&quot;mea_egtsle_2019&quot;</span> <span class="ot">=</span> profile_plot))</span>
+<span id="cb12-5"><a href="electricity-profiles.html#cb12-5" tabindex="-1"></a>summarydata <span class="ot">&lt;-</span> <span class="fu">c</span>(summarydata, <span class="fu">list</span>(<span class="st">&quot;sum_mea_egtsle_2019&quot;</span> <span class="ot">=</span> summary))</span></code></pre></div>
+</div>
+<div id="the-2019-mea-egat-sale-profile-1" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> The 2019 MEA EGAT sale profile<a href="electricity-profiles.html#the-2019-mea-egat-sale-profile-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 
+</div>
 </div>
 </div>
             </section>

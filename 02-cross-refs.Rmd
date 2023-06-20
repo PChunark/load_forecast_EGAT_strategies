@@ -58,8 +58,12 @@ summarydata <- list()
 #----- Make variable for output directory -----####
 outfigdir <- c("figures/")
 ```
-## The EGAT electrity sale profile to MEA
-The electricity sale profile from EGAT to MEA is given by the Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า).
+## The EGAT electrity sale profiles
+
+### The 2019 MEA EGAT sale profile
+The electricity sale profile from EGAT is given by the Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า).
+
+
 ```{r, MEA EGAT sale}
 #----- The 2019 MEA EGAT sale profile ----####
 # Profile data ####
@@ -78,11 +82,15 @@ profile <-
 profile
 ```
 
-Calculate the peak, minimun in the unit of MW, and electricity sale to MEA in GWh from the profile.
+The peak, minimun in the unit of MW, and an electricity sale to MEA in GWh from the profile are calculated.
 The electricity sale to MEA (in GWh) is calculated by the summation of profile in MW divided by 2000.
 
-The reason that divided by **2000** is the profile is given a time stamp in **every 30-min**. There are **17520** values. Therefore, the summation of profile is divided by **2** to get the results in **every 1 hr**. We divided the output again by **1000** to convert the unit **from MWh to GWh**. 
-$$ Ene_{i/2}=\frac{\sum_{i=1}^{17520} (profile_{i})}{2*1000}$$
+The reason that divided by **2000** is the profile is given a time stamp in **every 30-min**. There are **17520** values. Therefore, the summation of profile is divided by **2** to get the results in **every 1 hr**. We divided the output again by **1000** to convert the unit **from MWh to GWh** (see equation \@ref(eq:energycal)).
+
+\begin{equation}
+ Ene_{i/2}=\frac{\sum_{i=1}^{17520} (profile_{i})}{2*1000}
+ (\#eq:energycal)
+\end{equation} 
 
 ```{r, find peak and min MW}
 # Summary data ####
@@ -103,7 +111,18 @@ min_day <- profile %>% #Find a peak day
            pull(datetime)
 ```
 
-Load factor is calculated by the energy divided a maximum energy. A maximum energy is **the peak multiplied by 8760**.
+Load factor is calculated by the energy in equation \@ref(eq:energycal) divided a maximum energy. A maximum energy is **the peak multiplied by 8760 hours**. Result is presented in a percentage.
+
+\begin{equation}
+ LF_{t}=\frac{Energy_{t}}{Peak_{d,h} * 8760}*100 
+ (\#eq:loadfactorcal)
+\end{equation} 
+
+Where, $LF_{t}$ denotes the load factor at year $t$ in percentage.\
+$Energy_{t}$ denotes the calculated energy from equation \@ref(eq:energycal) at year $t$ in GWh.\
+$Peak_{d,h}$ denotes the peak electricity sale on the date $d$ at time $h$.
+
+
 ```{r, load factor}
 load_factor <- percent((energy*10^3)/(maxv*8760), 
                        accuracy = 0.01, 
@@ -167,3 +186,21 @@ profile_plot <-
 profile_plot
 ```
 
+Outputs are saved. Outputs are listed as follows:
+
++ Create a file name
+- Save a plot in a directory
+* Save profile data in a list
+* Save figures in a list
+* Save summary data in a list
+```{r, save output}
+
+outputfigure <- paste0(outfigdir, "mea_egtsle_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("mea_egtsle_2019" = profile))
+profilefigure <- c(profilefigure, list("mea_egtsle_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_mea_egtsle_2019" = summary))
+```
+
+
+### The 2019 MEA EGAT sale profile
