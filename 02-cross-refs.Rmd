@@ -94,7 +94,60 @@ summarydata <- list()
 outfigdir <- c("figures/")
 ```
 
-```{r}
+```{r, MEA EGAT sale}
+#----- The 2019 MEA EGAT sale profile ----####
+# Profile data ####
+profile <- 
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+           sheet = "Load Curve",
+           range = "C3:D17523"
+            ) %>% 
+  select(datetime = `Date/Time`, MEA) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, MEA)
+profile
+```
 
+Calculate the peak, minimun in the unit of MW, and electricity sale to MEA in GWh of the profile.
+The electricity saled to MEA (in GWh) is calculated by the summation of profile in MW divided by 2000.
+The reason that divided by 2000 is the profile is given a time stamp in every 30-min. There are 17520 values. Therefore, the summation of profile is divided by 2 to get the results in every 1 hr. We divided the output again by 1000 to convert the unit from MWh to GWh. 
+```{r, find peak and min MW}
+# Summary data ####
+maxv <- ceiling(max(profile$MEA)) # Get a peak MW
+minv <- floor(min(profile$MEA)) # Get a min MW
+energy <- sum(profile$MEA)/2000 # Calculate the energy
+```
+
+The peak and minimum MW day are also needed to assess in order to provide the maximum and minimum a saled electricity from EGAT to MEA.
+```{r, peak & min day}
+peak_day <- profile %>% #Find a peak day
+            group_by(year) %>% 
+            filter(MEA == max(MEA)) %>% 
+            pull(datetime)
+min_day <- profile %>% #Find a peak day
+           group_by(year) %>% 
+           filter(MEA == min(MEA)) %>% 
+           pull(datetime)
+```
+
+Load factor is calculated by the energy divided a maximum energy. A maximum energy is the peak multiplied by 8760.
+```{r, load factor}
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+```
+
+Create a table to store relevant data.
+```{r, summary data}
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
 ```
 

@@ -350,6 +350,62 @@ manage the big data obtained from several sources in the organization.</p>
 <span id="cb5-5"><a href="cross.html#cb5-5" tabindex="-1"></a>summarydata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="cross.html#cb6-1" tabindex="-1"></a><span class="co">#----- Make variable for output directory -----####</span></span>
 <span id="cb6-2"><a href="cross.html#cb6-2" tabindex="-1"></a>outfigdir <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;figures/&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="cross.html#cb7-1" tabindex="-1"></a><span class="co">#----- The 2019 MEA EGAT sale profile ----####</span></span>
+<span id="cb7-2"><a href="cross.html#cb7-2" tabindex="-1"></a><span class="co"># Profile data ####</span></span>
+<span id="cb7-3"><a href="cross.html#cb7-3" tabindex="-1"></a>profile <span class="ot">&lt;-</span> </span>
+<span id="cb7-4"><a href="cross.html#cb7-4" tabindex="-1"></a>  <span class="fu">read_excel</span>(<span class="st">&quot;raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx&quot;</span>,</span>
+<span id="cb7-5"><a href="cross.html#cb7-5" tabindex="-1"></a>           <span class="at">sheet =</span> <span class="st">&quot;Load Curve&quot;</span>,</span>
+<span id="cb7-6"><a href="cross.html#cb7-6" tabindex="-1"></a>           <span class="at">range =</span> <span class="st">&quot;C3:D17523&quot;</span></span>
+<span id="cb7-7"><a href="cross.html#cb7-7" tabindex="-1"></a>            ) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-8"><a href="cross.html#cb7-8" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">datetime =</span> <span class="st">`</span><span class="at">Date/Time</span><span class="st">`</span>, MEA) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-9"><a href="cross.html#cb7-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">date</span>(datetime),</span>
+<span id="cb7-10"><a href="cross.html#cb7-10" tabindex="-1"></a>         <span class="at">time =</span> <span class="fu">format</span>(<span class="fu">as.POSIXct</span>(datetime),<span class="st">&quot;%H:%M:%S&quot;</span>),</span>
+<span id="cb7-11"><a href="cross.html#cb7-11" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">year</span>(datetime),</span>
+<span id="cb7-12"><a href="cross.html#cb7-12" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(datetime),</span>
+<span id="cb7-13"><a href="cross.html#cb7-13" tabindex="-1"></a>         <span class="at">day =</span> <span class="fu">day</span>(datetime)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-14"><a href="cross.html#cb7-14" tabindex="-1"></a>  <span class="fu">select</span>(datetime, date, time, year, month, day, MEA)</span>
+<span id="cb7-15"><a href="cross.html#cb7-15" tabindex="-1"></a>profile</span></code></pre></div>
+<pre><code>## # A tibble: 17,520 × 7
+##    datetime            date       time      year month   day   MEA
+##    &lt;dttm&gt;              &lt;date&gt;     &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+##  1 2019-01-01 00:00:00 2019-01-01 00:00:00  2019     1     1 3361.
+##  2 2019-01-01 00:30:00 2019-01-01 00:30:00  2019     1     1 3244.
+##  3 2019-01-01 01:00:00 2019-01-01 01:00:00  2019     1     1 3200.
+##  4 2019-01-01 01:30:00 2019-01-01 01:30:00  2019     1     1 3153.
+##  5 2019-01-01 02:00:00 2019-01-01 02:00:00  2019     1     1 3086.
+##  6 2019-01-01 02:30:00 2019-01-01 02:30:00  2019     1     1 3005.
+##  7 2019-01-01 03:00:00 2019-01-01 03:00:00  2019     1     1 2929.
+##  8 2019-01-01 03:30:00 2019-01-01 03:30:00  2019     1     1 2858.
+##  9 2019-01-01 04:00:00 2019-01-01 04:00:00  2019     1     1 2801.
+## 10 2019-01-01 04:30:00 2019-01-01 04:30:00  2019     1     1 2760.
+## # ℹ 17,510 more rows</code></pre>
+<p>Calculate the peak, minimun in the unit of MW, and electricity sale to MEA in GWh of the profile.
+The electricity saled to MEA (in GWh) is calculated by the summation of profile in MW divided by 2000.
+The reason that divided by 2000 is the profile is given a time stamp in every 30-min. There are 17520 values. Therefore, the summation of profile is divided by 2 to get the results in every 1 hr. We divided the output again by 1000 to convert the unit from MWh to GWh.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="cross.html#cb9-1" tabindex="-1"></a><span class="co"># Summary data ####</span></span>
+<span id="cb9-2"><a href="cross.html#cb9-2" tabindex="-1"></a>maxv <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a peak MW</span></span>
+<span id="cb9-3"><a href="cross.html#cb9-3" tabindex="-1"></a>minv <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">min</span>(profile<span class="sc">$</span>MEA)) <span class="co"># Get a min MW</span></span>
+<span id="cb9-4"><a href="cross.html#cb9-4" tabindex="-1"></a>energy <span class="ot">&lt;-</span> <span class="fu">sum</span>(profile<span class="sc">$</span>MEA)<span class="sc">/</span><span class="dv">2000</span> <span class="co"># Calculate the energy</span></span></code></pre></div>
+<p>The peak and minimum MW day are also needed to assess in order to provide the maximum and minimum a saled electricity from EGAT to MEA.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="cross.html#cb10-1" tabindex="-1"></a>peak_day <span class="ot">&lt;-</span> profile <span class="sc">%&gt;%</span> <span class="co">#Find a peak day</span></span>
+<span id="cb10-2"><a href="cross.html#cb10-2" tabindex="-1"></a>            <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="cross.html#cb10-3" tabindex="-1"></a>            <span class="fu">filter</span>(MEA <span class="sc">==</span> <span class="fu">max</span>(MEA)) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="cross.html#cb10-4" tabindex="-1"></a>            <span class="fu">pull</span>(datetime)</span>
+<span id="cb10-5"><a href="cross.html#cb10-5" tabindex="-1"></a>min_day <span class="ot">&lt;-</span> profile <span class="sc">%&gt;%</span> <span class="co">#Find a peak day</span></span>
+<span id="cb10-6"><a href="cross.html#cb10-6" tabindex="-1"></a>           <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-7"><a href="cross.html#cb10-7" tabindex="-1"></a>           <span class="fu">filter</span>(MEA <span class="sc">==</span> <span class="fu">min</span>(MEA)) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-8"><a href="cross.html#cb10-8" tabindex="-1"></a>           <span class="fu">pull</span>(datetime)</span></code></pre></div>
+<p>Load factor is calculated by the energy divided a maximum energy. A maximum energy is the peak multiplied by 8760.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="cross.html#cb11-1" tabindex="-1"></a>load_factor <span class="ot">&lt;-</span> <span class="fu">percent</span>((energy<span class="sc">*</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>)<span class="sc">/</span>(maxv<span class="sc">*</span><span class="dv">8760</span>), </span>
+<span id="cb11-2"><a href="cross.html#cb11-2" tabindex="-1"></a>                       <span class="at">accuracy =</span> <span class="fl">0.01</span>, </span>
+<span id="cb11-3"><a href="cross.html#cb11-3" tabindex="-1"></a>                       <span class="at">decimal.mark =</span> <span class="st">&quot;.&quot;</span>)</span></code></pre></div>
+<p>Create a table to store relevant data.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="cross.html#cb12-1" tabindex="-1"></a>summary <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">peak_day =</span> peak_day,</span>
+<span id="cb12-2"><a href="cross.html#cb12-2" tabindex="-1"></a>                  <span class="at">min_day =</span> min_day,</span>
+<span id="cb12-3"><a href="cross.html#cb12-3" tabindex="-1"></a>                  <span class="at">peak_mw =</span> maxv, </span>
+<span id="cb12-4"><a href="cross.html#cb12-4" tabindex="-1"></a>                  <span class="at">min_mw =</span> minv, </span>
+<span id="cb12-5"><a href="cross.html#cb12-5" tabindex="-1"></a>                  <span class="at">energy_gwh =</span> energy,</span>
+<span id="cb12-6"><a href="cross.html#cb12-6" tabindex="-1"></a>                  <span class="at">load_factor =</span> load_factor) <span class="co"># combine all data in 1 table</span></span></code></pre></div>
 
 </div>
 </div>
