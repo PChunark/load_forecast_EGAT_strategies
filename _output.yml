@@ -3,21 +3,9 @@ bookdown::gitbook:
   config:
     toc:
       before: |
-        <li><a href="./">Electricity generation profile book</a></li>
+        <li><a href="./">An electricity profiles Book </a></li>
       after: |
-        <li><a href="https://github.com/PChunark/load_forecast_EGAT_strategies/" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/PChunark/load_forecast_EGAT_strategies/edit/main/%s
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+    edit: https://github.com/USERNAME/REPO/edit/BRANCH/%s
     download: ["pdf", "epub"]
-# bookdown::pdf_book:
-#   includes:
-#     in_header: preamble.tex
-#   latex_engine: xelatex
-#   citation_package: natbib
-#   keep_tex: yes
-# bookdown::epub_book: default
-# bookdown::html_book:
-#   css: style.css
-# html_document:
-#   self_contained: false
-#   theme: united
-#   highlight: textmate
+
