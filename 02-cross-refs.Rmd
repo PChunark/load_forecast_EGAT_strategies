@@ -232,7 +232,7 @@ profilefigure <- c(profilefigure, list("mea_egtsle_2019" = profile_plot))
 summarydata <- c(summarydata, list("sum_mea_egtsle_2019" = summary))
 ```
 
-### The 2019 Provincial Electricity Authority (PEA) EGAT sale profiles
+### The 2019 Provincial Electricity Authority (PEA) EGAT sale profiles {#peaegtsle2019}
 #### The 2019 PEA-R1 (Central region) EGAT sale profile
 Read a profile data
 ```{r, profile_PEA-R1_egtsle2019, echo=TRUE}
@@ -750,7 +750,7 @@ The 2019 electricity sale profile from EGAT to PEA (all regions) is illustrated 
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
-### The 2019 Direct Customer (DC) EGAT sale profiles
+### The 2019 Direct Customer (DC) EGAT sale profiles {#dcegtsle2019}
 #### The 2019 DC in in PEA R1 (Central region) EGAT sale profiles
 
 ```{r profile_dcr1_egtsle2019}
@@ -778,7 +778,7 @@ knitr::kable(
 ```
 
 
-```{r summary_dcr1_egtsle2019, echo=FALSE, tidy=FALSE}
+```{r summary_dcr1_egtsle2019, echo=TRUE, tidy=FALSE}
 # Summary data ####
 maxv <- ceiling(max(profile$DCs_R1)) # Get a peak MW
 minv <- floor(min(profile$DCs_R1)) # Get a min MW
@@ -803,7 +803,7 @@ summary <- tibble(peak_day = peak_day,
 
 ```
 
-```{r sum-egat-to-dcr1-2019, echo=FALSE, tidy=FALSE}
+```{r sum-egat-to-dcr1-2019, echo=TRUE, tidy=FALSE}
 knitr::kable(
   summary, caption = 'Summary of EGAT sale to direct customer in PEA-R1 in 2019',
   booktabs = TRUE
@@ -883,7 +883,7 @@ knitr::kable(
 )
 ```
 
-```{r summary_dcr2_egtsle2019, echo=FALSE, tidy=FALSE}
+```{r summary_dcr2_egtsle2019, echo=TRUE, tidy=FALSE}
 # Summary data ####
 maxv <- ceiling(max(profile$DCs_R2)) # Get a peak MW
 minv <- floor(min(profile$DCs_R2)) # Get a min MW
@@ -989,7 +989,7 @@ knitr::kable(
 )
 ```
 
-```{r summary_dcr3_egtsle2019, echo=FALSE, tidy=FALSE}
+```{r summary_dcr3_egtsle2019, echo=TRUE, tidy=FALSE}
 # Summary data ####
 maxv <- ceiling(max(profile$DCs_R3)) # Get a peak MW
 minv <- floor(min(profile$DCs_R3)) # Get a min MW
@@ -1095,7 +1095,7 @@ knitr::kable(
 )
 ```
 
-```{r summary_dcr4_egtsle2019, echo=FALSE, tidy=FALSE}
+```{r summary_dcr4_egtsle2019, echo=TRUE, tidy=FALSE}
 # Summary data ####
 maxv <- ceiling(max(profile$DCs_R4)) # Get a peak MW
 minv <- floor(min(profile$DCs_R4)) # Get a min MW
@@ -1201,7 +1201,7 @@ knitr::kable(
 )
 ```
 
-```{r summary_dcallregion_egtsle2019, echo=FALSE, tidy=FALSE}
+```{r summary_dcallregion_egtsle2019, echo=TRUE, tidy=FALSE}
 # Summary data ####
 maxv <- ceiling(max(profile$DCs)) # Get a peak MW
 minv <- floor(min(profile$DCs)) # Get a min MW
@@ -1283,9 +1283,9 @@ The 2019 electricity sale profile from EGAT to direct customer in PEA (all regio
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
-### The 2019 PEA R1 & DC R1 (Central region)EGAT electrity sale profiles
+### The 2019 PEA R1 & DC R1 (Central region) EGAT electrity sale profiles
 
-The electricity profile 
+The electricity profile in PEA region is combined the electricity profile in PEA regions (see section {#peaegtsle2019}) and DC in PEA regions (see section {#dcegtsle2019})
 
 \begin{equation}
  $Prf_{r,t,h}=\ Prf_{PEA,t,h} + Prf_{DC,t,h}$
