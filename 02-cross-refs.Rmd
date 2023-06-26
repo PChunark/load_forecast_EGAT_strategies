@@ -114,13 +114,13 @@ The electricity sale to MEA (in GWh) is calculated by the summation of profile i
 The reason to divide by **2,000** is that the profile is given a time stamp in **every 30-min**. There are **17,520** values. Therefore, the profile is divided by **2** to get the results in **every 1 hr.**. We divided the output by **1,000** to convert the unit **from MWh to GWh** (see equation \@ref(eq:energycal)).
 
 \begin{equation}
- Ene_{t}=\frac{\sum_{i=1}^{17520} (profile_{t,i})}{2*1000}
+ Ene_{t}=\frac{\sum_{h=1}^{17520} (Prf_{t,h})}{2*1000}
  (\#eq:energycal)
 \end{equation} 
 
 Where, $Ene_{t}$ denotes an calculated energy (electricity) in year $t$.\
-$profile_{t,i}$ denotes a generation in the unit of MW in year $t$ at a time stamp $i$.\
-$i$ denotes a time stamp in a 30-minute interval. Therefore, there are **17,520 intervals** in a year (8,760 hrs.).
+$Prf_{t,h}$ denotes a profile ($Prf$) in the unit of MW in year $t$ at a time stamp $h$.\
+$h$ denotes a time stamp in a 30-minute interval. Therefore, there are **17,520 intervals** in a year (8,760 hrs.).
 
 ```{r, find peak and min MW}
 # Summary data ####
@@ -1285,16 +1285,16 @@ ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 
 ### The 2019 PEA R1 & DC R1 (Central region) EGAT electrity sale profiles
 
-The electricity profile in PEA region is combined the electricity profile in PEA regions (see section {#peaegtsle2019}) and DC in PEA regions (see section {#dcegtsle2019})
+The electricity profile in PEA region is combined the electricity profile in PEA regions (see section \@ref(peaegtsle2019)) and DC in PEA regions (see section \@ref(dcegtsle2019))
 
 \begin{equation}
- $Prf_{r,t,h}=\ Prf_{PEA,t,h} + Prf_{DC,t,h}$
+ Prf_{r,t,h}=\ Prf_{PEA,t,h} + Prf_{DC,t,h}
  (\#eq:prfPeaDcCal)
 \end{equation} 
 
 Where, $Prf_{r,t,h}$ denotes an calculated profile in region $r$, year $t$, and time $h$ (MW).\
-$Prf_{PEA,t,h}$ denotes a profile in PEA from each region in year $t$ at time $h$ (MW).\
-$Prf_{DC,t,h}$ denotes a profile from direct customer in each PEA region in year $t$ at time $h$ (MW).
+$Prf_{PEA,t,h}$ denotes a profile in $PEA$ from each region in year $t$ at time $h$ (MW).\
+$Prf_{DC,t,h}$ denotes a profile from direct customer ($DC$) in each PEA region in year $t$ at time $h$ (MW).
 
 ```{r profile_pear1&dcr1_egtsle2019}
 # Profile data ####
@@ -1307,4 +1307,497 @@ profile <-
 
 ```
 
+```{r, profile-egat-to-pear1-dcr1-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  head(profile,5), caption = 'The 2019 EGAT sale to PEA R1 and direct customer in PEA R1 profile',
+  booktabs = TRUE
+)
+```
 
+```{r summary_pear1&dcr1_egtsle2019, echo=TRUE, tidy=FALSE}
+# Summary data ####
+maxv <- ceiling(max(profile$r1_egt_sle)) # Get a peak MW
+minv <- floor(min(profile$r1_egt_sle)) # Get a min MW
+energy <- sum(profile$r1_egt_sle)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r1_egt_sle == max(r1_egt_sle)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r1_egt_sle == min(r1_egt_sle)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-egat-to-pear1-dcr1-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of EGAT sale to PEA R1 and direct customer in PEA R1 in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear1&dcr1_egtsle2019}
+# Plot a profile ####
+
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r1_egt_sle,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "EGAT sale to PEA R1 & direct customers (Central region) (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,1000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.05,
+            vjust = 0.5)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r1+dcr1_egtsle_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r1+dcr1_egtsle_2019" = profile))
+profilefigure <- c(profilefigure, list("r1+dcr1_egtsle_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r1+dcr1_egtsle_2019" = summary))
+
+```
+
+The 2019 electricity sale profile from EGAT to PEA R1 and direct customer in PEA R1 is illustrated in Figure \@ref(fig:EGAT-sale-to-pear1-dcr1-2019). The electricity EGAT sale profiles of PEA R1 and direct customer in PEA R1 are illustrated in Figure \@ref(fig:EGAT-sale-to-PEA-R1-2019) and \@ref(fig:EGAT-sale-to-DCR1-2019), respectively.
+
+```{r, EGAT-sale-to-pear1-dcr1-2019, echo=FALSE,fig.cap='EGAT electricity sale profile to PEA R1 and direct customer in PEA R1 in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+### The 2019 PEA R2 & DC R2 (North Eastern region) EGAT electrity sale profiles
+
+```{r profile_pear2&dcr2_egtsle2019}
+# Profile data ####
+profile <-
+
+profiledata$pea_r2_northeastern_egtsle_2019%>%
+  mutate(dc_r2 = profiledata$dc_r2_northeastern_egtsle_2019$DCs_R2,
+         r2_egt_sle = PEA_R2 + dc_r2) %>% 
+  select(-PEA_R2, -dc_r2)
+
+```
+
+```{r, profile-egat-to-pear2-dcr2-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  head(profile,5), caption = 'The 2019 EGAT sale to PEA R2 and direct customer in PEA R2 profile',
+  booktabs = TRUE
+)
+```
+
+```{r summary_pear2&dcr2_egtsle2019, echo=TRUE, tidy=FALSE}
+# Summary data ####
+maxv <- ceiling(max(profile$r2_egt_sle)) # Get a peak MW
+minv <- floor(min(profile$r2_egt_sle)) # Get a min MW
+energy <- sum(profile$r2_egt_sle)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r2_egt_sle == max(r2_egt_sle)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r2_egt_sle == min(r2_egt_sle)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-egat-to-pear2-dcr2-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of EGAT sale to PEA R2 and direct customer in PEA R2 in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear2&dcr2_egtsle2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r2_egt_sle,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "EGAT sale to PEA R2 & direct customers (Northern Eastern region) (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,1000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.05,
+            vjust = 0.5)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r2+dcr2_egtsle_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r2+dcr2_egtsle_2019" = profile))
+profilefigure <- c(profilefigure, list("r2+dcr2_egtsle_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r2+dcr2_egtsle_2019" = summary))
+
+```
+
+The 2019 electricity sale profile from EGAT to PEA R2 and direct customer in PEA R2 is illustrated in Figure \@ref(fig:EGAT-sale-to-pear2-dcr2-2019). The electricity EGAT sale profiles of PEA R2 and direct customer in PEA R2 are illustrated in Figure \@ref(fig:EGAT-sale-to-PEA-R2-2019) and \@ref(fig:EGAT-sale-to-DCR2-2019), respectively.
+
+```{r, EGAT-sale-to-pear2-dcr2-2019, echo=FALSE,fig.cap='EGAT electricity sale profile to PEA R2 and direct customer in PEA R2 in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+### The 2019 PEA R3 & DC R3 (Southern region) EGAT electrity sale profiles
+
+```{r profile_pear3&dcr3_egtsle2019}
+profile <-
+  
+  profiledata$pea_r3_southern_egtsle_2019%>%
+  mutate(dc_r3 = profiledata$dc_r3_southern_egtsle_2019$DCs_R3,
+         r3_egt_sle = PEA_R3 + dc_r3) %>% 
+  select(-PEA_R3, -dc_r3)
+
+```
+
+```{r, profile-egat-to-pear3-dcr3-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  head(profile,5), caption = 'The 2019 EGAT sale to PEA R3 and direct customer in PEA R3 profile',
+  booktabs = TRUE
+)
+```
+
+```{r summary_pear3&dcr3_egtsle2019, echo=TRUE, tidy=FALSE}
+# Summary data ####
+maxv <- ceiling(max(profile$r3_egt_sle)) # Get a peak MW
+minv <- floor(min(profile$r3_egt_sle)) # Get a min MW
+energy <- sum(profile$r3_egt_sle)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r3_egt_sle == max(r3_egt_sle)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r3_egt_sle == min(r3_egt_sle)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-egat-to-pear3-dcr3-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of EGAT sale to PEA R3 and direct customer in PEA R3 in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear3&dcr3_egtsle2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r3_egt_sle,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "EGAT sale to PEA R3 & direct customers (Southern region) (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3),1000),
+                     limits = c(0, round(maxv, -3))) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.05,
+            vjust = 0.5)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r3+dcr3_egtsle_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r3+dcr3_egtsle_2019" = profile))
+profilefigure <- c(profilefigure, list("r3+dcr3_egtsle_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r3+dcr3_egtsle_2019" = summary))
+
+```
+
+The 2019 electricity sale profile from EGAT to PEA R3 and direct customer in PEA R3 is illustrated in Figure \@ref(fig:EGAT-sale-to-pear3-dcr3-2019). The electricity EGAT sale profiles of PEA R3 and direct customer in PEA R3 are illustrated in Figure \@ref(fig:EGAT-sale-to-PEA-R3-2019) and \@ref(fig:EGAT-sale-to-DCR3-2019), respectively.
+
+```{r, EGAT-sale-to-pear3-dcr3-2019, echo=FALSE,fig.cap='EGAT electricity sale profile to PEA R3 and direct customer in PEA R3 in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+### The 2019 PEA R4 & DC R4 (Southern region) EGAT electrity sale profiles
+
+```{r profile_pear4&dcr4_egtsle2019}
+profile <-
+  
+  profiledata$pea_r4_northern_egtsle_2019%>%
+  mutate(dc_r4 = profiledata$dc_r4_northern_egtsle_2019$DCs_R4,
+         r4_egt_sle = PEA_R4 + dc_r4) %>% 
+  select(-PEA_R4, -dc_r4)
+```
+
+```{r, profile-egat-to-pear4-dcr4-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  head(profile,5), caption = 'The 2019 EGAT sale to PEA R4 and direct customer in PEA R4 profile',
+  booktabs = TRUE
+)
+```
+
+```{r summary_pear4&dcr4_egtsle2019, echo=TRUE, tidy=FALSE}
+# Summary data ####
+maxv <- ceiling(max(profile$r4_egt_sle)) # Get a peak MW
+minv <- floor(min(profile$r4_egt_sle)) # Get a min MW
+energy <- sum(profile$r4_egt_sle)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r4_egt_sle == max(r4_egt_sle)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r4_egt_sle == min(r4_egt_sle)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-egat-to-pear4-dcr4-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of EGAT sale to PEA R4 and direct customer in PEA R4 in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear4&dcr4_egtsle2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r4_egt_sle,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "EGAT sale to PEA R4 & direct customers (Northern region) (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.2,1000),
+                     limits = c(0, round(maxv, -3)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 1,
+            vjust = 1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r4+dcr4_egtsle_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r4+dcr4_egtsle_2019" = profile))
+profilefigure <- c(profilefigure, list("r4+dcr4_egtsle_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r4+dcr4_egtsle_2019" = summary))
+
+```
+
+The 2019 electricity sale profile from EGAT to PEA R4 and direct customer in PEA R4 is illustrated in Figure \@ref(fig:EGAT-sale-to-pear4-dcr4-2019). The electricity EGAT sale profiles of PEA R4 and direct customer in PEA R4 are illustrated in Figure \@ref(fig:EGAT-sale-to-PEA-R4-2019) and \@ref(fig:EGAT-sale-to-DCR4-2019), respectively.
+
+```{r, EGAT-sale-to-pear4-dcr4-2019, echo=FALSE,fig.cap='EGAT electricity sale profile to PEA R4 and direct customer in PEA R4 in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+## The 2019 EGAT electrity sale profiles
+This section provides a combined EGAT electricity sale profile. The equation is given in equation \@ref(eq:prfEgtsleCal)
+
+\begin{equation}
+ $Prf_{EGTSLE,t,h}=\ Prf_{MEA,t,h} + \sum_{i=1}^{4} (Prf_{PEA,i,t,h} + Prf_{DC,i,t,h})$ 
+ (\#eq:prfEgtsleCal)
+\end{equation} 
+
+Where, 
+**$Prf_{EGTSLE,t,h}$** denotes the electricity EGAT sale ($EGTSLE$) profile ($Prf$) in year $t$ at time stamp $h$ (MW).\
+**$Prf_{MEA,t,h}$** denotes the electricity EGAT sale profile ($Prf$) to $MEA$ in year $t$ at time stamp $h$ (MW).\
+**$Prf_{PEA,i,t,h}$** denotes the electricity EGAT sale profile ($Prf$) to $PEA$ in region $i$ in year $t$ at time stamp $h$ (MW).\
+**$Prf_{DC,i,t,h}$** denotes the electricity EGAT sale profile (**$Prf$**) to direct customer (**$DC$**) in region **$i$** in year **$t$** at time stamp **$h$** (MW).
+
+```{r egtsale_combined_2019}
+profile <-
+  
+  profiledata$mea_egtsle_2019%>%
+  mutate(r1_dc1 = profiledata$"r1+dcr1_egtsle_2019"$r1_egt_sle,
+         r2_dc2 = profiledata$"r2+dcr2_egtsle_2019"$r2_egt_sle,
+         r3_dc3 = profiledata$"r3+dcr3_egtsle_2019"$r3_egt_sle,
+         r4_dc4 = profiledata$"r4+dcr4_egtsle_2019"$r4_egt_sle,
+         egt_sle = MEA + r1_dc1 + r2_dc2 + r3_dc3 + r4_dc4)
+          
+```
+
+```{r, profile-egtsale-combined-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  head(profile,5), caption = 'The 2019 electricity EGAT sale profile',
+  booktabs = TRUE
+)
+```
+
+```{r summary_egtsle2019, echo=TRUE, tidy=FALSE}
+# Summary data ####
+maxv <- ceiling(max(profile$egt_sle)) # Get a peak MW
+minv <- floor(min(profile$egt_sle)) # Get a min MW
+energy <- sum(profile$egt_sle)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(egt_sle == max(egt_sle)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(egt_sle == min(egt_sle)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-egatsale-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of EGAT sale in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_egtsle2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = egt_sle,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "EGAT sale (MEA&PEA&DCs) (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-3)*1.1,2000),
+                     limits = c(0, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.1),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*1.1),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.1,
+            vjust = 1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "egtsle_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("egtsle_2019" = profile))
+profilefigure <- c(profilefigure, list("egtsle_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_egtsle_2019" = summary))
+
+```
+
+
+The 2019 electricity EGAT sale profile is illustrated in Figure \@ref(fig:EGAT-sale-2019).
+
+```{r, EGAT-sale-2019, echo=FALSE,fig.cap='EGAT electricity sale profile 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```

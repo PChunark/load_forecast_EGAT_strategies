@@ -1,5 +1,5 @@
 --- 
-title: "An Electricity Profiles"
+title: "Electricity Profiles Handout"
 author: "Puttipong Chunark, Ph.D."
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
