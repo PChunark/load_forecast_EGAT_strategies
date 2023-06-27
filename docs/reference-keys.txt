@@ -50,8 +50,6 @@ eq:prfEgtsleCal
 tab:profile-egtsale-combined-2019
 tab:sum-egatsale-2019
 fig:EGAT-sale-2019
-eq:binom
-thm:tri
 introduction
 electricity-profiles
 initial-settings
@@ -74,15 +72,3 @@ the-2019-pea-r2-dc-r2-north-eastern-region-egat-electrity-sale-profiles
 the-2019-pea-r3-dc-r3-southern-region-egat-electrity-sale-profiles
 the-2019-pea-r4-dc-r4-southern-region-egat-electrity-sale-profiles
 the-2019-egat-electrity-sale-profiles
-parts
-footnotes-and-citations
-footnotes
-citations
-blocks
-equations
-theorems-and-proofs
-callout-blocks
-sharing-your-book
-publishing
-pages
-metadata-for-sharing
