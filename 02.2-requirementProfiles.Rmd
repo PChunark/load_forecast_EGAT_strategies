@@ -923,7 +923,17 @@ ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 
 ## The 2019 EGAT NET electricity generation profile
 
+The EGAT net electricity generation profile is calculated by the summation of the electricity requirement in each region.
 
+\begin{equation}
+EGTNETGEN_{i,t,h} = MEAReq_{t,h} + \sum_{i=1}^{4} PEAReq_{i,t,h} + \sum_{c=1}^{2}EXPReq_{c,t,h}
+(\#eq:egtNetGenCal)
+\end{equation}
+
+Where,
+$EGTNETGEN_{i,t,h}$ denotes the EGAT net electricity generation ($EGTNETGEN$) profile in region $i$ in year $t$ at time stamp $h$ (MW).\
+$MEAReq_{t,h}$ denotes the MEA requirement profile ($MEAReq$) in year $t$ at time stamp $h$ (MW).\
+$PEAReq_{i,t,h}$ denotes the PEA requirement ($PEAReq$) profile in region $i$ in year $t$ at time stamp $h$ (MW).
 
 ```{r egt_ngn_2019}
 profile <-

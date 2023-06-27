@@ -1693,15 +1693,15 @@ ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 This section provides a combined EGAT electricity sale profile. The equation is given in equation \@ref(eq:prfEgtsleCal)
 
 \begin{equation}
- Prf_{EGTSLE,t,h}=\ Prf_{MEA,t,h} + \sum_{i=1}^{4} (Prf_{PEA,i,t,h} + Prf_{DC,i,t,h}) 
+ EGTSLE_{t,h}=\ MEA_{t,h} + \sum_{i=1}^{4} (PEA_{i,t,h} + DC_{i,t,h}) 
  (\#eq:prfEgtsleCal)
 \end{equation} 
 
 Where, 
-$Prf_{EGTSLE,t,h}$ denotes the electricity EGAT sale ($EGTSLE$) profile ($Prf$) in year $t$ at time stamp $h$ (MW).\
-$Prf_{MEA,t,h}$ denotes the electricity EGAT sale profile ($Prf$) to $MEA$ in year $t$ at time stamp $h$ (MW).\
-$Prf_{PEA,i,t,h}$ denotes the electricity EGAT sale profile ($Prf$) to $PEA$ in region $i$ in year $t$ at time stamp $h$ (MW).\
-$Prf_{DC,i,t,h}$ denotes the electricity EGAT sale profile ($Prf$) to direct customer ($DC$) in region $i$ in year $t$ at time stamp $h$ (MW).
+$EGTSLE_{t,h}$ denotes the electricity EGAT sale ($EGTSLE$) profile in year $t$ at time stamp $h$ (MW).\
+$MEA_{t,h}$ denotes the electricity EGAT sale profile to $MEA$ in year $t$ at time stamp $h$ (MW).\
+$PEA_{i,t,h}$ denotes the electricity EGAT sale profile to $PEA$ in region $i$ in year $t$ at time stamp $h$ (MW).\
+$DC_{i,t,h}$ denotes the electricity EGAT sale profile to direct customer ($DC$) in region $i$ in year $t$ at time stamp $h$ (MW).
 
 ```{r egtsale_combined_2019}
 profile <-

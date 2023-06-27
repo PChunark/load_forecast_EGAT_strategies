@@ -1,0 +1,547 @@
+# The transmission loss and use profiles
+## The 2019 transmission loss and use profile
+
+A transmissions loss profile is calculated from the difference between the EGAT net electricity generation and the EGAT electricity sale profile (see equation \@ref(eq:prfLossCal))
+
+\begin{equation}
+
+LSS_{i,t,h} = EGTNETGEN_{i,t,h} - EGTSLE_{i,t,h}
+(\#eq:prfLossCal)
+\end{equation}
+
+Where,
+$LSS_{i,t,h}$ denotes a transmission loss profile in region $i$ in year $t$ at time stamp $h$ (MW).\
+$EGTNETGEN_{i,t,h}$ denotes a EGAT net generation profile in region $i$ in year $t$ at time stamp $h$ (MW) (see equation \@ref(eq:egtNetGenCal)).\
+$EGTSLE_{i,t,h}$ denotes the electricity EGAT sale ($EGTSLE$) profile in year $t$ at time stamp $h$ (MW) (see equation \@ref(eq:prfEgtsleCal)). 
+
+```{r transloss_2019}
+profile <-
+  
+  profiledata$`egt_netgen_2019` %>%
+  mutate(egt_sle = profiledata$egtsle_2019$egt_sle,
+         tran_loss = egt_netgen - egt_sle) %>% 
+  select(-egt_netgen, -egt_sle)
+
+# Summary data ####
+maxv <- ceiling(max(profile$tran_loss)) # Get a peak MW
+minv <- floor(min(profile$tran_loss)) # Get a min MW
+energy <- sum(profile$tran_loss)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(tran_loss == max(tran_loss)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(tran_loss == min(tran_loss)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-trtloss-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of a transmission loss profile in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_trtloss2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = tran_loss,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "Transmission loss & use (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(round(minv,-3), round(maxv,-3)*1.2,200),
+                     limits = c(round(minv,-3)*1.1, round(maxv, -3)*1.1)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)*1.05),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "tran_loss_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("tran_loss_2019" = profile))
+profilefigure <- c(profilefigure, list("tran_loss_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_tran_loss_2019" = summary))
+
+```
+
+The 2019 transmission loss profile is illustrated in Figure \@ref(fig:TRTLOSS-2019).
+
+```{r, TRTLOSS-2019, echo=FALSE,fig.cap='The transmission loss profile in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+###The 2019 MEA transmission loss and use profile
+
+```{r meatransloss_2019}
+profile <-
+  
+  profiledata$mea_requirement_2019 %>%
+  mutate(mea_egt_sle = profiledata$mea_egtsle_2019$MEA,
+         mea_tran_loss = MAC - mea_egt_sle) %>% 
+  select(-MAC, -mea_egt_sle)
+
+# Summary data ####
+maxv <- ceiling(max(profile$mea_tran_loss)) # Get a peak MW
+minv <- floor(min(profile$mea_tran_loss)) # Get a min MW
+energy <- sum(profile$mea_tran_loss)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(mea_tran_loss == max(mea_tran_loss)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(mea_tran_loss == min(mea_tran_loss)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-meatrtloss-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of a MEA transmission loss and use profile in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_meatrtloss2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = mea_tran_loss,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "MEA transmission loss & use (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(round(minv,-3), round(maxv,-3)*1.2,200),
+                     limits = c(round(minv,-3)*1.1, round(maxv, -3))) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  # geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -3)),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = 0.8,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "mea_tran_loss_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("mea_tran_loss_2019" = profile))
+profilefigure <- c(profilefigure, list("mea_tran_loss_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_mea_tran_loss_2019" = summary))
+
+```
+
+The 2019 MEA transmission loss and use profile is illustrated in Figure \@ref(fig:MEATRTLOSS-2019).
+
+```{r, MEATRTLOSS-2019, echo=FALSE,fig.cap='The MEA transmission loss and use profile in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+### The 2019 PEA-R1 (Central region) transmission loss and use profile
+
+```{r pear1transloss_2019}
+profile <-
+  
+  profiledata$r1_central_requirement_2019 %>%
+  mutate(r1_egt_sle = profiledata$`r1+dcr1_egtsle_2019`$r1_egt_sle,
+         r1_tran_loss = CAC - r1_egt_sle) %>% 
+  select(-CAC, -r1_egt_sle)
+
+# Summary data ####
+maxv <- ceiling(max(profile$r1_tran_loss)) # Get a peak MW
+minv <- floor(min(profile$r1_tran_loss)) # Get a min MW
+energy <- sum(profile$r1_tran_loss)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r1_tran_loss == max(r1_tran_loss)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r1_tran_loss == min(r1_tran_loss)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor)
+```
+
+```{r, sum-pear1trtloss-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of a PEA R1 transmission loss and use profile in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear1trtloss2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r1_tran_loss,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "PEA R1 (Central region) transmission\n loss & use (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(round(minv,-3), round(maxv,-2)*1.1,200),
+                     limits = c(round(minv,-2)*1.1, round(maxv, -2)*2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.4),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            hjust = -0.1,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 1.9)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r1_tran_loss_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r1_tran_loss_2019" = profile))
+profilefigure <- c(profilefigure, list("r1_tran_loss_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r1_tran_loss_2019" = summary))
+```
+
+The 2019 PEA R1 transmission loss and use profile is illustrated in Figure \@ref(fig:PEAR1TRTLOSS-2019).
+
+```{r, PEAR1TRTLOSS-2019, echo=FALSE,fig.cap='The PEA R1 transmission loss and use profile in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+### The 2019 PEA-R2 (North Eastern region) transmission loss and use profile
+
+```{r pear2transloss_2019}
+profile <-
+  
+  profiledata$`r2&export_EDL_requirement_2019` %>%
+  mutate(r2_egt_sle = profiledata$`r2+dcr2_egtsle_2019`$r2_egt_sle,
+         r2_tran_loss = r2_edl - r2_egt_sle) %>% 
+  select(-r2_edl, -r2_egt_sle)
+
+# Summary data ####
+maxv <- ceiling(max(profile$r2_tran_loss)) # Get a peak MW
+minv <- floor(min(profile$r2_tran_loss)) # Get a min MW
+energy <- sum(profile$r2_tran_loss)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r2_tran_loss == max(r2_tran_loss)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r2_tran_loss == min(r2_tran_loss)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+```
+
+```{r, sum-pear2trtloss-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of a PEA R2 transmission loss and use profile in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear2trtloss2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r2_tran_loss,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "PEA R2 (North Eastern region) transmission\n loss & use (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(round(minv,-2), round(maxv,-2)*1.3,200),
+                     limits = c(round(minv,-2)*1.1, round(maxv, -2)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            # hjust = 0,
+            vjust = 8.5)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r2_tran_loss_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r2_tran_loss_2019" = profile))
+profilefigure <- c(profilefigure, list("r2_tran_loss_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r2_tran_loss_2019" = summary))
+```
+
+The 2019 PEA R2 transmission loss and use profile is illustrated in Figure \@ref(fig:PEAR2TRTLOSS-2019).
+
+```{r, PEAR2TRTLOSS-2019, echo=FALSE,fig.cap='The PEA R2 transmission loss and use profile in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+### The 2019 PEA-R3 (Southern region) transmission loss and use profile
+
+```{r pear3transloss_2019}
+profile <-
+  
+  profiledata$`r3&export_TNB_requirement_2019`%>%
+  mutate(r3_egt_sle = profiledata$`r3+dcr3_egtsle_2019`$r3_egt_sle,
+         r3_tran_loss = r3_tnb - r3_egt_sle) %>% 
+  select(-r3_tnb, -r3_egt_sle)
+
+# Summary data ####
+maxv <- ceiling(max(profile$r3_tran_loss)) # Get a peak MW
+minv <- floor(min(profile$r3_tran_loss)) # Get a min MW
+energy <- sum(profile$r3_tran_loss)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r3_tran_loss == max(r3_tran_loss)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r3_tran_loss == min(r3_tran_loss)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-pear3trtloss-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of a PEA R3 transmission loss and use profile in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear3trtloss2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r3_tran_loss,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "PEA R3 (Southern region) transmission\n loss & use (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(round(minv,-2), round(maxv,-2)*2,200),
+                     limits = c(round(minv,-2)*2, round(maxv, -2)*1.4)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 0.5) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            # hjust = 0,
+            vjust = 5)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r3_tran_loss_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r3_tran_loss_2019" = profile))
+profilefigure <- c(profilefigure, list("r3_tran_loss_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r3_tran_loss_2019" = summary))
+```
+
+The 2019 PEA R3 transmission loss and use profile is illustrated in Figure \@ref(fig:PEAR3TRTLOSS-2019).
+
+```{r, PEAR3TRTLOSS-2019, echo=FALSE,fig.cap='The PEA R3 transmission loss and use profile in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+### The 2019 PEA-R4 (Northern region) transmission loss and use profile 
+
+```{r pear4transloss_2019}
+profile <-
+  
+  profiledata$r4_northern_requirement_2019%>%
+  mutate(r4_egt_sle = profiledata$`r4+dcr4_egtsle_2019`$r4_egt_sle,
+         r4_tran_loss = NAC - r4_egt_sle) %>% 
+  select(-NAC, -r4_egt_sle)
+
+# Summary data ####
+maxv <- ceiling(max(profile$r4_tran_loss)) # Get a peak MW
+minv <- floor(min(profile$r4_tran_loss)) # Get a min MW
+energy <- sum(profile$r4_tran_loss)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(r4_tran_loss == max(r4_tran_loss)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(r4_tran_loss == min(r4_tran_loss)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-pear4trtloss-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of a PEA R4 transmission loss and use profile in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear4trtloss2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = r4_tran_loss,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "PEA R4 (Northern region) transmission\n loss & use (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(round(minv,-2), round(maxv,-2)*2,200),
+                     limits = c(round(minv,-2)*1.2, round(maxv, -2)*1.3)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 3) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            # hjust = 0,
+            vjust = 9)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r4_tran_loss_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r4_tran_loss_2019" = profile))
+profilefigure <- c(profilefigure, list("r4_tran_loss_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r4_tran_loss_2019" = summary))
+```
+
+The 2019 PEA R4 transmission loss and use profile is illustrated in Figure \@ref(fig:PEAR4TRTLOSS-2019).
+
+```{r, PEAR4TRTLOSS-2019, echo=FALSE,fig.cap='The PEA R4 transmission loss and use profile in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
