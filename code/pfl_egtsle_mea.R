@@ -2577,7 +2577,7 @@ summarydata <- c(summarydata, list("sum_r4_tran_loss_2019" = summary))
 
 #----- ____ -----####
 #----- The 2019 MEA Total net generation requirement profile ----####
-# --- Net generation = region requirement + VSPP 
+# --- Total net generation = region requirement + VSPP 
 # Profile data ####
 profile <-
   
@@ -2658,7 +2658,7 @@ summarydata <- c(summarydata, list("sum_mea_total_netgen_req_2019" = summary))
 
 #----- ____ -----####
 #----- The 2019 R1 (Central region) Total net generation requirement profile ----####
-# --- Net generation = region requirement + VSPP 
+# --- Total net generation = region requirement + VSPP 
 # Profile data ####
 profile <-
   
@@ -2739,7 +2739,7 @@ summarydata <- c(summarydata, list("sum_r1_total_netgen_req_2019" = summary))
 
 #----- ____ -----####
 #----- The 2019 R2 (North Eastern region) Total net generation requirement profile ----####
-# --- Net generation = region requirement + VSPP 
+# --- Total net generation = region requirement + VSPP 
 # Profile data ####
 profile <-
   
@@ -2820,7 +2820,7 @@ summarydata <- c(summarydata, list("sum_r2_total_netgen_req_2019" = summary))
 
 #----- ____ -----####
 #----- The 2019 R3 (Sourthern region) Total net generation requirement profile ----####
-# --- Net generation = region requirement + VSPP 
+# --- Total net generation = region requirement + VSPP 
 # Profile data ####
 profile <-
   
@@ -2901,7 +2901,7 @@ summarydata <- c(summarydata, list("sum_r3_total_netgen_req_2019" = summary))
 
 #----- ____ -----####
 #----- The 2019 R4 (Northern region) Total net generation requirement profile ----####
-# --- Net generation = region requirement + VSPP 
+# --- Total net generation = region requirement + VSPP 
 # Profile data ####
 profile <-
   
