@@ -4,32 +4,32 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 1 Introduction | Electricity Profiles Handout</title>
-  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+  <title>Chapter 1 Introduction | Electricity Profiles Cloudbook</title>
+  <meta name="description" content="<p>This is electricity profile cloudbook. This book provides the characteristic
+of electricity profiles at all levels in Thailand. It gives the peak and
+and minimum load in (MW) and time. Load factor is calculated.</p>" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 1 Introduction | Electricity Profiles Handout" />
+  <meta property="og:title" content="Chapter 1 Introduction | Electricity Profiles Cloudbook" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta property="og:description" content="<p>This is electricity profile cloudbook. This book provides the characteristic
+of electricity profiles at all levels in Thailand. It gives the peak and
+and minimum load in (MW) and time. Load factor is calculated.</p>" />
+  <meta name="github-repo" content="PChunark/load_forecast_EGAT_strategies" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 1 Introduction | Electricity Profiles Handout" />
+  <meta name="twitter:title" content="Chapter 1 Introduction | Electricity Profiles Cloudbook" />
   
-  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
-The HTML output format for this example is bookdown::gitbook,
-set in the _output.yml file.</p>" />
+  <meta name="twitter:description" content="<p>This is electricity profile cloudbook. This book provides the characteristic
+of electricity profiles at all levels in Thailand. It gives the peak and
+and minimum load in (MW) and time. Load factor is calculated.</p>" />
   
 
 <meta name="author" content="Puttipong Chunark, Ph.D." />
 
 
-<meta name="date" content="2023-06-27" />
+<meta name="date" content="2023-06-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -136,6 +136,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -154,39 +176,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#initial-settings"><i class="fa fa-check"></i><b>1.1</b> Initial settings</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction.html"><a href="introduction.html#packages-setting"><i class="fa fa-check"></i><b>1.1.1</b> Packages setting</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction.html"><a href="introduction.html#theme-setting"><i class="fa fa-check"></i><b>1.1.2</b> Theme setting</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction.html"><a href="introduction.html#directory-setting"><i class="fa fa-check"></i><b>1.1.3</b> Directory setting</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="electricity-profiles.html"><a href="electricity-profiles.html"><i class="fa fa-check"></i><b>2</b> Electricity profiles</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#initial-settings"><i class="fa fa-check"></i><b>2.1</b> Initial settings</a>
+<li class="chapter" data-level="2.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.1</b> The EGAT electrity sale profiles</a>
 <ul>
-<li class="chapter" data-level="2.1.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#packages-setting"><i class="fa fa-check"></i><b>2.1.1</b> Packages setting</a></li>
-<li class="chapter" data-level="2.1.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#theme-setting"><i class="fa fa-check"></i><b>2.1.2</b> Theme setting</a></li>
-<li class="chapter" data-level="2.1.3" data-path="electricity-profiles.html"><a href="electricity-profiles.html#directory-setting"><i class="fa fa-check"></i><b>2.1.3</b> Directory setting</a></li>
+<li class="chapter" data-level="2.1.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-metropolitan-electricity-authority-mea-egat-sale-profile"><i class="fa fa-check"></i><b>2.1.1</b> The 2019 Metropolitan Electricity Authority (MEA) EGAT sale profile</a></li>
+<li class="chapter" data-level="2.1.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#peaegtsle2019"><i class="fa fa-check"></i><b>2.1.2</b> The 2019 Provincial Electricity Authority (PEA) EGAT sale profiles</a></li>
+<li class="chapter" data-level="2.1.3" data-path="electricity-profiles.html"><a href="electricity-profiles.html#dcegtsle2019"><i class="fa fa-check"></i><b>2.1.3</b> The 2019 Direct Customer (DC) EGAT sale profiles</a></li>
+<li class="chapter" data-level="2.1.4" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r1-dc-r1-central-region-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.1.4</b> The 2019 PEA R1 &amp; DC R1 (Central region) EGAT electrity sale profiles</a></li>
+<li class="chapter" data-level="2.1.5" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r2-dc-r2-north-eastern-region-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.1.5</b> The 2019 PEA R2 &amp; DC R2 (North Eastern region) EGAT electrity sale profiles</a></li>
+<li class="chapter" data-level="2.1.6" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r3-dc-r3-southern-region-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.1.6</b> The 2019 PEA R3 &amp; DC R3 (Southern region) EGAT electrity sale profiles</a></li>
+<li class="chapter" data-level="2.1.7" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r4-dc-r4-southern-region-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.1.7</b> The 2019 PEA R4 &amp; DC R4 (Southern region) EGAT electrity sale profiles</a></li>
+<li class="chapter" data-level="2.1.8" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.1.8</b> The 2019 EGAT electrity sale profiles</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.2</b> The EGAT electrity sale profiles</a>
+<li class="chapter" data-level="2.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-electrity-requirement-profiles"><i class="fa fa-check"></i><b>2.2</b> The electrity requirement profiles</a>
 <ul>
-<li class="chapter" data-level="2.2.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-metropolitan-electricity-authority-mea-egat-sale-profile"><i class="fa fa-check"></i><b>2.2.1</b> The 2019 Metropolitan Electricity Authority (MEA) EGAT sale profile</a></li>
-<li class="chapter" data-level="2.2.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#peaegtsle2019"><i class="fa fa-check"></i><b>2.2.2</b> The 2019 Provincial Electricity Authority (PEA) EGAT sale profiles</a></li>
-<li class="chapter" data-level="2.2.3" data-path="electricity-profiles.html"><a href="electricity-profiles.html#dcegtsle2019"><i class="fa fa-check"></i><b>2.2.3</b> The 2019 Direct Customer (DC) EGAT sale profiles</a></li>
-<li class="chapter" data-level="2.2.4" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r1-dc-r1-central-region-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.2.4</b> The 2019 PEA R1 &amp; DC R1 (Central region) EGAT electrity sale profiles</a></li>
-<li class="chapter" data-level="2.2.5" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r2-dc-r2-north-eastern-region-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.2.5</b> The 2019 PEA R2 &amp; DC R2 (North Eastern region) EGAT electrity sale profiles</a></li>
-<li class="chapter" data-level="2.2.6" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r3-dc-r3-southern-region-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.2.6</b> The 2019 PEA R3 &amp; DC R3 (Southern region) EGAT electrity sale profiles</a></li>
-<li class="chapter" data-level="2.2.7" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r4-dc-r4-southern-region-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.2.7</b> The 2019 PEA R4 &amp; DC R4 (Southern region) EGAT electrity sale profiles</a></li>
-<li class="chapter" data-level="2.2.8" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-egat-electrity-sale-profiles"><i class="fa fa-check"></i><b>2.2.8</b> The 2019 EGAT electrity sale profiles</a></li>
+<li class="chapter" data-level="2.2.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-mea-requirement-profile"><i class="fa fa-check"></i><b>2.2.1</b> The 2019 MEA requirement profile</a></li>
+<li class="chapter" data-level="2.2.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r2-north-eastern-region-requirement"><i class="fa fa-check"></i><b>2.2.2</b> The 2019 PEA R2 (North eastern region) requirement</a></li>
+<li class="chapter" data-level="2.2.3" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r3-southern-region-requirement"><i class="fa fa-check"></i><b>2.2.3</b> The 2019 PEA R3 (Southern region) requirement</a></li>
+<li class="chapter" data-level="2.2.4" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r4-northern-region-requirement"><i class="fa fa-check"></i><b>2.2.4</b> The 2019 PEA R4 (Northern region) requirement</a></li>
+<li class="chapter" data-level="2.2.5" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-export-tnb-export-to-malaysia-requirement"><i class="fa fa-check"></i><b>2.2.5</b> The 2019 Export TNB (Export to Malaysia) requirement</a></li>
+<li class="chapter" data-level="2.2.6" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-export-edl-export-to-cambodia-requirement"><i class="fa fa-check"></i><b>2.2.6</b> The 2019 Export EDL (Export to Cambodia) requirement</a></li>
+<li class="chapter" data-level="2.2.7" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r2-export-edl-north-eastern-export-to-cambodia-requirement"><i class="fa fa-check"></i><b>2.2.7</b> The 2019 PEA R2 + Export EDL (North Eastern + Export to Cambodia) requirement</a></li>
+<li class="chapter" data-level="2.2.8" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-pea-r3-export-tnb-southern-export-to-malaysia-requirement"><i class="fa fa-check"></i><b>2.2.8</b> The 2019 PEA R3 + Export TNB (Southern + Export to Malaysia) requirement</a></li>
+<li class="chapter" data-level="2.2.9" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-mea-pea-r1-mea-cac-requirement"><i class="fa fa-check"></i><b>2.2.9</b> The 2019 MEA + PEA R1 (MEA + CAC) requirement</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-electrity-requirement-profiles"><i class="fa fa-check"></i><b>2.3</b> The electrity requirement profiles</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-mea-requirement-profile"><i class="fa fa-check"></i><b>2.3.1</b> The 2019 MEA requirement profile</a></li>
-<li class="chapter" data-level="2.3.2" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-r2-north-eastern-region-requirement"><i class="fa fa-check"></i><b>2.3.2</b> The 2019 R2 (North eastern region) requirement</a></li>
-<li class="chapter" data-level="2.3.3" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-r3-southern-region-requirement"><i class="fa fa-check"></i><b>2.3.3</b> The 2019 R3 (Southern region) requirement</a></li>
-<li class="chapter" data-level="2.3.4" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-r4-northern-region-requirement"><i class="fa fa-check"></i><b>2.3.4</b> The 2019 R4 (Northern region) requirement</a></li>
-<li class="chapter" data-level="2.3.5" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-export-tnb-export-to-malaysia-requirement"><i class="fa fa-check"></i><b>2.3.5</b> The 2019 Export TNB (Export to Malaysia) requirement</a></li>
-<li class="chapter" data-level="2.3.6" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-export-edl-export-to-cambodia-requirement"><i class="fa fa-check"></i><b>2.3.6</b> The 2019 Export EDL (Export to Cambodia) requirement</a></li>
-<li class="chapter" data-level="2.3.7" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-r2-export-edl-north-eastern-export-to-cambodia-requirement"><i class="fa fa-check"></i><b>2.3.7</b> The 2019 R2 + Export EDL (North Eastern + Export to Cambodia) requirement</a></li>
-<li class="chapter" data-level="2.3.8" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-r3-export-tnb-southern-export-to-malaysia-requirement"><i class="fa fa-check"></i><b>2.3.8</b> The 2019 R3 + Export TNB (Southern + Export to Malaysia) requirement</a></li>
-<li class="chapter" data-level="2.3.9" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-mea-r1-mea-cac-requirement"><i class="fa fa-check"></i><b>2.3.9</b> The 2019 MEA + R1 (MEA + CAC) requirement</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-egat-net-electricity-generation-profile"><i class="fa fa-check"></i><b>2.4</b> The 2019 EGAT NET electricity generation profile</a></li>
+<li class="chapter" data-level="2.3" data-path="electricity-profiles.html"><a href="electricity-profiles.html#the-2019-egat-net-electricity-generation-profile"><i class="fa fa-check"></i><b>2.3</b> The 2019 EGAT NET electricity generation profile</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="the-transmission-loss-and-use-profiles.html"><a href="the-transmission-loss-and-use-profiles.html"><i class="fa fa-check"></i><b>3</b> The transmission loss and use profiles</a>
 <ul>
@@ -201,7 +225,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html"><i class="fa fa-check"></i><b>4</b> Total net generation requirement profile</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html#the-2019-mea-total-net-generation-requirement-profile"><i class="fa fa-check"></i><b>4.1</b> The 2019 MEA Total net generation requirement profile</a></li>
+<li class="chapter" data-level="4.2" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html#the-2019-pea-r1-central-region-total-net-generation-requirement-profile"><i class="fa fa-check"></i><b>4.2</b> The 2019 PEA R1 (Central region) total net generation requirement profile</a></li>
+<li class="chapter" data-level="4.3" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html#the-2019-pea-r2-north-eastern-region-total-net-generation-requirement-profile"><i class="fa fa-check"></i><b>4.3</b> The 2019 PEA R2 (North Eastern region) total net generation requirement profile</a></li>
+<li class="chapter" data-level="4.4" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html#the-2019-pea-r3-southern-region-total-net-generation-requirement-profile"><i class="fa fa-check"></i><b>4.4</b> The 2019 PEA R3 (Southern region) total net generation requirement profile</a></li>
+<li class="chapter" data-level="4.5" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html#the-2019-pea-r4-northern-region-total-net-generation-requirement-profile"><i class="fa fa-check"></i><b>4.5</b> The 2019 PEA R4 (Northern region) total net generation requirement profile</a></li>
+<li class="chapter" data-level="4.6" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html#the-2019-total-net-generation-requirement-profile"><i class="fa fa-check"></i><b>4.6</b> The 2019 Total net generation requirement profile</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="list-of-equations.html"><a href="list-of-equations.html"><i class="fa fa-check"></i>List of equations</a></li>
+<li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i>List of figures</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -214,7 +246,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Electricity Profiles Handout</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Electricity Profiles Cloudbook</a>
           </h1>
         </div>
 
@@ -225,8 +257,174 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="introduction.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Electricity is one of the key final energy to drive an economy. It is used to provide enduse demands. For instance, charging electric vehicles (EVs), lighting houses, heating water and cooking, driving motors to convey products in industrial processes.</p>
-<p>In 2021, an electricity consumption was 201,986 GWh.</p>
+<p>In 2021, an electricity consumption (Final energy consumption) was 201,016 GWh <span class="citation">(<a href="#ref-dede2021">DEDE 2021</a>)</span>. Manufacturing industry consumed the highest electricity (see Table <a href="introduction.html#tab:fnely2019">1.1</a>). It accounted for 39% of total electricity consumption in 2021. Commercial and residential sectors were the second and the third largest electricity consumption. They accounted for 33% and 27%. The rest were mining (0.6%), agriculture (0.2%) and transport sectors (0.1%).</p>
+<table>
+<caption><span id="tab:fnely2019">Table 1.1: </span>Electricity consumption in 2019</caption>
+<thead>
+<tr class="header">
+<th align="left">Sector</th>
+<th align="left">Electricity (GWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Agriculture</td>
+<td align="left">398</td>
+</tr>
+<tr class="even">
+<td align="left">Mining</td>
+<td align="left">1279</td>
+</tr>
+<tr class="odd">
+<td align="left">Manufac. industry</td>
+<td align="left">78919</td>
+</tr>
+<tr class="even">
+<td align="left">Construction</td>
+<td align="left">na</td>
+</tr>
+<tr class="odd">
+<td align="left">Residential</td>
+<td align="left">54481</td>
+</tr>
+<tr class="even">
+<td align="left">Commercial</td>
+<td align="left">65718</td>
+</tr>
+<tr class="odd">
+<td align="left">Transport (Road)</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">Transport (Rail)</td>
+<td align="left">220</td>
+</tr>
+</tbody>
+</table>
+<p>The electricity generation was 186,699 GWh in 2021. The exported and imported electricity were 33,356 GWh and 1,996 GWh. The electricity losses and own uses were 14,098 GWh and 2,945 GWh. Natural gas combined cycle power plants accounted for 59% of total electricity generation in 2021. Thermal power plants accounted for 30%. Table <a href="introduction.html#tab:elygen2019">1.2</a> gives the electricity generation by power plant in 2021.</p>
+<table>
+<caption><span id="tab:elygen2019">Table 1.2: </span>Electricity generation in 2019</caption>
+<thead>
+<tr class="header">
+<th align="left">Power plant type</th>
+<th align="right">Electricity (GWh)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Hydro</td>
+<td align="right">4682</td>
+</tr>
+<tr class="even">
+<td align="left">Thermal</td>
+<td align="right">56737</td>
+</tr>
+<tr class="odd">
+<td align="left">Gas turbine</td>
+<td align="right">1318</td>
+</tr>
+<tr class="even">
+<td align="left">Combined cycle</td>
+<td align="right">110597</td>
+</tr>
+<tr class="odd">
+<td align="left">Diesel</td>
+<td align="right">28</td>
+</tr>
+<tr class="even">
+<td align="left">Gas engine</td>
+<td align="right">4769</td>
+</tr>
+<tr class="odd">
+<td align="left">Others</td>
+<td align="right">8568</td>
+</tr>
+<tr class="even">
+<td align="left">Total</td>
+<td align="right">186699</td>
+</tr>
+</tbody>
+</table>
+<div id="initial-settings" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Initial settings<a href="introduction.html#initial-settings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="packages-setting" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Packages setting<a href="introduction.html#packages-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before the project starts, packages are required as follows:</p>
+<ul>
+<li>A <code>tidyverse</code> package is a bunch of packages to handle with a data analysis (for more information click <a href="https://www.tidyverse.org/packages/">here</a>). It consists of data manipulation and visualization as follows:
+<ul>
+<li>A <code>ggplot2</code> <a href="https://ggplot2.tidyverse.org/">package</a> is for data visualization.</li>
+<li>A <code>dplyr</code> <a href="https://dplyr.tidyverse.org/">package</a> is for data manipulation.</li>
+<li>A <code>tidyr</code> <a href="https://tidyr.tidyverse.org/">package</a> is for data tidying.</li>
+<li>A <code>readr</code> <a href="https://readr.tidyverse.org/">package</a> is for data import.</li>
+<li>A <code>purrr</code> <a href="https://purrr.tidyverse.org/">package</a> is for functional programming.</li>
+<li>A <code>tibble</code> <a href="https://tibble.tidyverse.org/">package</a> is a modern reimagining of the data.frame.</li>
+<li>A <code>stringr</code> <a href="https://github.com/tidyverse/stringr">package</a> is for strings.</li>
+<li>A <code>forcats</code> <a href="https://github.com/tidyverse/forcats">package</a> is for factors.</li>
+<li>A <code>lubridate</code> <a href="https://github.com/tidyverse/lubridate">package</a> is for date and time.</li>
+</ul></li>
+<li>A <code>readxl</code> <a href="https://readxl.tidyverse.org/">package</a> is used for read data from <strong>Excel</strong> into R.</li>
+<li>A <code>scales</code> <a href="https://scales.r-lib.org/">package</a> is applied to scale plots in the ggplot2 package.</li>
+<li>A <code>glue</code> <a href="https://glue.tidyverse.org/">package</a> interprets strings literal. The package embeds R expressions and inserts into argument string.</li>
+<li>A <code>knitr</code> <a href="https://github.com/yihui/knitr">package</a> is a lightweight API’s designed to give users full control of the output without heavy coding work. In this project, the package is used for making a HTML.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="introduction.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#For data manipulation</span></span>
+<span id="cb1-2"><a href="introduction.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co">#For reading the excel sheet</span></span>
+<span id="cb1-3"><a href="introduction.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb1-4"><a href="introduction.html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb1-5"><a href="introduction.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-6"><a href="introduction.html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code></pre></div>
+</div>
+<div id="theme-setting" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Theme setting<a href="introduction.html#theme-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Theme and lines for figures are set in a variable named <code>Themeline</code> as follows:</p>
+<ul>
+<li><code>theme_bw()</code> <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">function</a> provides a black and white theme.</li>
+<li><code>theme()</code> function applied for setting theme and line represented in plots.</li>
+<li><code>linepalette1</code> and <code>linepalette1</code> variables set line colors.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="introduction.html#cb2-1" tabindex="-1"></a>ThemeLine <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="introduction.html#cb2-2" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb2-3"><a href="introduction.html#cb2-3" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-4"><a href="introduction.html#cb2-4" tabindex="-1"></a>    <span class="at">panel.border=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="cn">NA</span>),</span>
+<span id="cb2-5"><a href="introduction.html#cb2-5" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="cn">NA</span>), </span>
+<span id="cb2-6"><a href="introduction.html#cb2-6" tabindex="-1"></a>    <span class="co">#    axis.title=element_text(size=5),</span></span>
+<span id="cb2-7"><a href="introduction.html#cb2-7" tabindex="-1"></a>    <span class="co">#    axis.text.x = element_text(hjust=1,size = 10, angle = 0),</span></span>
+<span id="cb2-8"><a href="introduction.html#cb2-8" tabindex="-1"></a>    <span class="at">axis.line=</span><span class="fu">element_line</span>(<span class="at">colour=</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb2-9"><a href="introduction.html#cb2-9" tabindex="-1"></a>    <span class="at">panel.background=</span><span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;white&quot;</span>),</span>
+<span id="cb2-10"><a href="introduction.html#cb2-10" tabindex="-1"></a>    <span class="at">panel.grid.major.x=</span><span class="fu">element_line</span>(<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>,<span class="at">colour=</span><span class="st">&quot;grey&quot;</span>,<span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb2-11"><a href="introduction.html#cb2-11" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-12"><a href="introduction.html#cb2-12" tabindex="-1"></a>    <span class="co"># panel.grid.major=element_blank(),</span></span>
+<span id="cb2-13"><a href="introduction.html#cb2-13" tabindex="-1"></a>    <span class="at">strip.background=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">&quot;white&quot;</span>, <span class="at">colour=</span><span class="st">&quot;white&quot;</span>),</span>
+<span id="cb2-14"><a href="introduction.html#cb2-14" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">angle =</span> <span class="dv">0</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb2-15"><a href="introduction.html#cb2-15" tabindex="-1"></a>    <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>,<span class="at">angle=</span><span class="dv">45</span>, <span class="at">vjust=</span><span class="fl">0.9</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="at">t =</span> <span class="fl">0.3</span>, <span class="at">r =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>)),</span>
+<span id="cb2-16"><a href="introduction.html#cb2-16" tabindex="-1"></a>    <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>,<span class="at">margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="at">t =</span> <span class="dv">0</span>, <span class="at">r =</span> <span class="fl">0.3</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>)),</span>
+<span id="cb2-17"><a href="introduction.html#cb2-17" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb2-18"><a href="introduction.html#cb2-18" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb2-19"><a href="introduction.html#cb2-19" tabindex="-1"></a>    <span class="at">axis.ticks.length=</span><span class="fu">unit</span>(<span class="sc">-</span><span class="fl">0.15</span>,<span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb2-20"><a href="introduction.html#cb2-20" tabindex="-1"></a>  )</span>
+<span id="cb2-21"><a href="introduction.html#cb2-21" tabindex="-1"></a>linepalette1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#FF7F00&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>,<span class="st">&quot;#F781BF&quot;</span>,<span class="st">&quot;#8DD3C7&quot;</span>,<span class="st">&quot;#FB8072&quot;</span>,<span class="st">&quot;#80B1D3&quot;</span>,<span class="st">&quot;#FDB462&quot;</span>,<span class="st">&quot;#B3DE69&quot;</span>,<span class="st">&quot;#FCCDE5&quot;</span>,<span class="st">&quot;#D9D9D9&quot;</span>,<span class="st">&quot;#BC80BD&quot;</span>,<span class="st">&quot;#CCEBC5&quot;</span>,<span class="st">&quot;#FFED6F&quot;</span>,<span class="st">&quot;#7f878f&quot;</span>,<span class="st">&quot;#A65628&quot;</span>,<span class="st">&quot;#FFFF33&quot;</span>)</span>
+<span id="cb2-22"><a href="introduction.html#cb2-22" tabindex="-1"></a>linepalette2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#FF7F00&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#B3DE69&quot;</span>,<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>,<span class="st">&quot;#F781BF&quot;</span>,<span class="st">&quot;#8DD3C7&quot;</span>,<span class="st">&quot;#FB8072&quot;</span>,<span class="st">&quot;#80B1D3&quot;</span>,<span class="st">&quot;#FDB462&quot;</span>,<span class="st">&quot;#FCCDE5&quot;</span>,<span class="st">&quot;#D9D9D9&quot;</span>,<span class="st">&quot;#BC80BD&quot;</span>,<span class="st">&quot;#CCEBC5&quot;</span>,<span class="st">&quot;#FFED6F&quot;</span>,<span class="st">&quot;#7f878f&quot;</span>,<span class="st">&quot;#A65628&quot;</span>,<span class="st">&quot;#FFFF33&quot;</span>)</span></code></pre></div>
+</div>
+<div id="directory-setting" class="section level3 hasAnchor" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Directory setting<a href="introduction.html#directory-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Lists are create to store variables.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction.html#cb3-1" tabindex="-1"></a><span class="co">#----- Make a list of profile to store data -----####</span></span>
+<span id="cb3-2"><a href="introduction.html#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="introduction.html#cb3-3" tabindex="-1"></a>profiledata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb3-4"><a href="introduction.html#cb3-4" tabindex="-1"></a>profilefigure <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb3-5"><a href="introduction.html#cb3-5" tabindex="-1"></a>summarydata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="introduction.html#cb4-1" tabindex="-1"></a><span class="co">#----- Make variable for output directory -----####</span></span>
+<span id="cb4-2"><a href="introduction.html#cb4-2" tabindex="-1"></a>outfigdir <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;figures/&quot;</span>)</span></code></pre></div>
 
+</div>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-dede2021" class="csl-entry">
+DEDE. 2021. <span>“Energy Balance of Thailand 2021.”</span> DEDE. <a href="https://anyflip.com/pauop/ovyw/">https://anyflip.com/pauop/ovyw/</a>.
+</div>
 </div>
             </section>
 

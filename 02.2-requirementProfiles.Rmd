@@ -94,7 +94,7 @@ ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
 
-###The 2019 R1 (Central region) requirement for EGAT NET electricity generation profile 
+###The 2019 PEA R1 (Central region) requirement for EGAT NET electricity generation profile 
 
 ```{r pear1_req_2019}
 
@@ -187,11 +187,11 @@ summarydata <- c(summarydata, list("sum_r1_central_requirement_2019" = summary))
 
 The 2019 PEA R1 requirement profile is illustrated in Figure \@ref(fig:PEAR1-REQ-2019).
 
-```{r, PEAR1-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from PEA R1 in 2019.', fig.align='center', out.width= '100%'}
+```{r, PEAR1-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from PEA R1 in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
-### The 2019 R2 (North eastern region) requirement
+### The 2019 PEA R2 (North eastern region) requirement
 ```{r pear2_req_2019}
 profile <-
   read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
@@ -280,11 +280,11 @@ summarydata <- c(summarydata, list("sum_r2_northeastern_requirement_2019" = summ
 
 The 2019 PEA R2 requirement profile is illustrated in Figure \@ref(fig:PEAR2-REQ-2019).
 
-```{r, PEAR2-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from PEA R2 in 2019.', fig.align='center', out.width= '100%'}
+```{r, PEAR2-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from PEA R2 in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
-### The 2019 R3 (Southern region) requirement
+### The 2019 PEA R3 (Southern region) requirement
 ```{r pear3_req_2019}
 profile <-
   read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
@@ -373,11 +373,11 @@ summarydata <- c(summarydata, list("sum_r3_southern_requirement_2019" = summary)
 
 The 2019 PEA R3 requirement profile is illustrated in Figure \@ref(fig:PEAR3-REQ-2019).
 
-```{r, PEAR3-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from PEA R3 in 2019.', fig.align='center', out.width= '100%'}
+```{r, PEAR3-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from PEA R3 in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
-### The 2019 R4 (Northern region) requirement
+### The 2019 PEA R4 (Northern region) requirement
 ```{r pear4_req_2019}
 profile <-
   read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
@@ -466,7 +466,7 @@ summarydata <- c(summarydata, list("sum_r4_northern_requirement_2019" = summary)
 
 The 2019 PEA R4 requirement profile is illustrated in Figure \@ref(fig:PEAR4-REQ-2019).
 
-```{r, PEAR4-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from PEA R4 in 2019.', fig.align='center', out.width= '100%'}
+```{r, PEAR4-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from PEA R4 in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
@@ -559,7 +559,7 @@ summarydata <- c(summarydata, list("sum_export_TNB_requirement_2019" = summary))
 
 The 2019 TNB requirement profile is illustrated in Figure \@ref(fig:TNB-REQ-2019).
 
-```{r, TNB-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from TNB in 2019.', fig.align='center', out.width= '100%'}
+```{r, TNB-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from TNB in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
@@ -653,11 +653,11 @@ summarydata <- c(summarydata, list("sum_export_EDL_requirement_2019" = summary))
 
 The 2019 EDL requirement profile is illustrated in Figure \@ref(fig:EDL-REQ-2019).
 
-```{r, EDL-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from EDL in 2019.', fig.align='center', out.width= '100%'}
+```{r, EDL-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from EDL in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
-### The 2019 R2 + Export EDL (North Eastern + Export to Cambodia) requirement
+### The 2019 PEA R2 + Export EDL (North Eastern + Export to Cambodia) requirement
 
 ```{r r2edl_req_2019}
 profile <-
@@ -739,13 +739,13 @@ summarydata <- c(summarydata, list("sum_r2&export_EDL_requirement_2019" = summar
 
 ```
 
-The 2019 R2 and EDL requirement profile is illustrated in Figure \@ref(fig:R2EDL-REQ-2019).
+The 2019 PEA R2 and EDL requirement profile is illustrated in Figure \@ref(fig:R2EDL-REQ-2019).
 
-```{r, R2EDL-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from PEA R2 and EDL in 2019.', fig.align='center', out.width= '100%'}
+```{r, R2EDL-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from PEA R2 and EDL in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
-### The 2019 R3 + Export TNB (Southern + Export to Malaysia) requirement
+### The 2019 PEA R3 + Export TNB (Southern + Export to Malaysia) requirement
 
 ```{r r3tnb_req_2019}
 profile <-
@@ -829,11 +829,11 @@ summarydata <- c(summarydata, list("sum_r3&export_TNB_requirement_2019" = summar
 
 The 2019 R3 and TNB requirement profile is illustrated in Figure \@ref(fig:R3TNB-REQ-2019).
 
-```{r, R3TNB-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from PEA R3 and TNB in 2019.', fig.align='center', out.width= '100%'}
+```{r, R3TNB-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from PEA R3 and TNB in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
-### The 2019 MEA + R1 (MEA + CAC) requirement
+### The 2019 MEA + PEA R1 (MEA + CAC) requirement
 
 ```{r mear1_req_2019}
 profile <-
@@ -917,7 +917,7 @@ summarydata <- c(summarydata, list("sum_mea&r1_requirement_2019" = summary))
 
 The 2019 MEA and PEA R1 requirement profile is illustrated in Figure \@ref(fig:MEAPEAR1-REQ-2019).
 
-```{r, MEAPEAR1-REQ-2019, echo=FALSE,fig.cap='The electricity requirment profile from MEA and PEA R1 in 2019.', fig.align='center', out.width= '100%'}
+```{r, MEAPEAR1-REQ-2019, echo=FALSE,fig.cap='The electricity requirement profile from MEA and PEA R1 in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 
@@ -934,6 +934,7 @@ Where,
 $EGTNETGEN_{i,t,h}$ denotes the EGAT net electricity generation ($EGTNETGEN$) profile in region $i$ in year $t$ at time stamp $h$ (MW).\
 $MEAReq_{t,h}$ denotes the MEA requirement profile ($MEAReq$) in year $t$ at time stamp $h$ (MW).\
 $PEAReq_{i,t,h}$ denotes the PEA requirement ($PEAReq$) profile in region $i$ in year $t$ at time stamp $h$ (MW).
+$EXPReq_{c,t,h}$ denotes the electricity requirement from neighboring countries $c$ in year $t$ at time stamp $h$. 
 
 ```{r egt_ngn_2019}
 profile <-

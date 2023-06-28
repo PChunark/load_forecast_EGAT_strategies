@@ -1,0 +1,43 @@
+# List of figures {-}
+
+| Figure name | Figure number |
+| :-----------|:-------------:|
+| EGAT electricity sale profile to MEA in 2019 | \@ref(fig:EGAT-sale-to-MEA-2019) |
+| EGAT electricity sale profile to PEA-R1 in 2019 | \@ref(fig:EGAT-sale-to-PEA-R1-2019) |
+| EGAT electricity sale profile to PEA-R2 in 2019 | \@ref(fig:EGAT-sale-to-PEA-R2-2019) |
+| EGAT electricity sale profile to PEA-R3 in 2019 | \@ref(fig:EGAT-sale-to-PEA-R3-2019) |
+| EGAT electricity sale profile to PEA-R4 in 2019 | \@ref(fig:EGAT-sale-to-PEA-R4-2019) |
+| EGAT electricity sale profile to PEA (all regions) in 2019 | \@ref(fig:EGAT-sale-to-PEA-allregion-2019) |
+| EGAT electricity sale profile to direct customer in PEA-R1 in 2019 | \@ref(fig:EGAT-sale-to-DCR1-2019) |
+| EGAT electricity sale profile to direct customer in PEA-R2 in 2019 | \@ref(fig:EGAT-sale-to-DCR2-2019) |
+| EGAT electricity sale profile to direct customer in PEA-R3 in 2019 | \@ref(fig:EGAT-sale-to-DCR3-2019) |
+| EGAT electricity sale profile to direct customer in PEA-R4 in 2019 | \@ref(fig:EGAT-sale-to-DCR4-2019) |
+| EGAT electricity sale profile to direct customer in PEA (all regions) in 2019 | \@ref(fig:EGAT-sale-to-DCALLREG-2019)|
+| EGAT electricity sale profile to PEA R1 and direct customer in PEA R1 in 2019 | \@ref(fig:EGAT-sale-to-pear1-dcr1-2019) |
+| EGAT electricity sale profile to PEA R2 and direct customer in PEA R2 in 2019 | \@ref(fig:EGAT-sale-to-pear2-dcr2-2019) |
+| EGAT electricity sale profile to PEA R3 and direct customer in PEA R3 in 2019 | \@ref(fig:EGAT-sale-to-pear3-dcr3-2019) |
+| EGAT electricity sale profile to PEA R4 and direct customer in PEA R4 in 2019 | \@ref(fig:EGAT-sale-to-pear4-dcr4-2019) |
+| EGAT electricity sale profile 2019 | \@ref(fig:EGAT-sale-2019) |
+| MEA electricity requirement profile in 2019 | \@ref(fig:MEA-REQ-2019) |
+| The electricity requirement profile from PEA R1 in 2019 | \@ref(fig:PEAR1-REQ-2019) |
+| The electricity requirement profile from PEA R2 in 2019 | \@ref(fig:PEAR2-REQ-2019) |
+| The electricity requirement profile from PEA R3 in 2019 | \@ref(fig:PEAR3-REQ-2019) |
+| The electricity requirement profile from PEA R4 in 2019 | \@ref(fig:PEAR4-REQ-2019) |
+| The electricity requirement profile from TNB in 2019 | \@ref(fig:TNB-REQ-2019) |
+| The electricity requirement profile from EDL in 2019 | \@ref(fig:EDL-REQ-2019) |
+| The electricity requirement profile from PEA R2 and EDL in 2019 | \@ref(fig:R2EDL-REQ-2019) |
+| The electricity requirement profile from PEA R3 and TNB in 2019 | \@ref(fig:R3TNB-REQ-2019) |
+| The electricity requirement profile from MEA and PEA R1 in 2019 | \@ref(fig:MEAPEAR1-REQ-2019) |
+| The EGAT net generation profile in 2019 | \@ref(fig:EGT-NGN-2019) |
+| Transmission loss profile in 2019 | \@ref(fig:TRTLOSS-2019) |
+| The MEA transmission loss and use profile in 2019 | \@ref(fig:MEATRTLOSS-2019) |
+| The PEA R1 transmission loss and use profile in 2019 | \@ref(fig:PEAR1TRTLOSS-2019) |
+| The PEA R2 transmission loss and use profile in 2019 | \@ref(fig:PEAR2TRTLOSS-2019) |
+| The PEA R3 transmission loss and use profile in 2019 | \@ref(fig:PEAR3TRTLOSS-2019) |
+| The PEA R4 transmission loss and use profile in 2019 | \@ref(fig:PEAR4TRTLOSS-2019) |
+| The MEA total net electricity generation requirement in 2019 | \@ref(fig:MEA-TOTNETGEN-2019) |
+| The PEA R1 total net electricity generation requirement in 2019 | \@ref(fig:PEAR1-TOTNETGEN-2019) |
+| The PEA R2 total net electricity generation requirement in 2019 | \@ref(fig:PEAR2-TOTNETGEN-2019) |
+| The PEA R3 total net electricity generation requirement in 2019 | \@ref(fig:PEAR3-TOTNETGEN-2019) |
+| The PEA R4 total net electricity generation requirement in 2019 | \@ref(fig:PEAR4-TOTNETGEN-2019) |
+| Total net electricity generation requirement in 2019 | \@ref(fig:TOTNETGEN-2019) |

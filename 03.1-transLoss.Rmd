@@ -7,6 +7,7 @@ A transmissions loss profile is calculated from the difference between the EGAT 
 
 LSS_{i,t,h} = EGTNETGEN_{i,t,h} - EGTSLE_{i,t,h}
 (\#eq:prfLossCal)
+
 \end{equation}
 
 Where,
@@ -97,7 +98,7 @@ summarydata <- c(summarydata, list("sum_tran_loss_2019" = summary))
 
 The 2019 transmission loss profile is illustrated in Figure \@ref(fig:TRTLOSS-2019).
 
-```{r, TRTLOSS-2019, echo=FALSE,fig.cap='The transmission loss profile in 2019.', fig.align='center', out.width= '100%'}
+```{r, TRTLOSS-2019, echo=FALSE,fig.cap='Transmission loss profile in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
 

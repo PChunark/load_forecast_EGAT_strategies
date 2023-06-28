@@ -1,0 +1,64 @@
+# List of equations {-}
+
+Calculated energy (electricity) from sale profiles \@ref(eq:energycal)
+
+\begin{equation}
+ 
+ Ene_{t}=\frac{\sum_{h=1}^{17520} (Prf_{t,h})}{2*1000}
+ (\#eq:energycal)
+
+\end{equation}
+
+Load factor \@ref(eq:loadfactorcal)
+
+\begin{equation}
+
+ LF_{t}=\frac{Energy_{t}}{Peak_{d,h} * 8760}*100 
+ (\#eq:loadfactorcal)
+
+\end{equation} 
+
+Electricity profile in PEA region \@ref(eq:prfPeaDcCal)
+
+\begin{equation}
+ 
+ Prf_{r,t,h}=\ Prf_{PEA,t,h} + Prf_{DC,t,h}
+ (\#eq:prfPeaDcCal)
+
+\end{equation}
+
+Electricity EGAT sale profile \@ref(eq:prfEgtsleCal)
+
+\begin{equation}
+
+ EGTSLE_{t,h}=\ MEA_{t,h} + \sum_{i=1}^{4} (PEA_{i,t,h} + DC_{i,t,h}) 
+ (\#eq:prfEgtsleCal)
+
+\end{equation}
+
+EGAT net electricity generation profile \@ref(eq:egtNetGenCal)
+
+\begin{equation}
+
+EGTNETGEN_{i,t,h} = MEAReq_{t,h} + \sum_{i=1}^{4} PEAReq_{i,t,h} + \sum_{c=1}^{2}EXPReq_{c,t,h}
+(\#eq:egtNetGenCal)
+
+\end{equation}
+
+Transmissions loss profile \@ref(eq: prfLossCal)
+
+\begin{equation}
+
+LSS_{i,t,h} = EGTNETGEN_{i,t,h} - EGTSLE_{i,t,h}
+(\#eq:prfLossCal)
+
+\end{equation}
+
+Total net generation requirement profile \@ref(eq:totalNetGenCal)
+
+\begin{equation}
+
+TOTNETGEN_{i,t,h} = MEAReq_{t,h} + \sum_{i=1}^{4}(PEAReq_{i,t,h} + VSPP_{i,t,h})
+(\#eq:totalNetGenCal)
+
+\end{equation}

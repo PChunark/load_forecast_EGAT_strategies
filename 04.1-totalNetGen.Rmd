@@ -3,13 +3,15 @@
 Total net electricity net generation requirement is calculated by the summation of an electricity requirement and VSPP in each region as given in equation \@ref(eq:totalNetGenCal). 
 
 
-\@begin{equation}
-TOT_NET_GEN_{i,t,h} = MEAReq_{t,h} + \sum_{i=1}^{4}(PEAReq_{i,t,h} + VSPP_{i,t,h})
+\begin{equation}
+
+TOTNETGEN_{i,t,h} = MEAReq_{t,h} + \sum_{i=1}^{4}(PEAReq_{i,t,h} + VSPP_{i,t,h})
 (\#eq:totalNetGenCal)
-\@end{equation}
+
+\end{equation}
 
 Where,
-$TOT_NET_GEN_{i,t,h}$ denotes total net electricity generation requirement in region $i$ in year $t$ at time stamp $h$ (MW).
+$TOT_NET_GEN_{i,t,h}$ denotes total net electricity generation requirement in region $i$ in year $t$ at time stamp $h$ (MW).\
 $MEAReq_{t,h}$ denotes the MEA requirement profile in year $t$ at time stamp $h$ (MW).\
 $PEAReq_{i,t,h}$ denotes the PEA requirement profile in region $i$ in year $t$ at time stamp $h$ (MW).\
 $VSPP_{i,t,h}$ denotes the electricity generation from $VSPP$ in region $i$ in year $t$ at time stamp $h$ (MW).\
@@ -106,5 +108,477 @@ summarydata <- c(summarydata, list("sum_mea_total_netgen_req_2019" = summary))
 The 2019 MEA total net electricity generation is illustrated in Figure \@ref(fig:MEA-TOTNETGEN-2019).
 
 ```{r, MEA-TOTNETGEN-2019, echo=FALSE,fig.cap='The MEA total net electricity generation requirement in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+## The 2019 PEA R1 (Central region) total net generation requirement profile
+
+```{r pear1totnetgen_2019}
+profile <-
+  
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "BK3:BQ17523") %>% 
+  select(datetime = `Date/Time`, CAC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, CAC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$CAC)) # Get a peak MW
+minv <- floor(min(profile$CAC)) # Get a min MW
+energy <- sum(profile$CAC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(CAC == max(CAC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(CAC == min(CAC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-pear1totnetgen-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of total net electricity generation profile in PEA R1 in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear1totnetgen2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = CAC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "R1 (Central region) Total net generation requiremnet (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-2)*1.2,1000),
+                     limits = c(0, round(maxv, -2)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  # geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 1,
+            vjust = 0)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r1_total_netgen_req_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r1_total_netgen_req_2019" = profile))
+profilefigure <- c(profilefigure, list("r1_total_netgen_req_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r1_total_netgen_req_2019" = summary))
+```
+
+The 2019 total net electricity generation in PEA R1 is illustrated in Figure \@ref(fig:PEAR1-TOTNETGEN-2019).
+
+```{r, PEAR1-TOTNETGEN-2019, echo=FALSE,fig.cap='The PEA R1 total net electricity generation requirement in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+## The 2019 PEA R2 (North Eastern region) total net generation requirement profile
+
+```{r pear2totnetgen_2019}
+profile <-
+  
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "BK3:BQ17523") %>% 
+  select(datetime = `Date/Time`, NEC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, NEC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$NEC)) # Get a peak MW
+minv <- floor(min(profile$NEC)) # Get a min MW
+energy <- sum(profile$NEC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(NEC == max(NEC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(NEC == min(NEC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-pear2totnetgen-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of total net electricity generation profile in PEA R2 in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear2totnetgen2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = NEC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "R2 (North Eastern region) Total net generation requiremnet (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-2)*1.2,1000),
+                     limits = c(0, round(maxv, -2)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  # geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.05,
+            vjust = -1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r2_total_netgen_req_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r2_total_netgen_req_2019" = profile))
+profilefigure <- c(profilefigure, list("r2_total_netgen_req_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r2_total_netgen_req_2019" = summary))
+```
+
+The 2019 total net electricity generation in PEA R2 is illustrated in Figure \@ref(fig:PEAR2-TOTNETGEN-2019).
+
+```{r, PEAR2-TOTNETGEN-2019, echo=FALSE,fig.cap='The PEA R2 total net electricity generation requirement in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+## The 2019 PEA R3 (Southern region) total net generation requirement profile
+
+```{r pear3totnetgen_2019}
+profile <-
+  
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "BK3:BQ17523") %>% 
+  select(datetime = `Date/Time`, SAC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, SAC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$SAC)) # Get a peak MW
+minv <- floor(min(profile$SAC)) # Get a min MW
+energy <- sum(profile$SAC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(SAC == max(SAC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(SAC == min(SAC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+```
+
+```{r, sum-pear3totnetgen-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of total net electricity generation profile in PEA R3 in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear3totnetgen2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = SAC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "R3 (Southern region) Total net generation requiremnet (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-2)*1.2,500),
+                     limits = c(0, round(maxv, -2)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  # geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = -0.05,
+            vjust = -1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r3_total_netgen_req_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r3_total_netgen_req_2019" = profile))
+profilefigure <- c(profilefigure, list("r3_total_netgen_req_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r3_total_netgen_req_2019" = summary))
+```
+
+The 2019 total net electricity generation in PEA R3 is illustrated in Figure \@ref(fig:PEAR3-TOTNETGEN-2019).
+
+```{r, PEAR3-TOTNETGEN-2019, echo=FALSE,fig.cap='The PEA R3 total net electricity generation requirement in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+## The 2019 PEA R4 (Northern region) total net generation requirement profile
+
+```{r pear4totnetgen_2019}
+profile <-
+  
+  read_excel("raw_data/raw_data_profiles/02_Hourly Sale_NetGen_2019.xlsx",
+             sheet = "Load Curve",
+             range = "BK3:BQ17523") %>% 
+  select(datetime = `Date/Time`, NAC) %>% 
+  mutate(date = date(datetime),
+         time = format(as.POSIXct(datetime),"%H:%M:%S"),
+         year = year(datetime),
+         month = month(datetime),
+         day = day(datetime)) %>% 
+  select(datetime, date, time, year, month, day, NAC)
+
+# Summary data ####
+maxv <- ceiling(max(profile$NAC)) # Get a peak MW
+minv <- floor(min(profile$NAC)) # Get a min MW
+energy <- sum(profile$NAC)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(NAC == max(NAC)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(NAC == min(NAC)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+```
+
+```{r, sum-pear4totnetgen-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of total net electricity generation profile in PEA R4 in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_pear4totnetgen2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = NAC,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "R4 (Northern region) Total net generation requiremnet (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-2)*1.2,500),
+                     limits = c(0, round(maxv, -2)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  # geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 1,
+            vjust = -1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "r4_total_netgen_req_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("r4_total_netgen_req_2019" = profile))
+profilefigure <- c(profilefigure, list("r4_total_netgen_req_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_r4_total_netgen_req_2019" = summary))
+```
+
+The 2019 total net electricity generation in PEA R4 is illustrated in Figure \@ref(fig:PEAR4-TOTNETGEN-2019).
+
+```{r, PEAR4-TOTNETGEN-2019, echo=FALSE,fig.cap='The PEA R4 total net electricity generation requirement in 2019.', fig.align='center', out.width= '100%'}
+ggplotly(profile_plot) %>% layout(showlegend = FALSE)
+```
+
+## The 2019 Total net generation requirement profile
+
+Total net electricity generation is calculated by the summation of total net electricity generation in MEA and PEA regions as given in equation \@ref(eq:totalNetGenCal).
+
+```{r totnetgen_2019}
+profile <-
+  
+  profiledata$mea_total_netgen_req_2019 %>% 
+  mutate(cac_tot_netgen = profiledata$r1_total_netgen_req_2019$CAC,
+         nec_tot_netgen = profiledata$r2_total_netgen_req_2019$NEC,
+         sac_tot_netgen = profiledata$r3_total_netgen_req_2019$SAC,
+         nac_tot_netgen = profiledata$r4_total_netgen_req_2019$NAC,
+         tot_netgen_req = MAC + cac_tot_netgen + nec_tot_netgen + sac_tot_netgen + nac_tot_netgen) %>% 
+  select(-MAC, -cac_tot_netgen, -nec_tot_netgen, -sac_tot_netgen, -nac_tot_netgen)
+
+# Summary data ####
+maxv <- ceiling(max(profile$tot_netgen_req)) # Get a peak MW
+minv <- floor(min(profile$tot_netgen_req)) # Get a min MW
+energy <- sum(profile$tot_netgen_req)/2000 # Calculate the energy
+peak_day <- profile %>% #Find a peak day
+  group_by(year) %>% 
+  filter(tot_netgen_req == max(tot_netgen_req)) %>% 
+  pull(datetime)
+min_day <- profile %>% #Find a min day
+  group_by(year) %>% 
+  filter(tot_netgen_req == min(tot_netgen_req)) %>% 
+  last() %>%  
+  pull(datetime)
+load_factor <- percent((energy*10^3)/(maxv*8760), 
+                       accuracy = 0.01, 
+                       decimal.mark = ".")
+summary <- tibble(peak_day = peak_day,
+                  min_day = min_day,
+                  peak_mw = maxv, 
+                  min_mw = minv, 
+                  energy_gwh = energy,
+                  load_factor = load_factor) # combine all data in 1 table
+
+```
+
+```{r, sum-totnetgen-2019, echo=FALSE, tidy=FALSE}
+knitr::kable(
+  summary, caption = 'Summary of total net electricity generation profile in 2019',
+  booktabs = TRUE
+)
+```
+
+```{r plot_totnetgen2019}
+profile_plot <-
+  ggplot() + 
+  geom_line(data=profile, 
+            aes(x = datetime, 
+                y = tot_netgen_req,
+                group = month,
+                color = as.factor(month)),
+            show.legend = FALSE) +
+  ThemeLine +
+  labs(x = NULL,
+       y = "Total net generation requiremnet (MW)")+
+  scale_x_datetime(breaks=date_breaks("1 month"), 
+                   labels=date_format("%b %y")) +
+  scale_y_continuous(breaks = seq(0, round(maxv,-2)*1.2,2000),
+                     limits = c(0, round(maxv, -2)*1.2)) +  
+  scale_color_manual(values = linepalette1) +
+  geom_point(data=summary,
+             aes(x = peak_day, y = peak_mw))+
+  # geom_hline(yintercept = 0) +
+  geom_text(data = summary,
+            aes(x = peak_day, y = round(maxv, -2)*1.2),
+            label = glue("Peak {maxv} MW \n@ {peak_day}"),
+            # hjust = 1,
+            vjust = 1) +
+  geom_point(data=summary,
+             aes(x = min_day, y = min_mw))+
+  geom_text(data = summary,
+            aes(x = min_day, y = round(minv, -3)*0.8),
+            label = glue("Minimum {minv} MW \n@ {min_day}"),
+            hjust = 0,
+            vjust = 1)
+
+# Save the output ####
+outputfigure <- paste0(outfigdir, "total_netgen_req_2019.png")
+ggsave(profile_plot, file = outputfigure, dpi = 150, width = 15, height = 5, units = "in", limitsize = FALSE)
+profiledata <- c(profiledata, list("total_netgen_req_2019" = profile))
+profilefigure <- c(profilefigure, list("total_netgen_req_2019" = profile_plot))
+summarydata <- c(summarydata, list("sum_total_netgen_req_2019" = summary))
+```
+
+The 2019 total net electricity generation is illustrated in Figure \@ref(fig:TOTNETGEN-2019).
+
+```{r, TOTNETGEN-2019, echo=FALSE,fig.cap='Total net electricity generation requirement in 2019.', fig.align='center', out.width= '100%'}
 ggplotly(profile_plot) %>% layout(showlegend = FALSE)
 ```
