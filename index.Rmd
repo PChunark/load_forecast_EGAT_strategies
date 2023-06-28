@@ -1,18 +1,18 @@
 --- 
-title: "Electricity Profiles Handout"
+title: "Electricity Profiles Cloudbook"
 author: "Puttipong Chunark, Ph.D."
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
+bibliography: [report.bib, packages.bib]
 # url: your book url like https://bookdown.org/yihui/bookdown
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
-  This is a minimal example of using the bookdown package to write a book.
-  The HTML output format for this example is bookdown::gitbook,
-  set in the _output.yml file.
+  This is electricity profile cloudbook. This book provides the characteristic 
+  of electricity profiles at all levels in Thailand. It gives the peak and
+  and minimum load in (MW) and time. Load factor is calculated.
 link-citations: yes
-github-repo: rstudio/bookdown-demo
+github-repo: PChunark/load_forecast_EGAT_strategies
 ---
 
 # About {-}
