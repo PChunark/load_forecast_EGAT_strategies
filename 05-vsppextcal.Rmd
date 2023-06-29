@@ -1,0 +1,31 @@
+# Vary small power producer (VSPP) situation
+
+```{r library setting2, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+```{r, mea_vspp_ene_ext, echo = FALSE, warning=FALSE, message=FALSE}
+mea_vspp_ene_ext <-
+
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+           sheet = "I_Actual",
+           range = "CE7:CM31",
+           col_names = c("solar", "wind", "biomass", "biogas", "msw", "hydro", "enecrop", "cogen", "tot_vspp_gwh")) %>% 
+  replace(is.na(.),0) %>% 
+  mutate(year = 1997:2021,
+         year_th = year + 543) %>% 
+  select(year, year_th,everything()) %>%
+  pivot_longer(-year&-year_th, names_to = "fuel", values_to = "mea_vspp_gwh")
+```
+
+```{r}
+mea_vspp_ene_ext %>% 
+  ggplot(aes(x = year, y = mea_vspp_gwh, group = fuel, color = fuel)) +
+  geom_line(show.legend = FALSE) +
+  facet_wrap(~fuel, scales = "free_y")+
+  ThemeLine +
+  labs(x = NULL,
+       y = "Electricity generation from VSPP (GWh)")
+```
+
