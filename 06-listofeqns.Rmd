@@ -45,7 +45,7 @@ EGTNETGEN_{i,t,h} = MEAReq_{t,h} + \sum_{i=1}^{4} PEAReq_{i,t,h} + \sum_{c=1}^{2
 
 \end{equation}
 
-Transmissions loss profile \@ref(eq: prfLossCal)
+Transmissions loss profile \@ref(eq:prfLossCal)
 
 \begin{equation}
 
