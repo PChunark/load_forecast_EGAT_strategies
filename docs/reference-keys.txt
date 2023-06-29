@@ -1,5 +1,6 @@
-tab:fnely2019
-tab:elygen2019
+tab:fnely2021
+tab:elygen2021
+fig:fig-fuelelygen2017-2021
 tab:profile-egat-to-mea-2019
 eq:energycal
 eq:loadfactorcal
@@ -102,6 +103,8 @@ fig:PEAR4-TOTNETGEN-2019
 tab:sum-totnetgen-2019
 fig:TOTNETGEN-2019
 introduction
+electricity-consumption-situation
+electricity-generation-situation
 initial-settings
 packages-setting
 theme-setting
@@ -150,3 +153,4 @@ the-2019-pea-r2-north-eastern-region-total-net-generation-requirement-profile
 the-2019-pea-r3-southern-region-total-net-generation-requirement-profile
 the-2019-pea-r4-northern-region-total-net-generation-requirement-profile
 the-2019-total-net-generation-requirement-profile
+vary-small-power-producer-vspp-situation

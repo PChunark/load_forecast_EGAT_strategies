@@ -29,7 +29,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
 <meta name="author" content="Puttipong Chunark, Ph.D." />
 
 
-<meta name="date" content="2023-06-28" />
+<meta name="date" content="2023-06-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -178,11 +178,13 @@ div.csl-indent {
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>About</a></li>
 <li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#initial-settings"><i class="fa fa-check"></i><b>1.1</b> Initial settings</a>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#electricity-consumption-situation"><i class="fa fa-check"></i><b>1.1</b> Electricity consumption situation</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#electricity-generation-situation"><i class="fa fa-check"></i><b>1.2</b> Electricity generation situation</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#initial-settings"><i class="fa fa-check"></i><b>1.3</b> Initial settings</a>
 <ul>
-<li class="chapter" data-level="1.1.1" data-path="introduction.html"><a href="introduction.html#packages-setting"><i class="fa fa-check"></i><b>1.1.1</b> Packages setting</a></li>
-<li class="chapter" data-level="1.1.2" data-path="introduction.html"><a href="introduction.html#theme-setting"><i class="fa fa-check"></i><b>1.1.2</b> Theme setting</a></li>
-<li class="chapter" data-level="1.1.3" data-path="introduction.html"><a href="introduction.html#directory-setting"><i class="fa fa-check"></i><b>1.1.3</b> Directory setting</a></li>
+<li class="chapter" data-level="1.3.1" data-path="introduction.html"><a href="introduction.html#packages-setting"><i class="fa fa-check"></i><b>1.3.1</b> Packages setting</a></li>
+<li class="chapter" data-level="1.3.2" data-path="introduction.html"><a href="introduction.html#theme-setting"><i class="fa fa-check"></i><b>1.3.2</b> Theme setting</a></li>
+<li class="chapter" data-level="1.3.3" data-path="introduction.html"><a href="introduction.html#directory-setting"><i class="fa fa-check"></i><b>1.3.3</b> Directory setting</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="electricity-profiles.html"><a href="electricity-profiles.html"><i class="fa fa-check"></i><b>2</b> Electricity profiles</a>
@@ -231,6 +233,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.5" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html#the-2019-pea-r4-northern-region-total-net-generation-requirement-profile"><i class="fa fa-check"></i><b>4.5</b> The 2019 PEA R4 (Northern region) total net generation requirement profile</a></li>
 <li class="chapter" data-level="4.6" data-path="total-net-generation-requirement-profile.html"><a href="total-net-generation-requirement-profile.html#the-2019-total-net-generation-requirement-profile"><i class="fa fa-check"></i><b>4.6</b> The 2019 Total net generation requirement profile</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="vary-small-power-producer-vspp-situation.html"><a href="vary-small-power-producer-vspp-situation.html"><i class="fa fa-check"></i><b>5</b> Vary small power producer (VSPP) situation</a></li>
 <li class="chapter" data-level="" data-path="list-of-equations.html"><a href="list-of-equations.html"><i class="fa fa-check"></i>List of equations</a></li>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i>List of figures</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -257,9 +260,11 @@ div.csl-indent {
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="introduction.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Electricity is one of the key final energy to drive an economy. It is used to provide enduse demands. For instance, charging electric vehicles (EVs), lighting houses, heating water and cooking, driving motors to convey products in industrial processes.</p>
-<p>In 2021, an electricity consumption (Final energy consumption) was 201,016 GWh <span class="citation">(<a href="#ref-dede2021">DEDE 2021</a>)</span>. Manufacturing industry consumed the highest electricity (see Table <a href="introduction.html#tab:fnely2019">1.1</a>). It accounted for 39% of total electricity consumption in 2021. Commercial and residential sectors were the second and the third largest electricity consumption. They accounted for 33% and 27%. The rest were mining (0.6%), agriculture (0.2%) and transport sectors (0.1%).</p>
+<div id="electricity-consumption-situation" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Electricity consumption situation<a href="introduction.html#electricity-consumption-situation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In 2021, an electricity consumption (Final energy consumption) was 201,016 GWh <span class="citation">(<a href="#ref-dede2021">DEDE 2021</a>)</span>. Manufacturing industry consumed the highest electricity (see Table <a href="introduction.html#tab:fnely2021">1.1</a>). It accounted for 39% of total electricity consumption in 2021. Commercial and residential sectors were the second and the third largest electricity consumption. They accounted for 33% and 27%. The rest were mining (0.6%), agriculture (0.2%) and transport sectors (0.1%).</p>
 <table>
-<caption><span id="tab:fnely2019">Table 1.1: </span>Electricity consumption in 2019</caption>
+<caption><span id="tab:fnely2021">Table 1.1: </span>Electricity consumption in 2021</caption>
 <thead>
 <tr class="header">
 <th align="left">Sector</th>
@@ -301,9 +306,12 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-<p>The electricity generation was 186,699 GWh in 2021. The exported and imported electricity were 33,356 GWh and 1,996 GWh. The electricity losses and own uses were 14,098 GWh and 2,945 GWh. Natural gas combined cycle power plants accounted for 59% of total electricity generation in 2021. Thermal power plants accounted for 30%. Table <a href="introduction.html#tab:elygen2019">1.2</a> gives the electricity generation by power plant in 2021.</p>
+</div>
+<div id="electricity-generation-situation" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Electricity generation situation<a href="introduction.html#electricity-generation-situation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The electricity generation was 186,699 GWh in 2021. The exported and imported electricity were 33,356 GWh and 1,996 GWh. The electricity losses and own uses were 14,098 GWh and 2,945 GWh. Natural gas combined cycle power plants accounted for 59% of total electricity generation in 2021. Thermal power plants accounted for 30%. Table <a href="introduction.html#tab:elygen2021">1.2</a> gives the electricity generation by power plant in 2021.</p>
 <table>
-<caption><span id="tab:elygen2019">Table 1.2: </span>Electricity generation in 2019</caption>
+<caption><span id="tab:elygen2021">Table 1.2: </span>Electricity generation in 2021</caption>
 <thead>
 <tr class="header">
 <th align="left">Power plant type</th>
@@ -345,10 +353,19 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-<div id="initial-settings" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Initial settings<a href="introduction.html#initial-settings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="packages-setting" class="section level3 hasAnchor" number="1.1.1">
-<h3><span class="header-section-number">1.1.1</span> Packages setting<a href="introduction.html#packages-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Coal &amp; its products consumption rapidly decreased in generating an electricity from 2017-2021.
+Solar and wind played a vital role in producing an electricity (see Figure <a href="introduction.html#fig:fig-fuelelygen2017-2021">1.1</a>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fig-fuelelygen2017-2021"></span>
+<img src="electricity-profiles_files/figure-html/fig-fuelelygen2017-2021-1.png" alt="Fuel consumption for electricity generation in 2021." width="90%" />
+<p class="caption">
+Figure 1.1: Fuel consumption for electricity generation in 2021.
+</p>
+</div>
+</div>
+<div id="initial-settings" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Initial settings<a href="introduction.html#initial-settings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="packages-setting" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Packages setting<a href="introduction.html#packages-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Before the project starts, packages are required as follows:</p>
 <ul>
 <li>A <code>tidyverse</code> package is a bunch of packages to handle with a data analysis (for more information click <a href="https://www.tidyverse.org/packages/">here</a>). It consists of data manipulation and visualization as follows:
@@ -375,8 +392,8 @@ div.csl-indent {
 <span id="cb1-5"><a href="introduction.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb1-6"><a href="introduction.html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code></pre></div>
 </div>
-<div id="theme-setting" class="section level3 hasAnchor" number="1.1.2">
-<h3><span class="header-section-number">1.1.2</span> Theme setting<a href="introduction.html#theme-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="theme-setting" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Theme setting<a href="introduction.html#theme-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Theme and lines for figures are set in a variable named <code>Themeline</code> as follows:</p>
 <ul>
 <li><code>theme_bw()</code> <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">function</a> provides a black and white theme.</li>
@@ -406,8 +423,8 @@ div.csl-indent {
 <span id="cb2-21"><a href="introduction.html#cb2-21" tabindex="-1"></a>linepalette1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#FF7F00&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>,<span class="st">&quot;#F781BF&quot;</span>,<span class="st">&quot;#8DD3C7&quot;</span>,<span class="st">&quot;#FB8072&quot;</span>,<span class="st">&quot;#80B1D3&quot;</span>,<span class="st">&quot;#FDB462&quot;</span>,<span class="st">&quot;#B3DE69&quot;</span>,<span class="st">&quot;#FCCDE5&quot;</span>,<span class="st">&quot;#D9D9D9&quot;</span>,<span class="st">&quot;#BC80BD&quot;</span>,<span class="st">&quot;#CCEBC5&quot;</span>,<span class="st">&quot;#FFED6F&quot;</span>,<span class="st">&quot;#7f878f&quot;</span>,<span class="st">&quot;#A65628&quot;</span>,<span class="st">&quot;#FFFF33&quot;</span>)</span>
 <span id="cb2-22"><a href="introduction.html#cb2-22" tabindex="-1"></a>linepalette2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#FF7F00&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#B3DE69&quot;</span>,<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>,<span class="st">&quot;#F781BF&quot;</span>,<span class="st">&quot;#8DD3C7&quot;</span>,<span class="st">&quot;#FB8072&quot;</span>,<span class="st">&quot;#80B1D3&quot;</span>,<span class="st">&quot;#FDB462&quot;</span>,<span class="st">&quot;#FCCDE5&quot;</span>,<span class="st">&quot;#D9D9D9&quot;</span>,<span class="st">&quot;#BC80BD&quot;</span>,<span class="st">&quot;#CCEBC5&quot;</span>,<span class="st">&quot;#FFED6F&quot;</span>,<span class="st">&quot;#7f878f&quot;</span>,<span class="st">&quot;#A65628&quot;</span>,<span class="st">&quot;#FFFF33&quot;</span>)</span></code></pre></div>
 </div>
-<div id="directory-setting" class="section level3 hasAnchor" number="1.1.3">
-<h3><span class="header-section-number">1.1.3</span> Directory setting<a href="introduction.html#directory-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="directory-setting" class="section level3 hasAnchor" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Directory setting<a href="introduction.html#directory-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Lists are create to store variables.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="introduction.html#cb3-1" tabindex="-1"></a><span class="co">#----- Make a list of profile to store data -----####</span></span>
 <span id="cb3-2"><a href="introduction.html#cb3-2" tabindex="-1"></a></span>
