@@ -6,30 +6,104 @@ library(tidyverse)
 
 Electricity is one of the key final energy to drive an economy. It is used to provide enduse demands. For instance, charging electric vehicles (EVs), lighting houses, heating water and cooking, driving motors to convey products in industrial processes.
 
+## Electricity consumption situation
+
 In 2021, an electricity consumption (Final energy consumption) was 201,016 GWh [@dede2021]. Manufacturing industry consumed the highest electricity (see Table \@ref(tab:fnely2019)). It accounted for 39% of total electricity consumption in 2021. Commercial and residential sectors were the second and the third largest electricity consumption. They accounted for 33% and 27%. The rest were mining (0.6%), agriculture (0.2%) and transport sectors (0.1%). 
 
 
-```{r, fnely2019, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, fnely2021, echo=FALSE, warning=FALSE, message=FALSE}
 knitr::kable(
   tibble(Sector = c("Agriculture", "Mining", "Manufac. industry", "Construction", 
                   "Residential", "Commercial", "Transport (Road)", "Transport (Rail)"),
        "Electricity (GWh)" = c(398, 1279, 78919, "na", 54481, 65718, 1, 220)), 
-  caption = "Electricity consumption in 2019",
+  caption = "Electricity consumption in 2021",
   booktabs = TRUE
 )
 ```
 
+## Electricity generation situation
+
 The electricity generation was 186,699 GWh in 2021. The exported and imported electricity were 33,356 GWh and 1,996 GWh. The electricity losses and own uses were 14,098 GWh and 2,945 GWh. Natural gas combined cycle power plants accounted for 59% of total electricity generation in 2021. Thermal power plants accounted for 30%. Table \@ref(tab:elygen2019) gives the electricity generation by power plant in 2021.
 
-```{r, elygen2019, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, elygen2021, echo=FALSE, warning=FALSE, message=FALSE}
 knitr::kable(
   tibble("Power plant type" = c("Hydro", "Thermal", "Gas turbine", "Combined cycle", 
                   "Diesel", "Gas engine", "Others", "Total"),
        "Electricity (GWh)" = c(4682, 56737, 1318, 110597, 28, 4769, 8568, 186699)), 
-  caption = "Electricity generation in 2019",
+  caption = "Electricity generation in 2021",
   booktabs = TRUE
 )
 ```
+
+
+Coal & its products consumption rapidly decreased in generating an electricity from 2017-2021.
+Solar and wind played a vital role in producing an electricity (see Figure \@ref(fig:fig_fuelelygen2017_2021).  
+
+```{r, tab_fuelelygen2017_2021, echo=FALSE, warning=FALSE, message=FALSE}
+
+fuelelygen2017_2021<-
+  tibble("Fuel type" = c("COAL & ITS PRODUCTS", "Anthracite", "Bituminous", "Lignite", "Briquettes & other coal",
+                       "PETROLEUM PRODUCTS", "HSD", "Fuel oil",
+                       "NATURAL GAS",
+                       "RENEWABLE ENERGY", "Solar", "Wind", "Small hydro power", "Large hydro power", "Geothermal",
+                       "Paddy husk", "Bagasse", "Agricultural waste", "MSW", "Biogas",
+                       "OTHERS"),
+       unit = c("thousand ton","thousand ton","thousand ton","thousand ton","thousand ton",
+                "M.Litres","M.Litres","M.Litres",
+                "MMscf.",
+                NA, "GWh","GWh","GWh","GWh","GWh", "thousand ton","thousand ton","thousand ton","thousand ton", "m3",
+                "GJ"),
+       "2017" = c(21801, 0, 4964, 15898, 945,
+                  72, 44, 28,
+                  1108683,
+                  NA, 4543, 1109, 504, 4329, 1, 2455, 21602, 6520, 317, 1060449427,
+                  19982002),
+       "2018" = c(20518, 0, 5333, 14169, 1016,
+                  56, 40, 16,
+                  1073831,
+                  NA, 4537, 1641, 615, 7168, 1, 2028, 24476, 7774, 580, 1190465701,
+                  21121440),
+       "2019" = c(20052, 0, 5110, 13761, 1181,
+                  66, 40, 26,
+                  1059300,
+                  NA, 5146, 3670, 441, 6005, 1, 2105, 26835, 8617, 890, 1319121140,
+                  19842988),
+       "2020" = c(19749, 0, 5286, 13223, 1240,
+                  59, 30, 29,
+                  1091779,
+                  NA, 5031, 3220, 348, 4333, 1, 2048, 23352, 8902, 1249, 1054201606,
+                  17228533),
+       "2021" = c(20045,0,4698,14245,1102,
+                  165,67,98,
+                  1022759,
+                  NA, 5015, 3552, 474, 4208, 1, 2772, 24026, 9677, 1490, 1161467101,
+                  19251302)
+        )
+```
+
+```{r, plot_fuelelygen2017_2021, echo=FALSE}
+
+plot_fuelelygen2017_2021 <- 
+fuelelygen2017_2021 %>% 
+  pivot_longer(-c(`Fuel type`, unit ), names_to = "year") %>%
+  filter(`Fuel type` != "RENEWABLE ENERGY") %>% 
+  ggplot()+
+  geom_line(aes(x = year, y = value, group = `Fuel type`, color = `Fuel type`),
+            show.legend = FALSE)+
+  facet_wrap(~`Fuel type`, scales = "free_y")+
+  labs(x = NULL,
+       y = "Fuel consumption (Physical units)")+
+  theme_bw()+
+  theme(strip.background=element_rect(fill="white", colour="white"),
+    strip.text.x = element_text(size=7, colour = "black", angle = 0,face="bold"),
+    axis.text.x=element_text(size = 10,angle=45, vjust=1.5, hjust=1, margin = unit(c(t = 0.3, r = 0, b = 0, l = 0), "cm")))
+```
+
+```{r, fig_fuelelygen2017_2021, echo=FALSE, fig.cap='Fuel consumption for electricity generation in 2021.', fig.align='center', out.width= '90%'}
+plot_fuelelygen2017_2021
+```
+
+
 
 
 ## Initial settings
