@@ -8,7 +8,7 @@ Electricity is one of the key final energy to drive an economy. It is used to pr
 
 ## Electricity consumption situation
 
-In 2021, an electricity consumption (Final energy consumption) was 201,016 GWh [@dede2021]. Manufacturing industry consumed the highest electricity (see Table \@ref(tab:fnely2019)). It accounted for 39% of total electricity consumption in 2021. Commercial and residential sectors were the second and the third largest electricity consumption. They accounted for 33% and 27%. The rest were mining (0.6%), agriculture (0.2%) and transport sectors (0.1%). 
+In 2021, an electricity consumption (Final energy consumption) was 201,016 GWh [@dede2021]. Manufacturing industry consumed the highest electricity (see Table \@ref(tab:fnely2021)). It accounted for 39% of total electricity consumption in 2021. Commercial and residential sectors were the second and the third largest electricity consumption. They accounted for 33% and 27%. The rest were mining (0.6%), agriculture (0.2%) and transport sectors (0.1%). 
 
 
 ```{r, fnely2021, echo=FALSE, warning=FALSE, message=FALSE}
@@ -23,7 +23,7 @@ knitr::kable(
 
 ## Electricity generation situation
 
-The electricity generation was 186,699 GWh in 2021. The exported and imported electricity were 33,356 GWh and 1,996 GWh. The electricity losses and own uses were 14,098 GWh and 2,945 GWh. Natural gas combined cycle power plants accounted for 59% of total electricity generation in 2021. Thermal power plants accounted for 30%. Table \@ref(tab:elygen2019) gives the electricity generation by power plant in 2021.
+The electricity generation was 186,699 GWh in 2021. The exported and imported electricity were 33,356 GWh and 1,996 GWh. The electricity losses and own uses were 14,098 GWh and 2,945 GWh. Natural gas combined cycle power plants accounted for 59% of total electricity generation in 2021. Thermal power plants accounted for 30%. Table \@ref(tab:elygen2021) gives the electricity generation by power plant in 2021.
 
 ```{r, elygen2021, echo=FALSE, warning=FALSE, message=FALSE}
 knitr::kable(
@@ -37,7 +37,7 @@ knitr::kable(
 
 
 Coal & its products consumption rapidly decreased in generating an electricity from 2017-2021.
-Solar and wind played a vital role in producing an electricity (see Figure \@ref(fig:fig_fuelelygen2017_2021).  
+Solar and wind played a vital role in producing an electricity (see Figure \@ref(fig:fig-fuelelygen2017-2021).  
 
 ```{r, tab_fuelelygen2017_2021, echo=FALSE, warning=FALSE, message=FALSE}
 
@@ -99,7 +99,7 @@ fuelelygen2017_2021 %>%
     axis.text.x=element_text(size = 10,angle=45, vjust=1.5, hjust=1, margin = unit(c(t = 0.3, r = 0, b = 0, l = 0), "cm")))
 ```
 
-```{r, fig_fuelelygen2017_2021, echo=FALSE, fig.cap='Fuel consumption for electricity generation in 2021.', fig.align='center', out.width= '90%'}
+```{r, fig-fuelelygen2017-2021, echo=FALSE, fig.cap='Fuel consumption for electricity generation in 2021.', fig.align='center', out.width= '90%'}
 plot_fuelelygen2017_2021
 ```
 
