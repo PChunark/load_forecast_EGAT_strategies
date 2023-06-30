@@ -21,6 +21,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
 
 ```{r, vsppene-2019, echo=FALSE, fig.cap='Electricity generation from VSPP in 2019.', fig.align='center', out.width= '90%'}
 mea_vspp_ene_ext %>% 
+  filter(year >=2005) %>% 
   ggplot(aes(x = year, y = mea_vspp_gwh, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE) +
   facet_wrap(~fuel, scales = "free_y")+
