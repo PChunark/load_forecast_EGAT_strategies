@@ -1,5 +1,5 @@
 --- 
-title: "Electricity Profiles Cloudbook"
+title: "Electricity Profiles Cloudbook: R technique"
 author: "Puttipong Chunark, Ph.D."
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
