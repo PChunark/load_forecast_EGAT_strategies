@@ -4,9 +4,9 @@ bookdown::gitbook:
     toc:
       collapse: subsection
       before: |
-        <li><a href="./">An electricity profiles Book </a></li>
+        <li><a href="./">Electricity Profiles Cloudbook: R technique </a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/USERNAME/REPO/edit/BRANCH/%s
+        <li><a href="https://bookdown.org/" target="blank">Published with bookdown</a></li>
+    edit: https://github.com/PChunark/load_forecast_EGAT_strategies/edit/main/%s
     download: ["pdf", "epub"]
 
