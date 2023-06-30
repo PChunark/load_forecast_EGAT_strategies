@@ -1,11 +1,11 @@
 # Vary small power producer (VSPP) situation
 
-```{r library setting2, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(readxl)
 ```
 
-```{r, mea_vspp_ene_ext, echo = FALSE, warning=FALSE, message=FALSE}
+```{r, mea_vspp_ene_ext, echo = TRUE, warning=FALSE, message=FALSE}
 mea_vspp_ene_ext <-
 
 read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
@@ -19,7 +19,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
   pivot_longer(-year&-year_th, names_to = "fuel", values_to = "mea_vspp_gwh")
 ```
 
-```{r}
+```{r, vsppene-2019, echo=FALSE, fig.cap='Electricity generation from VSPP in 2019.', fig.align='center', out.width= '90%'}
 mea_vspp_ene_ext %>% 
   ggplot(aes(x = year, y = mea_vspp_gwh, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE) +
