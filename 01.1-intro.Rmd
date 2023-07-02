@@ -8,7 +8,7 @@ Electricity is one of the key final energy to drive an economy. It is used to pr
 
 ## Electricity consumption situation
 
-In 2021, an electricity consumption (Final energy consumption) was 201,016 GWh [@dede2021]. Manufacturing industry consumed the highest electricity (see Table \@ref(tab:fnely2021)). It accounted for 39% of total electricity consumption in 2021. Commercial and residential sectors were the second and the third largest electricity consumption. They accounted for 33% and 27%. The rest were mining (0.6%), agriculture (0.2%) and transport sectors (0.1%). 
+The Department of Alternative Energy Development and Efficiency (DEDE) published the **"Energy Balance of Thailand 2021"**. The report provides Thailand's energy statistics in all sectors. In 2021, an electricity consumption (Final energy consumption) was 201,016 GWh [@dede2021]. Manufacturing industry consumed the highest electricity (see Table \@ref(tab:fnely2021)). It accounted for 39% of total electricity consumption in 2021. Commercial and residential sectors were the second and the third largest electricity consumption. They accounted for 33% and 27%. The rest were mining (0.6%), agriculture (0.2%) and transport sectors (0.1%). Further energy statistics can be found in the report on page 57, "Thailand energy commodity account 2021".
 
 
 ```{r, fnely2021, echo=FALSE, warning=FALSE, message=FALSE}
