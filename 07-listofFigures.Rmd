@@ -2,6 +2,7 @@
 
 | Figure name | Figure number |
 | :-----------|:-------------:|
+| Fuel consumption for electricity generation from 2017–2021 | \@ref(fig:fig-fuelelygen2017-2021) |
 | EGAT electricity sale profile to MEA in 2019 | \@ref(fig:EGAT-sale-to-MEA-2019) |
 | EGAT electricity sale profile to PEA-R1 in 2019 | \@ref(fig:EGAT-sale-to-PEA-R1-2019) |
 | EGAT electricity sale profile to PEA-R2 in 2019 | \@ref(fig:EGAT-sale-to-PEA-R2-2019) |
