@@ -1,9 +1,11 @@
-# Vary small power producer (VSPP) situation
+# Very small power producer (VSPP) situation
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(readxl)
 ```
+
+The r technique for evaluating the electricity generation by VSPP in the MEA region, is given below.    
 
 ```{r, mea_vspp_ene_ext, echo = TRUE, warning=FALSE, message=FALSE}
 mea_vspp_ene_ext <-
@@ -19,9 +21,14 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
   pivot_longer(-year&-year_th, names_to = "fuel", values_to = "mea_vspp_gwh")
 ```
 
-```{r, vsppene-2019, echo=FALSE, fig.cap='Electricity generation from VSPP in 2019.', fig.align='center', out.width= '90%'}
+
+The electricity generation from VSPP in the MEA region is provided by the Load Forecast committee. The data is available from 2005. There is no electricity generation from biogas, biomass, energy crop, and wind in MEA region. Total electricity generation from VSPP substantially increased from **3 MWh** in 2005 to **316 GWh** in 2021. Municipal solid waste (WSW) and solar played vital roles in generating an electricity (see Figure \@ref(fig:vsppene-2005-2021)).
+
+
+```{r, vsppene-2005-2021, echo=FALSE, fig.cap='Electricity generation from VSPP during 2005–2021.', fig.align='center', out.width= '90%'}
 mea_vspp_ene_ext %>% 
-  filter(year >=2005) %>% 
+  filter(year >=2005) %>%
+  filter(!fuel %in% c("biogas", "biomass","enecrop","wind")) %>% 
   ggplot(aes(x = year, y = mea_vspp_gwh, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE) +
   facet_wrap(~fuel, scales = "free_y")+
