@@ -112,7 +112,7 @@ fuelelygen2017_2021 %>%
     axis.text.x=element_text(size = 10,angle=45, vjust=1.5, hjust=1, margin = unit(c(t = 0.3, r = 0, b = 0, l = 0), "cm")))
 ```
 
-```{r, fig-fuelelygen2017-2021, echo=FALSE, fig.cap='Fuel consumption for electricity generation from 2017–2021.', fig.align='center', out.width= '90%'}
+```{r, fig-fuelelygen2017-2021, echo=FALSE, fig.cap='Energy consumption for electricity generation from 2017–2021.', fig.align='center', out.width= '90%'}
 plot_fuelelygen2017_2021
 ```
 
