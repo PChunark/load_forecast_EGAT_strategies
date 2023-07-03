@@ -102,7 +102,7 @@ tab:sum-pear4totnetgen-2019
 fig:PEAR4-TOTNETGEN-2019
 tab:sum-totnetgen-2019
 fig:TOTNETGEN-2019
-fig:vsppene-2019
+fig:vsppene-2005-2021
 introduction
 electricity-consumption-situation
 electricity-generation-situation
@@ -154,4 +154,4 @@ the-2019-pea-r2-north-eastern-region-total-net-generation-requirement-profile
 the-2019-pea-r3-southern-region-total-net-generation-requirement-profile
 the-2019-pea-r4-northern-region-total-net-generation-requirement-profile
 the-2019-total-net-generation-requirement-profile
-vary-small-power-producer-vspp-situation
+very-small-power-producer-vspp-situation
