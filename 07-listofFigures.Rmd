@@ -43,3 +43,7 @@
 | The PEA R4 total net electricity generation requirement in 2019 | \@ref(fig:PEAR4-TOTNETGEN-2019) |
 | Total net electricity generation requirement in 2019 | \@ref(fig:TOTNETGEN-2019) |
 | Electricity generation from VSPP in MEA region during 2005–2021 | \@ref(fig:vsppene-2005-2021) |
+| Electricity generation from VSPP in PEA region during 2005–2021 | \@ref(fig:plot-peavspp-ene-2005-2021) |
+| Electricity generation from DEDE in PEA region during 2005–2021 | \@ref(fig:plot-peadede-ene-2005-2021) |
+| Self electricity generation in PEA region during 2005–2021 |\@ref(fig:plot-peasfgen-ene-2005-2021)|
+| Electricity generation from VSPP during 2015–2021 |\@ref(fig:plot-totvspp-ene-2015-2021)|
