@@ -33,7 +33,13 @@ mea_vspp_ene_ext %>%
   filter(!fuel %in% c("biogas", "biomass","enecrop","wind")) %>% 
   ggplot(aes(x = year, y = mea_vspp_gwh, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE) +
-  facet_wrap(~fuel, scales = "free_y")+
+  facet_wrap(~fuel, 
+             scales = "free_y",
+             labeller = as_labeller(c(cogen = "Co-generation",
+                                      hydro = "Small hydro",
+                                      msw = "MSW",
+                                      solar = "Solar",
+                                      tot_vspp_gwh = "Total MEA VSPP")))+
   ThemeLine +
   labs(x = NULL,
        y = "Electricity generation from VSPP (GWh)")
