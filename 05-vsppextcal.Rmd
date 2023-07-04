@@ -48,10 +48,7 @@ mea_vspp_ene_ext %>%
 
 ## Electricity generation from VSPP in the PEA
 
-Total electricity generation from VSPP substantially increased from 
-`r round(pea_vspp_ene_ext %>% filter(year == 2005 & fuel == "tot_vspp_gwh") %>% select(pea_vspp_gwh) %>% pull(),0)` GWh in 2005 to 
-`r round(pea_vspp_ene_ext %>% filter(year == 2021 & fuel == "tot_vspp_gwh") %>% select(pea_vspp_gwh) %>% pull(),0)` GWh in 2021. Biomass played a vital role in generating an electricity in PEA during 2005-2021. Solar and solar rooftop was exponentially increased from 2010-2017 and saturated from 2018 onwards (see Figure \@ref(fig:plot-peavspp-ene-2005-2021): Solar & solar rooftop). Wind electricity ramped up from `r round(pea_vspp_ene_ext %>% filter(year == 2008 & fuel == "wind") %>% select(pea_vspp_gwh) %>% pull(),0)` GWh in 2008 to 
-`r round(pea_vspp_ene_ext %>% filter(year == 2021 & fuel == "wind") %>% select(pea_vspp_gwh) %>% pull(),0)` GWh in 2021 (see Figure \@ref(fig:plot-peavspp-ene-2005-2021): Wind).
+A R code chunk to analyze the electricity generation from VSPP in the PEA is given below.
 
 ```{r, pea_vspp_ene_ext, echo=TRUE, message=FALSE, warning=FALSE}
 pea_vspp_ene_ext <-
@@ -67,6 +64,12 @@ pea_vspp_ene_ext <-
   select(year, year_th,slr_and_rftop,everything(), -solar,-pvrftop) %>%
   pivot_longer(-year&-year_th, names_to = "fuel", values_to = "pea_vspp_gwh") 
 ```
+
+Total electricity generation from VSPP substantially increased from 
+`r round(pea_vspp_ene_ext %>% filter(year == 2005 & fuel == "tot_vspp_gwh") %>% select(pea_vspp_gwh) %>% pull(),0)` GWh in 2005 to 
+`r round(pea_vspp_ene_ext %>% filter(year == 2021 & fuel == "tot_vspp_gwh") %>% select(pea_vspp_gwh) %>% pull(),0)` GWh in 2021. Biomass played a vital role in generating an electricity in PEA during 2005-2021. Solar and solar rooftop was exponentially increased from 2010-2017 and saturated from 2018 onwards (see Figure \@ref(fig:plot-peavspp-ene-2005-2021): Solar & solar rooftop). Wind electricity ramped up from `r round(pea_vspp_ene_ext %>% filter(year == 2008 & fuel == "wind") %>% select(pea_vspp_gwh) %>% pull(),0)` GWh in 2008 to 
+`r round(pea_vspp_ene_ext %>% filter(year == 2021 & fuel == "wind") %>% select(pea_vspp_gwh) %>% pull(),0)` GWh in 2021 (see Figure \@ref(fig:plot-peavspp-ene-2005-2021): Wind).
+
 
 ```{r, plot-peavspp-ene-2005-2021, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation from VSPP in PEA region during 2005–2021.', fig.align='center', out.width= '90%'}
 pea_vspp_ene_ext %>% 
@@ -99,9 +102,7 @@ pea_vspp_ene_ext %>%
 
 ## Electricity generation from DEDE in the PEA
 
-Electricity generation from DEDE is provided **small hydro power plants**. Total electricity generation from DEDE substantially increased from `r round(pea_dede_ene %>% filter(year == 2005) %>% select(pea_dede_gwh) %>% pull(),0)` GWh in 2005 and reach its peak 
-`r round(pea_dede_ene %>% filter(year == 2017) %>% select(pea_dede_gwh) %>% pull(),0)` GWh in 2017. The generation sharply fell to
-`r round(pea_dede_ene %>% filter(year == 2021) %>% select(pea_dede_gwh) %>% pull(),0)` GWh in 2021 (see Figure \@ref(fig:plot-peadede-ene-2005-2021)).
+A R code chunk to analyze the electricity generation from DEDE in the PEA is given below.
 
 ```{r, pea_dede_ene, echo=FALSE, warning=FALSE, message=FALSE}
 pea_dede_ene <-
@@ -114,6 +115,10 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
          year_th = year +543)
 ```
 
+Electricity generation from DEDE is provided **small hydro power plants**. Total electricity generation from DEDE substantially increased from `r round(pea_dede_ene %>% filter(year == 2005) %>% select(pea_dede_gwh) %>% pull(),0)` GWh in 2005 and reach its peak 
+`r round(pea_dede_ene %>% filter(year == 2017) %>% select(pea_dede_gwh) %>% pull(),0)` GWh in 2017. The generation sharply fell to
+`r round(pea_dede_ene %>% filter(year == 2021) %>% select(pea_dede_gwh) %>% pull(),0)` GWh in 2021 (see Figure \@ref(fig:plot-peadede-ene-2005-2021)).
+
 ```{r, plot-peadede-ene-2005-2021, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation from DEDE in PEA region during 2005–2021.', fig.align='center', out.width= '90%'}
 pea_dede_ene %>% 
   filter(year >= 2005) %>% 
@@ -125,9 +130,7 @@ pea_dede_ene %>%
 ```
 ## Self electricity generation in the PEA
 
-Self electricity generation in the PEA is contributed by **small hydro**, **solar**, **wind**, and **diesel generators**. Total electricity generation from DEDE substantially increased from `r round(pea_sfgen_ene %>% filter(year == 2005) %>% select(pea_sfgen_gwh) %>% pull(),0)` GWh in 2005 and reach its peak 
-`r round(pea_sfgen_ene %>% filter(year == 2018) %>% select(pea_sfgen_gwh) %>% pull(),0)` GWh in 2018. The generation fell to
-`r round(pea_sfgen_ene %>% filter(year == 2021) %>% select(pea_sfgen_gwh) %>% pull(),0)` GWh in 2021 (see Figure \@ref(fig:plot-peasfgen-ene-2005-2021)).
+A R code chunk to analyze the self electricity generation in the PEA is given below.
 
 ```{r, pea_sfgen_ene, echo=TRUE, message=FALSE, warning=FALSE}
 pea_sfgen_ene <-
@@ -140,6 +143,10 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
          year_th = year +543)
 ```
 
+Self electricity generation in the PEA is contributed by **small hydro**, **solar**, **wind**, and **diesel generators**. Total electricity generation from DEDE substantially increased from `r round(pea_sfgen_ene %>% filter(year == 2005) %>% select(pea_sfgen_gwh) %>% pull(),0)` GWh in 2005 and reach its peak 
+`r round(pea_sfgen_ene %>% filter(year == 2018) %>% select(pea_sfgen_gwh) %>% pull(),0)` GWh in 2018. The generation fell to
+`r round(pea_sfgen_ene %>% filter(year == 2021) %>% select(pea_sfgen_gwh) %>% pull(),0)` GWh in 2021 (see Figure \@ref(fig:plot-peasfgen-ene-2005-2021)).
+
 ```{r, plot-peasfgen-ene-2005-2021, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Self electricity generation in PEA region during 2005–2021.', fig.align='center', out.width= '90%'}
 pea_sfgen_ene %>% 
   filter(year >=2005) %>% 
@@ -151,7 +158,7 @@ pea_sfgen_ene %>%
 ```
 ## Total electricity generation from VSPP
 
-Figure \@ref(fig:plot-totvspp-ene-2015-2021) illustrates total electricity generation from VSPP during 2015-2021. Total electricity generation from VSPP sharply increased from `r round(tot_vspp_ext %>% filter(year == 2015 & vspp == "tot_vspp_ext_gwh") %>% select(ene_vspp_ext_gwh) %>% pull(),0)` GWh in 2015 to `r round(tot_vspp_ext %>% filter(year == 2021 & vspp == "tot_vspp_ext_gwh") %>% select(ene_vspp_ext_gwh) %>% pull(),0)` GWh in 2021. The PEA mainly drove the generation by VSPP.
+A R code chunk to analyze total electricity generation is given below.
 
 
 ```{r, tot_vspp_ext, echo=TRUE, warning=FALSE, message=FALSE}
@@ -175,6 +182,8 @@ cbind(mea_vspp_ene_ext %>%
          tot_vspp_ext_gwh = mea_vspp_gwh + pea_vspp_gwh + pea_dede_gwh + pea_sfgen_gwh) %>% 
   pivot_longer(-year&-year_th,names_to = "vspp",values_to = "ene_vspp_ext_gwh")
 ```
+
+Figure \@ref(fig:plot-totvspp-ene-2015-2021) illustrates total electricity generation from VSPP during 2015-2021. Total electricity generation from VSPP sharply increased from `r round(tot_vspp_ext %>% filter(year == 2015 & vspp == "tot_vspp_ext_gwh") %>% select(ene_vspp_ext_gwh) %>% pull(),0)` GWh in 2015 to `r round(tot_vspp_ext %>% filter(year == 2021 & vspp == "tot_vspp_ext_gwh") %>% select(ene_vspp_ext_gwh) %>% pull(),0)` GWh in 2021. The PEA mainly drove the generation by VSPP.
 
 ```{r, plot-totvspp-ene-2015-2021, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation from VSPP during 2015–2021.', fig.align='center', out.width= '90%'}
 tot_vspp_ext %>% 
