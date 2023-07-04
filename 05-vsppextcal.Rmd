@@ -5,6 +5,8 @@ library(tidyverse)
 library(readxl)
 ```
 
+## VSPP in the MEA
+
 The r technique for evaluating the electricity generation by VSPP in the MEA region, is given below.    
 
 ```{r, mea_vspp_ene_ext, echo = TRUE, warning=FALSE, message=FALSE}
@@ -35,5 +37,134 @@ mea_vspp_ene_ext %>%
   ThemeLine +
   labs(x = NULL,
        y = "Electricity generation from VSPP (GWh)")
+```
+
+
+## VSPP in the PEA
+
+
+```{r, pea_vspp_ene_ext, echo=TRUE, message=FALSE, warning=FALSE}
+pea_vspp_ene_ext <-
+  
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+           sheet = "I_Actual",
+           range = "DK7:DT31",
+           col_names = c("solar","pvrftop", "wind", "biomass", "biogas", "msw", "hydro", "enecrop", "cogen", "tot_vspp_gwh"))%>%
+  replace(is.na(.),0) %>% 
+  mutate(year = 1997:2021,
+         year_th = year + 543,
+         slr_and_rftop = solar + pvrftop) %>% 
+  select(year, year_th,slr_and_rftop,everything(), -solar,-pvrftop) %>%
+  pivot_longer(-year&-year_th, names_to = "fuel", values_to = "pea_vspp_gwh") 
+```
+
+```{r, plot-peavspp-ene-2005-2021, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation from VSPP in PEA region during 2005–2021.', fig.align='center', out.width= '90%'}
+pea_vspp_ene_ext %>% 
+  filter(fuel != "enecrop") %>% 
+  ggplot(aes(x = year, y = pea_vspp_gwh, group = fuel, color = fuel)) +
+  geom_line(show.legend = FALSE) +
+  facet_wrap(~factor(fuel, #Change the order of facet
+                     levels = c("biogas",
+                                "biomass", 
+                                "cogen",
+                                "hydro", 
+                                "msw",
+                                "slr_and_rftop",
+                                "wind", 
+                                "tot_vspp_gwh")), 
+             scales = "free_y",
+             labeller = as_labeller(c(biogas = "Biogas", # Rename facet stript
+                                      biomass = "Biomass",
+                                      cogen = "Co-generation",
+                                      hydro = "Small hydro",
+                                      msw = "MSW",
+                                      slr_and_rftop = "Solar & solar rooftop",
+                                      tot_vspp_gwh = "Total VSPP",
+                                      wind = "Wind"))) +
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
+```
+
+
+
+```{r, pea_dede_ene, echo=FALSE, warning=FALSE, message=FALSE}
+pea_dede_ene <-
+  
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+           sheet = "I_Actual",
+           range = "ET7:ET31",
+           col_names = "pea_dede_gwh") %>% 
+  mutate(year = 1997:2021,
+         year_th = year +543)
+```
+
+```{r, plot-peadede-ene-2005-2021, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation from DEDE in PEA region during 2005–2021.', fig.align='center', out.width= '90%'}
+pea_dede_ene %>% 
+  ggplot(aes(x = year, y = pea_dede_gwh)) +
+  geom_line(show.legend = FALSE) +
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
+```
+
+
+
+```{r, pea_sfgen_ene, echo=TRUE, message=FALSE, warning=FALSE}
+pea_sfgen_ene <-
+  
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+           sheet = "I_Actual",
+           range = "EZ7:EZ31",
+           col_names = "pea_sfgen_gwh") %>% 
+  mutate(year = 1997:2021,
+         year_th = year +543)
+```
+
+```{r, plot-peasfgen-ene-2005-2021, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Self electricity generation in PEA region during 2005–2021.', fig.align='center', out.width= '90%'}
+pea_sfgen_ene %>% 
+  ggplot(aes(x = year, y = pea_sfgen_gwh)) +
+  geom_line(show.legend = FALSE) +
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
+```
+```{r}
+tot_vspp_ext <-
+cbind(mea_vspp_ene_ext %>% 
+        filter(year >= 2015,
+               fuel == "tot_vspp_gwh") %>% 
+        select(year, year_th, mea_vspp_gwh), 
+      pea_vspp_ene_ext %>% 
+        filter(year >= 2015,
+               fuel == "tot_vspp_gwh") %>% 
+        select(pea_vspp_gwh),
+      pea_dede_ene %>% 
+        filter(year >= 2015) %>% 
+        select(pea_dede_gwh),
+      pea_sfgen_ene %>% 
+        filter(year >= 2015) %>% 
+        select(pea_sfgen_gwh)
+        ) %>% 
+  mutate(tot_pea_vspp_gwh = pea_vspp_gwh + pea_dede_gwh + pea_sfgen_gwh,
+         tot_vspp_ext_gwh = mea_vspp_gwh + pea_vspp_gwh + pea_dede_gwh + pea_sfgen_gwh) %>% 
+  pivot_longer(-year&-year_th,names_to = "vspp",values_to = "ene_vspp_ext_gwh")
+```
+
+```{r, plot-totvspp-ene-2005-2021, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation from VSPP during 2015–2021.', fig.align='center', out.width= '90%'}
+tot_vspp_ext %>% 
+  ggplot(aes(x = year, y = ene_vspp_ext_gwh, group = vspp, color = vspp))+
+  geom_line(show.legend = FALSE)+
+  facet_wrap(~vspp, 
+             scales = "free_y",
+             labeller = as_labeller(c(mea_vspp_gwh = "Total MEA VSPPs",
+                                      pea_dede_gwh = "PEA DEDE small hydro",
+                                      pea_sfgen_gwh = "PEA selfgen",
+                                      pea_vspp_gwh = "PEA VSPPs",
+                                      tot_pea_vspp_gwh = "Total PEA VSPPs",
+                                      tot_vspp_ext_gwh = "Total VSPPs")))+
+  ThemeLine +
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
 ```
 
