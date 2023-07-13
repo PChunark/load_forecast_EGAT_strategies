@@ -8,6 +8,7 @@ library(readxl)
 ## Electricity generation from VSPP in the MEA {#elygenVSPPMEA}
 
 In MEA, the electricity are produced by:
+
 * Solar 
 * Municipal solid waste (MSW)
 * Small hydro
@@ -56,6 +57,7 @@ mea_vspp_ene_ext %>%
 ## Electricity generation from VSPP in the PEA {#elygenVSPPPEA}
 
 In PEA, the electricity are produced by:
+
 * Solar
 * Solar rooftop
 * Wind
@@ -185,10 +187,10 @@ EVSPP_{i,t} = EVSPP_{MEA,t} + (EVSPP_{PEA,t}+EVSPP_{DEDE,t}+EVSPP_{Selfgen,t})
 \end{equation}
 
 Where,
-$EVSPP_{i,t}$ denotes total electricity generation by VSPP from region $i$ in year $t$.
-$EVSPP_{MEA,t}$ denotes total electricity generation by VSPP from $MEA$ in year $t$ (see section \@ref(elygenVSPPMEA)).
-$EVSPP_{PEA,t}$ denotes an electricity generation by VSPP from $PEA$ in year $t$ (see section \@ref(elygenVSPPPEA)).
-$EVSPP_{DEDE,t}$ denotes an electricity generation by $DEDE$ from PEA in year $t$ (see section \@ref(elygenDEDEPEA)).
+$EVSPP_{i,t}$ denotes total electricity generation by VSPP from region $i$ in year $t$.\
+$EVSPP_{MEA,t}$ denotes total electricity generation by VSPP from $MEA$ in year $t$ (see section \@ref(elygenVSPPMEA)).\
+$EVSPP_{PEA,t}$ denotes an electricity generation by VSPP from $PEA$ in year $t$ (see section \@ref(elygenVSPPPEA)).\
+$EVSPP_{DEDE,t}$ denotes an electricity generation by $DEDE$ from PEA in year $t$ (see section \@ref(elygenDEDEPEA)).\
 $EVSPP_{Selfgen,t}$ denotes a self electricity generation ($Selfgen$) from PEA in year $t$ (see section \@ref(slfelygenPEA)).
 
 
