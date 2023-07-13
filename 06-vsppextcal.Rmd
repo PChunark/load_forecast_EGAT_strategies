@@ -5,9 +5,16 @@ library(tidyverse)
 library(readxl)
 ```
 
-## Electricity generation from VSPP in the MEA
+## Electricity generation from VSPP in the MEA {#elygenVSPPMEA}
 
-The R technique for evaluating the electricity generation by VSPP in the MEA region, is given below.    
+In MEA, the electricity are produced by:
+* Solar 
+* Municipal solid waste (MSW)
+* Small hydro
+* Co-generation
+
+According to MEA data, the electricity generation is available from 1997-2021 (budget load as of 20 Oct 2022). 
+    
 
 ```{r, mea_vspp_ene_ext, echo = TRUE, warning=FALSE, message=FALSE}
 mea_vspp_ene_ext <-
@@ -46,7 +53,17 @@ mea_vspp_ene_ext %>%
 ```
 
 
-## Electricity generation from VSPP in the PEA
+## Electricity generation from VSPP in the PEA {#elygenVSPPPEA}
+
+In PEA, the electricity are produced by:
+* Solar
+* Solar rooftop
+* Wind
+* Biomass
+* Biogas
+* Municipal solid waste (MSW)
+* Small hydro
+* Co-generation
 
 A R code chunk to analyze the electricity generation from VSPP in the PEA is given below.
 
@@ -100,7 +117,7 @@ pea_vspp_ene_ext %>%
        y = "Electricity generation (GWh)")
 ```
 
-## Electricity generation from DEDE in the PEA
+## Electricity generation from DEDE in the PEA {#elygenDEDEPEA}
 
 A R code chunk to analyze the electricity generation from DEDE in the PEA is given below.
 
@@ -128,7 +145,7 @@ pea_dede_ene %>%
   labs(x = NULL,
        y = "Electricity generation (GWh)")
 ```
-## Self electricity generation in the PEA
+## Self electricity generation in the PEA {#slfelygenPEA}
 
 A R code chunk to analyze the self electricity generation in the PEA is given below.
 
@@ -157,6 +174,23 @@ pea_sfgen_ene %>%
        y = "Electricity generation (GWh)")
 ```
 ## Total electricity generation from VSPP
+
+Total electricity generation can be calculated by equation \@ref(eq:totVSPPEnergy).
+
+\begin{equation}
+
+EVSPP_{i,t} = EVSPP_{MEA,t} + (EVSPP_{PEA,t}+EVSPP_{DEDE,t}+EVSPP_{Selfgen,t})
+(\#eq:totVSPPEnergy)
+
+\end{equation}
+
+Where,
+$EVSPP_{i,t}$ denotes total electricity generation by VSPP from region $i$ in year $t$.
+$EVSPP_{MEA,t}$ denotes total electricity generation by VSPP from $MEA$ in year $t$ (see section \@ref(elygenVSPPMEA)).
+$EVSPP_{PEA,t}$ denotes an electricity generation by VSPP from $PEA$ in year $t$ (see section \@ref(elygenVSPPPEA)).
+$EVSPP_{DEDE,t}$ denotes an electricity generation by $DEDE$ from PEA in year $t$ (see section \@ref(elygenDEDEPEA)).
+$EVSPP_{Selfgen,t}$ denotes a self electricity generation ($Selfgen$) from PEA in year $t$ (see section \@ref(slfelygenPEA)).
+
 
 A R code chunk to analyze total electricity generation is given below.
 
