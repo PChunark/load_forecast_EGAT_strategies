@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Electricity Profiles Cloudbook: R technique</title>
+  <title>Chapter 2 Getting started with R | Electricity Profiles Cloudbook: R technique</title>
   <meta name="description" content="<p>This is electricity profile cloudbook. This book provides the characteristic
 of electricity profiles at all levels in Thailand. It gives the peak and
 and minimum load in (MW) and time. Load factor is calculated.</p>" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Electricity Profiles Cloudbook: R technique" />
+  <meta property="og:title" content="Chapter 2 Getting started with R | Electricity Profiles Cloudbook: R technique" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is electricity profile cloudbook. This book provides the characteristic
@@ -19,7 +19,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
   <meta name="github-repo" content="PChunark/load_forecast_EGAT_strategies" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Electricity Profiles Cloudbook: R technique" />
+  <meta name="twitter:title" content="Chapter 2 Getting started with R | Electricity Profiles Cloudbook: R technique" />
   
   <meta name="twitter:description" content="<p>This is electricity profile cloudbook. This book provides the characteristic
 of electricity profiles at all levels in Thailand. It gives the peak and
@@ -36,8 +36,8 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="introduction.html"/>
+<link rel="prev" href="introduction.html"/>
+<link rel="next" href="electricity-profiles.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -268,25 +268,102 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Electricity Profiles Cloudbook: R technique</h1>
-<p class="author"><em>Puttipong Chunark, Ph.D.</em></p>
-<p class="date"><em>2023-07-13</em></p>
+<div id="getting-started-with-r" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Getting started with R<a href="getting-started-with-r.html#getting-started-with-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The R language is used in this project. It is applied to analyze and visualize the electricity generation, electricity demand, electricity profiles. Therefore, R language is needed to install
+in your computer. R can be run on several operating system.</p>
+<ul>
+<li>Installing R on <a href="https://cran.r-project.org/bin/windows/">Windows</a></li>
+<li>Installing R on <a href="https://cran.r-project.org/bin/macosx/">macOS</a></li>
+</ul>
+<p>There is an integrated development environment (IDE) for R language. The IDE is an excellent text editor with syntax highlight and project viewer. The Rstudio IDE can be downloaded <a href="https://posit.co/downloads/">here</a>.</p>
+<div id="project-initial-settings" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Project initial settings<a href="getting-started-with-r.html#project-initial-settings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="installing-packages" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Installing packages<a href="getting-started-with-r.html#installing-packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Required packages can be downloaded by using the command <code>install.packages()</code>. A R code chunk is given below.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="getting-started-with-r.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;readxl&quot;</span>,<span class="st">&quot;scales&quot;</span>, <span class="st">&quot;glue&quot;</span>,<span class="st">&quot;knitr&quot;</span>)</span></code></pre></div>
 </div>
-<div id="about" class="section level1 unnumbered hasAnchor">
-<h1>About<a href="index.html#about" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>This webpage is created to understand the electricity load profile at all
-levels. R coding techniques are included. Readers can learn how to code
-the R language in the format of scripts, R markdown, and bookdown.</p>
+<div id="packages-settings" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Packages settings<a href="getting-started-with-r.html#packages-settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before the project starts, packages are required as follows:</p>
+<ul>
+<li>A <code>tidyverse</code> package is a bunch of packages to handle with a data analysis (for more information click <a href="https://www.tidyverse.org/packages/">here</a>). It consists of data manipulation and visualization as follows:
+<ul>
+<li>A <code>ggplot2</code> <a href="https://ggplot2.tidyverse.org/">package</a> is for data visualization.</li>
+<li>A <code>dplyr</code> <a href="https://dplyr.tidyverse.org/">package</a> is for data manipulation.</li>
+<li>A <code>tidyr</code> <a href="https://tidyr.tidyverse.org/">package</a> is for data tidying.</li>
+<li>A <code>readr</code> <a href="https://readr.tidyverse.org/">package</a> is for data import.</li>
+<li>A <code>purrr</code> <a href="https://purrr.tidyverse.org/">package</a> is for functional programming.</li>
+<li>A <code>tibble</code> <a href="https://tibble.tidyverse.org/">package</a> is a modern reimagining of the data.frame.</li>
+<li>A <code>stringr</code> <a href="https://github.com/tidyverse/stringr">package</a> is for strings.</li>
+<li>A <code>forcats</code> <a href="https://github.com/tidyverse/forcats">package</a> is for factors.</li>
+<li>A <code>lubridate</code> <a href="https://github.com/tidyverse/lubridate">package</a> is for date and time.</li>
+</ul></li>
+<li>A <code>readxl</code> <a href="https://readxl.tidyverse.org/">package</a> is used for read data from <strong>Excel</strong> into R.</li>
+<li>A <code>scales</code> <a href="https://scales.r-lib.org/">package</a> is applied to scale plots in the ggplot2 package.</li>
+<li>A <code>glue</code> <a href="https://glue.tidyverse.org/">package</a> interprets strings literal. The package embeds R expressions and inserts into argument string.</li>
+<li>A <code>knitr</code> <a href="https://github.com/yihui/knitr">package</a> is a lightweight API’s designed to give users full control of the output without heavy coding work. In this project, the package is used for making a HTML.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="getting-started-with-r.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#For data manipulation</span></span>
+<span id="cb2-2"><a href="getting-started-with-r.html#cb2-2" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co">#For reading the excel sheet</span></span>
+<span id="cb2-3"><a href="getting-started-with-r.html#cb2-3" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb2-4"><a href="getting-started-with-r.html#cb2-4" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb2-5"><a href="getting-started-with-r.html#cb2-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb2-6"><a href="getting-started-with-r.html#cb2-6" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code></pre></div>
+</div>
+<div id="theme-settings" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Theme settings<a href="getting-started-with-r.html#theme-settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Theme and lines for figures are set in a variable named <code>Themeline</code> as follows:</p>
+<ul>
+<li><code>theme_bw()</code> <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">function</a> provides a black and white theme.</li>
+<li><code>theme()</code> function applied for setting theme and line represented in plots.</li>
+<li><code>linepalette1</code> and <code>linepalette1</code> variables set line colors.</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="getting-started-with-r.html#cb3-1" tabindex="-1"></a>ThemeLine <span class="ot">&lt;-</span> </span>
+<span id="cb3-2"><a href="getting-started-with-r.html#cb3-2" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb3-3"><a href="getting-started-with-r.html#cb3-3" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-4"><a href="getting-started-with-r.html#cb3-4" tabindex="-1"></a>    <span class="at">panel.border=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="cn">NA</span>),</span>
+<span id="cb3-5"><a href="getting-started-with-r.html#cb3-5" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="cn">NA</span>), </span>
+<span id="cb3-6"><a href="getting-started-with-r.html#cb3-6" tabindex="-1"></a>    <span class="co">#    axis.title=element_text(size=5),</span></span>
+<span id="cb3-7"><a href="getting-started-with-r.html#cb3-7" tabindex="-1"></a>    <span class="co">#    axis.text.x = element_text(hjust=1,size = 10, angle = 0),</span></span>
+<span id="cb3-8"><a href="getting-started-with-r.html#cb3-8" tabindex="-1"></a>    <span class="at">axis.line=</span><span class="fu">element_line</span>(<span class="at">colour=</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb3-9"><a href="getting-started-with-r.html#cb3-9" tabindex="-1"></a>    <span class="at">panel.background=</span><span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;white&quot;</span>),</span>
+<span id="cb3-10"><a href="getting-started-with-r.html#cb3-10" tabindex="-1"></a>    <span class="at">panel.grid.major.x=</span><span class="fu">element_line</span>(<span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>,<span class="at">colour=</span><span class="st">&quot;grey&quot;</span>,<span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb3-11"><a href="getting-started-with-r.html#cb3-11" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-12"><a href="getting-started-with-r.html#cb3-12" tabindex="-1"></a>    <span class="co"># panel.grid.major=element_blank(),</span></span>
+<span id="cb3-13"><a href="getting-started-with-r.html#cb3-13" tabindex="-1"></a>    <span class="at">strip.background=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">&quot;white&quot;</span>, <span class="at">colour=</span><span class="st">&quot;white&quot;</span>),</span>
+<span id="cb3-14"><a href="getting-started-with-r.html#cb3-14" tabindex="-1"></a>    <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">angle =</span> <span class="dv">0</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb3-15"><a href="getting-started-with-r.html#cb3-15" tabindex="-1"></a>    <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>,<span class="at">angle=</span><span class="dv">45</span>, <span class="at">vjust=</span><span class="fl">0.9</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="at">t =</span> <span class="fl">0.3</span>, <span class="at">r =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>)),</span>
+<span id="cb3-16"><a href="getting-started-with-r.html#cb3-16" tabindex="-1"></a>    <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>,<span class="at">margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="at">t =</span> <span class="dv">0</span>, <span class="at">r =</span> <span class="fl">0.3</span>, <span class="at">b =</span> <span class="dv">0</span>, <span class="at">l =</span> <span class="dv">0</span>), <span class="st">&quot;cm&quot;</span>)),</span>
+<span id="cb3-17"><a href="getting-started-with-r.html#cb3-17" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb3-18"><a href="getting-started-with-r.html#cb3-18" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb3-19"><a href="getting-started-with-r.html#cb3-19" tabindex="-1"></a>    <span class="at">axis.ticks.length=</span><span class="fu">unit</span>(<span class="sc">-</span><span class="fl">0.15</span>,<span class="st">&quot;cm&quot;</span>)</span>
+<span id="cb3-20"><a href="getting-started-with-r.html#cb3-20" tabindex="-1"></a>  )</span>
+<span id="cb3-21"><a href="getting-started-with-r.html#cb3-21" tabindex="-1"></a>linepalette1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#FF7F00&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>,<span class="st">&quot;#F781BF&quot;</span>,<span class="st">&quot;#8DD3C7&quot;</span>,<span class="st">&quot;#FB8072&quot;</span>,<span class="st">&quot;#80B1D3&quot;</span>,<span class="st">&quot;#FDB462&quot;</span>,<span class="st">&quot;#B3DE69&quot;</span>,<span class="st">&quot;#FCCDE5&quot;</span>,<span class="st">&quot;#D9D9D9&quot;</span>,<span class="st">&quot;#BC80BD&quot;</span>,<span class="st">&quot;#CCEBC5&quot;</span>,<span class="st">&quot;#FFED6F&quot;</span>,<span class="st">&quot;#7f878f&quot;</span>,<span class="st">&quot;#A65628&quot;</span>,<span class="st">&quot;#FFFF33&quot;</span>)</span>
+<span id="cb3-22"><a href="getting-started-with-r.html#cb3-22" tabindex="-1"></a>linepalette2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#FF7F00&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#B3DE69&quot;</span>,<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>,<span class="st">&quot;#F781BF&quot;</span>,<span class="st">&quot;#8DD3C7&quot;</span>,<span class="st">&quot;#FB8072&quot;</span>,<span class="st">&quot;#80B1D3&quot;</span>,<span class="st">&quot;#FDB462&quot;</span>,<span class="st">&quot;#FCCDE5&quot;</span>,<span class="st">&quot;#D9D9D9&quot;</span>,<span class="st">&quot;#BC80BD&quot;</span>,<span class="st">&quot;#CCEBC5&quot;</span>,<span class="st">&quot;#FFED6F&quot;</span>,<span class="st">&quot;#7f878f&quot;</span>,<span class="st">&quot;#A65628&quot;</span>,<span class="st">&quot;#FFFF33&quot;</span>)</span></code></pre></div>
+</div>
+<div id="directory-setting" class="section level3 hasAnchor" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Directory setting<a href="getting-started-with-r.html#directory-setting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Lists are create to store variables.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="getting-started-with-r.html#cb4-1" tabindex="-1"></a><span class="co">#----- Make a list of profile to store data -----####</span></span>
+<span id="cb4-2"><a href="getting-started-with-r.html#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="getting-started-with-r.html#cb4-3" tabindex="-1"></a>profiledata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb4-4"><a href="getting-started-with-r.html#cb4-4" tabindex="-1"></a>profilefigure <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb4-5"><a href="getting-started-with-r.html#cb4-5" tabindex="-1"></a>summarydata <span class="ot">&lt;-</span> <span class="fu">list</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="getting-started-with-r.html#cb5-1" tabindex="-1"></a><span class="co">#----- Make variable for output directory -----####</span></span>
+<span id="cb5-2"><a href="getting-started-with-r.html#cb5-2" tabindex="-1"></a>outfigdir <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;figures/&quot;</span>)</span></code></pre></div>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="electricity-profiles.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -317,7 +394,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/PChunark/load_forecast_EGAT_strategies/edit/main/index.Rmd",
+"link": "https://github.com/PChunark/load_forecast_EGAT_strategies/edit/main/02-getting-started-with-R.Rmd",
 "text": "Edit"
 },
 "history": {
