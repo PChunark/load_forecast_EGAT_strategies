@@ -62,3 +62,12 @@ TOTNETGEN_{i,t,h} = MEAReq_{t,h} + \sum_{i=1}^{4}(PEAReq_{i,t,h} + VSPP_{i,t,h})
 (\#eq:totalNetGenCal)
 
 \end{equation}
+ 
+Total electricity generation from VSPP \@ref(eq:totVSPPEnergy)
+
+\begin{equation}
+
+EVSPP_{i,t} = EVSPP_{MEA,t} + (EVSPP_{PEA,t}+EVSPP_{DEDE,t}+EVSPP_{Selfgen,t})
+(\#eq:totVSPPEnergy)
+
+\end{equation}
