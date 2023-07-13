@@ -3,8 +3,8 @@
 The R language is used in this project. It is applied to analyze and visualize the electricity generation, electricity demand, electricity profiles. Therefore, R language is needed to install
 in your computer. R can be run on several operating system.
 
-*Installing R on [Windows](https://cran.r-project.org/bin/windows/)
-*Installing R on [macOS](https://cran.r-project.org/bin/macosx/)
+* Installing R on [Windows](https://cran.r-project.org/bin/windows/)
+* Installing R on [macOS](https://cran.r-project.org/bin/macosx/)
 
 There is an integrated development environment (IDE) for R language. The IDE is an excellent text editor with syntax highlight and project viewer. The Rstudio IDE can be downloaded [here](https://posit.co/downloads/).
 
