@@ -16,7 +16,7 @@ There is an integrated development environment (IDE) for R language. The IDE is 
 Required packages can be downloaded by using the command `install.packages()`. A R code chunk is given below.
 
 ```{r, installing packages, echo=TRUE, warning=FALSE, message=FALSE}
-install.packages("tidyverse", "readxl","scales", "glue","knitr")
+install.packages("tidyverse", "readxl","scales", "glue","knitr", "plotly")
 ```
 
 
@@ -36,7 +36,8 @@ Before the project starts, packages are required as follows:
 * A `readxl` [package](https://readxl.tidyverse.org/) is used for read data from **Excel** into R.
 * A `scales` [package](https://scales.r-lib.org/) is applied to scale plots in the ggplot2 package.
 * A `glue` [package](https://glue.tidyverse.org/) interprets strings literal. The package embeds R expressions and inserts into argument string.
-* A `knitr` [package](https://github.com/yihui/knitr) is a lightweight API's designed to give users full control of the output without heavy coding work. In this project, the package is used for making a HTML. 
+* A `knitr` [package](https://github.com/yihui/knitr) is a lightweight API's designed to give users full control of the output without heavy coding work. In this project, the package is used for making a HTML.
+* A `plotly` [package](https://plotly.com/r/getting-started/) is an alternative package to a `ggplot2` package. It is an interactive web-base graphic [@ployly2023]. 
 
 
 ```{r, library setting, results='hide', message=FALSE}
