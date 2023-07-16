@@ -108,6 +108,8 @@ fig:plot-peadede-ene-2005-2021
 fig:plot-peasfgen-ene-2005-2021
 eq:totVSPPEnergy
 fig:plot-totvspp-ene-2015-2021
+fig:plot-vsppConCapPDP2018r1
+fig:plot-vsppEnePDP2018r1
 introduction
 electricity-consumption-situation
 electricity-generation-situation
@@ -167,3 +169,4 @@ elygenVSPPPEA
 elygenDEDEPEA
 slfelygenPEA
 total-electricity-generation-from-vspp
+vspp-calculation
