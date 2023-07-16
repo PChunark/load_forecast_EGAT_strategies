@@ -22,7 +22,7 @@ vsppcontractcapPDP2018R1 <-
          total = "รวม") %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "contract_mw") 
 ```
-Coal and diesel contract capacities are constant throughout PDP2018 rev.1 at **31.99 MW** and **29.98 MW**, respectively. Contract capacity from gas increases from **24.7 MW** in 2018 to **31.5 MW** in 2019 and remains constant till 2037.  
+**Coal and diesel** contract capacities are constant throughout PDP2018 rev.1 at **31.99 MW** and **29.98 MW**, respectively. Contract capacity from **gas** increases from **24.7 MW** in 2018 to **31.5 MW** in 2019 and remains constant till 2037. **Biogas** and **biomass** substantially increases from 2018-2037. In 2037, **biogas**, **biomass**, **solar** and **wind** contract capacity reach **1,535.48 MW** and **3,887.27 MW**, **11,574.56 MW**, and **1,541.37 MW**, respectively. Industrial waste starts from **5.91 MW** in 2034 to **44 MW** in 2037. Waste contract capacity reach **601 MW** from 2022 till 2037. Hydro power plant remain the same at **27.03 MW** from 2018-2037. **Energy efficiency plan (EE)** increases **354 MW** in 2032 and reaches **4000 MW** in 2037. Total contract capacity increases from **3787.48 MW** in 2018 to **23,304.21 MW** in 2037.
 
 
 ```{r plot-vsppConCapPDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP contract capacity in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
@@ -48,6 +48,38 @@ vsppcontractcapPDP2018R1 %>%
   scale_x_continuous(breaks = c(2018,2023,2030,2037))+
   scale_y_continuous(labels =  comma)+ # Add comma to number in y axis
   labs(x = NULL,
-       y = "VSPP contract capacity (MW)")
+       y = "Contract capacity (MW)")
+```
+
+
+Electricity generation from VSPP in the PDP2018 Rev.1 code chunk is provided below.
+
+```{r , vsppenepdp2018r1, echo=TRUE, warning=FALSE, message=FALSE}
+vsppenergyPDP2018R1 <-
+  read_excel("raw_data/Domeสรุป VSPP_PDP18R1 and ร่าง PDP2022 เคส 7_เพิ่ม vspp.xlsx",
+             sheet = "สรุป VSPP PDP18R1 Fuel",
+             range = "A16:U28")%>%
+  rename(vspp_gwh = "VSPP (Energy)") %>% 
+  pivot_longer(-vspp_gwh, names_to = "year_th",values_to = "energy_gwh") %>% 
+  mutate(year = as.numeric(year_th)-543) %>%
+  pivot_wider(names_from = vspp_gwh, values_from = energy_gwh) %>% 
+  rename_all(tolower) %>% 
+  rename(ind_waste = "industrial waste",
+         total = "รวม") %>% 
+  pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh")
+```
+
+```{r plot-vsppEnePDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP electricity generation in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
+vsppenergyPDP2018R1 %>% 
+  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "ind_waste", "waste", "hydro", "solar", "wind", "ee", "total"))) %>% 
+    ggplot(aes(x = year, y = vspp_gwh, group = fuel, color = fuel)) +
+  geom_line(show.legend = FALSE)+
+  facet_wrap(~fuel, 
+             scales = "free_y")+
+  ThemeLine +
+  scale_x_continuous(breaks = c(2018,2023,2030,2037))+
+  scale_y_continuous(labels =  comma)+ # Add comma to number in y axis
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
 ```
 
