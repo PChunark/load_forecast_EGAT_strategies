@@ -1,7 +1,7 @@
 # VSPP calculation
 
 
-Estimated electricity generation (energy) can be in equation (@\ref(eq:totVSPPEnergy)). 
+Estimated electricity generation (energy) can be in equation \@ref(eq:totVSPPEnergy). 
 
 
 In this project, VSPP contract capacity and electricity generation are considered. An information is taken from **PDP2018 Rev.1** and **PDP2022 Case 7**. VSPP contract capacity and electricity generation are summarized by Power Development Planning Section (แผนกวางแผนพัฒนากำลังผลิตไฟฟ้า (หผฟ-ย.)), Generation System Development Planning Department (กองวางแผนพัฒนากำลังผลิตไฟฟ้า (กผฟ-ย.)), Generation and Transmission System Planning Division (ฝ่ายวางแผนระบบไฟฟ้า (อผฟ.)). The R code chunk is given below. 
@@ -22,7 +22,7 @@ vsppcontractcapPDP2018R1 <-
          total = "รวม") %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "contract_mw") 
 ```
-**Coal and diesel** contract capacities are constant throughout PDP2018 rev.1 at **31.99 MW** and **29.98 MW**, respectively. Contract capacity from **gas** increases from **24.7 MW** in 2018 to **31.5 MW** in 2019 and remains constant till 2037. **Biogas** and **biomass** substantially increases from 2018-2037. In 2037, **biogas**, **biomass**, **solar** and **wind** contract capacity reach **1,535.48 MW** and **3,887.27 MW**, **11,574.56 MW**, and **1,541.37 MW**, respectively. Industrial waste starts from **5.91 MW** in 2034 to **44 MW** in 2037. Waste contract capacity reach **601 MW** from 2022 till 2037. Hydro power plant remain the same at **27.03 MW** from 2018-2037. **Energy efficiency plan (EE)** increases **354 MW** in 2032 and reaches **4000 MW** in 2037. Total contract capacity increases from **3787.48 MW** in 2018 to **23,304.21 MW** in 2037.
+**Coal and diesel** contract capacities are constant throughout PDP2018 rev.1 at **31.99 MW** and **29.98 MW**, respectively. Contract capacity from **gas** increases from **24.7 MW** in 2018 to **31.5 MW** in 2019 and remains constant till 2037. **Biogas** and **biomass** substantially increases from 2018-2037. In 2037, **biogas**, **biomass**, **solar** and **wind** contract capacity reach **1,535.48 MW** and **3,887.27 MW**, **11,574.56 MW**, and **1,541.37 MW**, respectively. Industrial waste starts from **5.91 MW** in 2034 to **44 MW** in 2037. Waste contract capacity reach **601 MW** from 2022 till 2037. Hydro power plant remain the same at **27.03 MW** from 2018-2037. **Energy efficiency plan (EE)** increases **354 MW** in 2032 and reaches **4,000 MW** in 2037. Total contract capacity increases from **3,787.48 MW** in 2018 to **23,304.21 MW** in 2037.
 
 
 ```{r plot-vsppConCapPDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP contract capacity in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
@@ -69,13 +69,28 @@ vsppenergyPDP2018R1 <-
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh")
 ```
 
+Total electricity generation from VSPP increases from **9,070.21 GWh** in 2018 to **75,577.09 GWh** in 2037. Electricity generation from **coal**, **diesel** and **gas** are at **69 GWh**, **50 GWh** and **70 GWh** in 2037. **Biogas** and **biomass** contribute significantly surge an electricity generation to **7,994.75 GWh** and **23,226.09 GWh** in 2037. **Industrial waste** provides an electricity to the system since 2034. The generation reaches **269.81 GWh** in 2037. Waste power plant reaches its peak generation at **2,316.48 GWh** since 2022.
+
+
 ```{r plot-vsppEnePDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP electricity generation in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
 vsppenergyPDP2018R1 %>% 
   mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "ind_waste", "waste", "hydro", "solar", "wind", "ee", "total"))) %>% 
     ggplot(aes(x = year, y = vspp_gwh, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE)+
   facet_wrap(~fuel, 
-             scales = "free_y")+
+             scales = "free_y",
+             labeller = as_labeller(c(coal = "Coal",
+                                      diesel = "Diesel",
+                                      gas = "Gas",
+                                      biogas = "Biogas",
+                                      biomass = "Biomass",
+                                      ind_waste = "Industrial waste",
+                                      waste = "Waste",
+                                      hydro = "Hydro",
+                                      solar = "Solar",
+                                      wind = "Wind",
+                                      ee = "EE",
+                                      total = "Total ely. gen.")))+
   ThemeLine +
   scale_x_continuous(breaks = c(2018,2023,2030,2037))+
   scale_y_continuous(labels =  comma)+ # Add comma to number in y axis
