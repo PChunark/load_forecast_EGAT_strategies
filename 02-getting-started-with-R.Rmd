@@ -20,7 +20,7 @@ install.packages("tidyverse", "readxl","scales", "glue","knitr", "plotly")
 ```
 
 
-### Packages settings
+### Packages settings {#packset}
 Before the project starts, packages are required as follows:
 
 * A `tidyverse` package is a bunch of packages to handle with a data analysis (for more information click [here](https://www.tidyverse.org/packages/)). It consists of data manipulation and visualization as follows:
