@@ -28,7 +28,7 @@ vsppcontractcapPDP2018R1 <-
 ```
 
 
-**Coal and diesel** contract capacities are constant throughout PDP2018 rev.1 at **31.99 MW** and **29.98 MW**, respectively. Contract capacity from **gas** increases from **24.7 MW** in 2018 to **31.5 MW** in 2019 and remains constant till 2037. **Biogas** and **biomass** substantially increases from 2018-2037. In 2037, **biogas**, **biomass**, **solar** and **wind** contract capacity reach **1,535.48 MW** and **3,887.27 MW**, **11,574.56 MW**, and **1,541.37 MW**, respectively. Industrial waste starts from **5.91 MW** in 2034 to **44 MW** in 2037. Waste contract capacity reach **601 MW** from 2022 till 2037. Hydro power plant remain the same at **27.03 MW** from 2018-2037. **Energy efficiency plan (EE)** increases **354 MW** in 2032 and reaches **4,000 MW** in 2037. Total contract capacity increases from **3,787.48 MW** in 2018 to **23,304.21 MW** in 2037.
+**Coal and diesel** contract capacities are constant throughout PDP2018 rev.1 at **31.99 MW** and **29.98 MW**, respectively. Contract capacity from **gas** increases from **24.7 MW** in 2018 to **31.5 MW** in 2019 and remains constant till 2037. **Biogas** and **biomass** substantially increase from 2018-2037. In 2037, **biogas**, **biomass**, **solar** and **wind** contract capacity reach **1,535.48 MW** and **3,887.27 MW**, **11,574.56 MW**, and **1,541.37 MW**, respectively. Industrial waste starts from **5.91 MW** in 2034 to **44 MW** in 2037. Waste contract capacity reaches **601 MW** from 2022 till 2037. Hydro power plant remains the same at **27.03 MW** from 2018-2037. **Energy efficiency plan (EE)** increases **354 MW** in 2032 and reaches **4,000 MW** in 2037. Total contract capacity increases from **3,787.48 MW** in 2018 to **23,304.21 MW** in 2037.
 
 
 ```{r plot-vsppConCapPDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP contract capacity in the PDP2018 Rev.1', fig.align='center', out.width= '90%'}
@@ -43,7 +43,7 @@ vsppcontractcapPDP2018R1 %>%
                                       gas = "Gas",
                                       biogas = "Biogas",
                                       biomass = "Biomass",
-                                      ind_waste = "Industrial waste",
+                                      ind_waste = "Ind. waste",
                                       waste = "Waste",
                                       hydro = "Hydro",
                                       solar = "Solar",
@@ -77,7 +77,7 @@ vsppenergyPDP2018R1 <-
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh")
 ```
 
-Total electricity generation from VSPP increases from **9,070.21 GWh** in 2018 to **75,577.09 GWh** in 2037. Electricity generation from **coal**, **diesel** and **gas** are at **69 GWh**, **50 GWh** and **70 GWh** in 2037. **Biogas** and **biomass** contribute significantly surge an electricity generation to **7,994.75 GWh** and **23,226.09 GWh** in 2037. **Industrial waste** provides an electricity to the system since 2034. The generation reaches **269.81 GWh** in 2037. Waste power plant reaches its peak generation at **2,316.48 GWh** since 2022. Electricity generation from **small hydro power plant** remains constant at **78.99 GWh**. **Solar** and **wind** electricity significantly rise to **17,650.47 GWh** and **3,353.10 GWh** in 2037, respectively. Additional energy efficiency plan increase to **20,498.40 GWh** in 2037. 
+Total electricity generation from VSPP increases from **9,070.21 GWh** in 2018 to **75,577.09 GWh** in 2037. Electricity generation from **coal**, **diesel** and **gas** are at **69 GWh**, **50 GWh** and **70 GWh** in 2037. **Biogas** and **biomass** significantly surge an electricity generation to **7,994.75 GWh** and **23,226.09 GWh** in 2037, respectively. **Industrial waste** provides an electricity to the system since 2034. The generation reaches **269.81 GWh** in 2037. Waste power plant reaches its peak generation at **2,316.48 GWh** since 2022. Electricity generation from **small hydro power plant** remains constant at **78.99 GWh**. **Solar** and **wind** electricity significantly rise to **17,650.47 GWh** and **3,353.10 GWh** in 2037, respectively. Additional energy efficiency plan increases to **20,498.40 GWh** in 2037. 
 
 ```{r plot-vsppEnePDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP electricity generation in the PDP2018 Rev.1', fig.align='center', out.width= '90%'}
 vsppenergyPDP2018R1 %>% 
@@ -91,7 +91,7 @@ vsppenergyPDP2018R1 %>%
                                       gas = "Gas",
                                       biogas = "Biogas",
                                       biomass = "Biomass",
-                                      ind_waste = "Industrial waste",
+                                      ind_waste = "Ind. waste",
                                       waste = "Waste",
                                       hydro = "Hydro",
                                       solar = "Solar",
@@ -149,7 +149,7 @@ vsppcontractcapPDP2022C7 %>%
                                       geothermal = "Geothermal",
                                       msw = "MSW",
                                       wasteheat = "Waste heat",
-                                      iew = "Industrial waste",
+                                      iew = "Ind. waste",
                                       total = "Total cont. cap.")))+
   ThemeLine +
   scale_x_discrete(breaks = c(2022,2025,2030,2037))+
@@ -196,7 +196,7 @@ vsppenergyPDP2022C7 %>%
                                       geothermal = "Geothermal",
                                       msw = "MSW",
                                       wasteheat = "Waste heat",
-                                      iew = "Industrial waste",
+                                      iew = "Ind. waste",
                                       total = "Total cont. cap.")))+
   ThemeLine +
   scale_x_discrete(breaks = c(2022,2025,2030,2037))+
@@ -229,7 +229,7 @@ vsppenergyPDP2018R1 %>%
   select(!fuel)
 ```
 
-The R code chunk below combines 2 data frames above. The `full_join` [function](https://dplyr.tidyverse.org/reference/mutate-joins.html) is used. The function belongs to `dplyr` package which is a subset of `tidyverse` package (see section \@ref(packset)). Figure \@ref(fig:plot-merge_vspp_ext_pdp) illustrates total electricity genetion from VSPPs in the PDP2018 Rev.1. 
+The R code chunk below combines 2 data frames above. The `full_join` [function](https://dplyr.tidyverse.org/reference/mutate-joins.html) is used. The function belongs to `dplyr` package which is a subset of `tidyverse` package (see section \@ref(packset)). Figure \@ref(fig:plot-merge_vspp_ext_pdp) illustrates total electricity generation from VSPPs in the PDP2018 Rev.1. 
 
 ```{r merge_vspp_ext_pdp, echo=TRUE, warning=FALSE, message=TRUE}
 merge_vspp_ext_pdp <-
