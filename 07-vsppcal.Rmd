@@ -1,12 +1,13 @@
-# VSPP calculation
+# VSPPs calculation
 
 
-Estimated electricity generation (energy) can be in equation \@ref(eq:totVSPPEnergy). 
+Estimated electricity generation (energy) can be found in equation \@ref(eq:totVSPPEnergy). 
 
 
 In this project, VSPP contract capacity and electricity generation are considered. An information is taken from **PDP2018 Rev.1** and **PDP2022 Case 7**. VSPP contract capacity and electricity generation are summarized by Power Development Planning Section (แผนกวางแผนพัฒนากำลังผลิตไฟฟ้า (หผฟ-ย.)), Generation System Development Planning Department (กองวางแผนพัฒนากำลังผลิตไฟฟ้า (กผฟ-ย.)), Generation and Transmission System Planning Division (ฝ่ายวางแผนระบบไฟฟ้า (อผฟ.)).
 
-## VSPP in the PDP2018 revision 1 (PDP2018 Rev.1)
+## VSPPs in the PDP2018 revision 1 (PDP2018 Rev.1)
+### Contract capacity
 
 The summary of VSPP contract capacity and electricity generation is given by Power Development Planning Section. The R code chunk is given below.
 
@@ -56,6 +57,8 @@ vsppcontractcapPDP2018R1 %>%
        y = "Contract capacity (MW)")
 ```
 
+### Electricity generation {#vsppenergyPDP2018R1}
+
 
 Electricity generation from VSPP in the PDP2018 Rev.1 code chunk is provided below.
 
@@ -101,4 +104,156 @@ vsppenergyPDP2018R1 %>%
   labs(x = NULL,
        y = "Electricity generation (GWh)")
 ```
+
+## VSPP in the PDP2022 Case 7
+### Contract capacity
+
+The summary of VSPP contract capacity and electricity generation is given by Power Development Planning Section. The R code chunk is given below. 
+
+```{r vsppcontractcapPDP2022C7, echo=TRUE, warning=FALSE, message=FALSE}
+vsppcontractcapPDP2022C7<-
+  
+  read_excel("raw_data/Domeสรุป VSPP_PDP18R1 and ร่าง PDP2022 เคส 7_เพิ่ม vspp.xlsx",
+           sheet = "สรุป VSPP PDP2022 Fuel",
+           range = "A1:Q23")%>%
+  rename(vspp_mw = "VSPP-Contract Capacity") %>% 
+  pivot_longer(-vspp_mw, names_to = "year",values_to = "contract_mw") %>% 
+  mutate(year_th = as.numeric(year)+543) %>%
+  pivot_wider(names_from = vspp_mw, values_from = contract_mw) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_mw") #%>% 
+  # ggplot(aes(x = as.factor(year), y = vspp_mw, group = fuel, color = fuel)) + 
+  # geom_line()
+```
+
+
+**Total contract capacity** increases from **4,329.68 MW** in 2022 to **15,393.37 MW** in 2037. **Coal**, **diesel**, **gas** and **waste heat** contract capacity remain the same in the PDP2022 case 7. The contract capacity are **43.79 MW**, **28.44 MW**, **24.70 MW** and **4.5 MW**. **Biogas** and **biomass** rapidly increase from 2025 and reach **1,481.97 MW** and **2,252.58 MW** in 2037, respectively. **Solar** contract capacity rises to **10,150 MW**. **Floating solar** starts to play its role since 2025. The capacity is **63.43 MW** in 2037. **Wind capacity** remains constant at **58.39 MW** during 2024-2037. **Small hydro** power plant contract capacity continuously rises from **58.59 MW** in 2022 to **126.22 MW** in 2037. **Geothermal** capacity is **21 MW** in 2037. **MSW** contract capacity escalates in **3 periods**. It starts from **179.56 MW in 2022**. The capacity increases to **595.56 MW** during 2026-2030, **795 MW** from 2031-2034, **895.56** MW from 2035 onwards. **Industrial waste** capacity remains **30.78 MW** from 2022-2025. The capacity reaches **242.78 MW** in 2037. 
+
+```{r plot-vsppcontractcapPDP2022C7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP contract capacity in the PDP2022 case 7', fig.align='center', out.width= '90%'}
+vsppcontractcapPDP2022C7 %>%
+  filter(!(fuel %in% c("coal (lignite)", "dr", "fuel oil", "hydro (large)", "hydro (pump)", "import (hydro)", "import (interconnection)", "import (lignite)"))) %>%
+  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "solar", "solar floating", "wind", "hydro (small)","geothermal", "msw", "wasteheat", "iew", "total"))) %>% 
+  ggplot(aes(x = year, y = vspp_mw, group = fuel, color = fuel)) +
+  geom_line(show.legend = FALSE)+
+  facet_wrap(~fuel, 
+             scales = "free_y",
+             labeller = as_labeller(c(coal = "Coal",
+                                      diesel = "Diesel",
+                                      gas = "Gas",
+                                      biogas = "Biogas",
+                                      biomass = "Biomass",
+                                      solar = "Solar",
+                                      "solar floating" = "Solar floating",
+                                      wind = "Wind",
+                                      "hydro (small)" = "Small hydro",
+                                      geothermal = "Geothermal",
+                                      msw = "MSW",
+                                      wasteheat = "Waste heat",
+                                      iew = "Industrial waste",
+                                      total = "Total cont. cap.")))+
+  ThemeLine +
+  scale_x_discrete(breaks = c(2022,2025,2030,2037))+
+  scale_y_continuous(labels =  comma)+ # Add comma to number in y axis
+  labs(x = NULL,
+       y = "Contract capacity (MW)")
+```
+
+```{r vsppenergyPDP2022C7, echo=TRUE, warning=FALSE, message=FALSE}
+vsppenergyPDP2022C7 <-
+  
+  read_excel("raw_data/Domeสรุป VSPP_PDP18R1 and ร่าง PDP2022 เคส 7_เพิ่ม vspp.xlsx",
+             sheet = "สรุป VSPP PDP2022 Fuel",
+             range = "A25:Q47")%>%
+  rename(vspp_gwh = "VSPP-Generation") %>% 
+  pivot_longer(-vspp_gwh, names_to = "year",values_to = "energy_gwh") %>% 
+  mutate(year_th = as.numeric(year)+543) %>%
+  pivot_wider(names_from = vspp_gwh, values_from = energy_gwh) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh")
+```
+
+### Electricity generation
+
+**Total electricity generation** increases from **11,882.25 GWh** in 2022 to **42,213.86 GWh** in 2037. Electricity generation from **solar, biomass and biogas** are the top 3 contributors. In 2037, electricity generation from those 3 contributors are **16,128.4 GWh**, **12,577.94 GWh** and **7,771.70 GWh**. Floating solar and wind electricity generate **100 GWh** and **84.16 GWh**, respectively. MSW electricity generates **3,698 GWh**. Coal, diesel, gas generate **138.44 GWh**.
+
+```{r plot-vsppenergyPDP2022C7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP electricity generation in the PDP2022 case 7', fig.align='center', out.width= '90%'}
+vsppenergyPDP2022C7 %>%
+  filter(!(fuel %in% c("coal (lignite)", "dr", "fuel oil", "hydro (large)", "hydro (pump)", "import (hydro)", "import (interconnection)", "import (lignite)"))) %>%
+  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "solar", "solar floating", "wind", "hydro (small)","geothermal", "msw", "wasteheat", "iew", "total"))) %>% 
+  ggplot(aes(x = year, y = vspp_gwh, group = fuel, color = fuel)) +
+  geom_line(show.legend = FALSE)+
+  facet_wrap(~fuel, 
+             scales = "free_y",
+             labeller = as_labeller(c(coal = "Coal",
+                                      diesel = "Diesel",
+                                      gas = "Gas",
+                                      biogas = "Biogas",
+                                      biomass = "Biomass",
+                                      solar = "Solar",
+                                      "solar floating" = "Solar floating",
+                                      wind = "Wind",
+                                      "hydro (small)" = "Small hydro",
+                                      geothermal = "Geothermal",
+                                      msw = "MSW",
+                                      wasteheat = "Waste heat",
+                                      iew = "Industrial waste",
+                                      total = "Total cont. cap.")))+
+  ThemeLine +
+  scale_x_discrete(breaks = c(2022,2025,2030,2037))+
+  scale_y_continuous(labels =  comma)+ # Add comma to number in y axis
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
+```
+
+## Merge existing VSPPs and PDP2018 Rev.1
+
+Total electricity generation from Existing VSPPs is selected from 2019 onwards (see section \@ref(totVSPPely) and figure \@ref(fig:plot-totvspp-ene-2015-2021)). The R code chunk is given below. 
+
+```{r merge_vspp_ext, echo=TRUE, warning=FALSE, message=FALSE}
+merge_vspp_ext <- 
+  
+tot_vspp_ext %>% 
+  filter(vspp == "tot_vspp_ext_gwh",
+         year >= 2019) %>% 
+  select(!vspp)
+```
+
+Total electricity generation from VSPPs in PDP2018 Rev.1 is selected from 2022 onwards (see section \@ref(vsppenergyPDP2018R1) and figure \@ref(fig:plot-vsppEnePDP2018r1)). The R code chunk is given below.
+
+```{r merge_vspp_pdp2018r1, echo=TRUE, warning=FALSE, message=FALSE}
+merge_vspp_pdp2018r1 <-
+  
+vsppenergyPDP2018R1 %>% 
+  filter(fuel =="total",
+         year >= 2022) %>% 
+  select(!fuel)
+```
+
+The R code chunk below combines 2 data frames above. The `full_join` [function](https://dplyr.tidyverse.org/reference/mutate-joins.html) is used. The function belongs to `dplyr` package which is a subset of `tidyverse` package (see section \@ref(packset)). Figure \@ref(fig:plot-merge_vspp_ext_pdp) illustrates total electricity genetion from VSPPs in the PDP2018 Rev.1. 
+
+```{r merge_vspp_ext_pdp, echo=TRUE, warning=FALSE, message=TRUE}
+merge_vspp_ext_pdp <-
+  full_join(merge_vspp_ext,
+          merge_vspp_pdp2018r1,
+          by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
+```
+
+```{r plot-merge_vspp_ext_pdp, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
+merge_vspp_ext_pdp %>% 
+  select(ene_vspp_ext_gwh) %>% 
+  mutate(year = c(2019:2037)) %>% 
+  ggplot(aes(x = year, y = ene_vspp_ext_gwh,  color = "red")) +
+  geom_line(show.legend = FALSE)+
+  geom_point(show.legend = FALSE)+
+  ThemeLine+
+  scale_x_continuous(breaks = c(2019, 2025, 2030, 2037))+
+  scale_y_continuous(limits = c(0,80000),
+                     breaks = seq(0,80000, 10000),
+                     labels = comma)+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
+```
+
+
+
 
