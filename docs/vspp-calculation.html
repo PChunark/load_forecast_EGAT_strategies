@@ -29,7 +29,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
 <meta name="author" content="Puttipong Chunark, Ph.D." />
 
 
-<meta name="date" content="2023-07-16" />
+<meta name="date" content="2023-07-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -245,7 +245,10 @@ div.csl-indent {
 <li class="chapter" data-level="6.4" data-path="very-small-power-producer-vspp-situation.html"><a href="very-small-power-producer-vspp-situation.html#slfelygenPEA"><i class="fa fa-check"></i><b>6.4</b> Self electricity generation in the PEA</a></li>
 <li class="chapter" data-level="6.5" data-path="very-small-power-producer-vspp-situation.html"><a href="very-small-power-producer-vspp-situation.html#total-electricity-generation-from-vspp"><i class="fa fa-check"></i><b>6.5</b> Total electricity generation from VSPP</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="vspp-calculation.html"><a href="vspp-calculation.html"><i class="fa fa-check"></i><b>7</b> VSPP calculation</a></li>
+<li class="chapter" data-level="7" data-path="vspp-calculation.html"><a href="vspp-calculation.html"><i class="fa fa-check"></i><b>7</b> VSPP calculation</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="vspp-calculation.html"><a href="vspp-calculation.html#vspp-in-the-pdp2018-revision-1-pdp2018-rev.1"><i class="fa fa-check"></i><b>7.1</b> VSPP in the PDP2018 revision 1 (PDP2018 Rev.1)</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="list-of-equations.html"><a href="list-of-equations.html"><i class="fa fa-check"></i>List of equations</a></li>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i>List of figures</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -271,8 +274,11 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="vspp-calculation" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">Chapter 7</span> VSPP calculation<a href="vspp-calculation.html#vspp-calculation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Estimated electricity generation (energy) can be in equation (@(eq:totVSPPEnergy)).</p>
-<p>In this project, VSPP contract capacity and electricity generation are considered. An information is taken from <strong>PDP2018 Rev.1</strong> and <strong>PDP2022 Case 7</strong>. VSPP contract capacity and electricity generation are summarized by Power Development Planning Section (แผนกวางแผนพัฒนากำลังผลิตไฟฟ้า (หผฟ-ย.)), Generation System Development Planning Department (กองวางแผนพัฒนากำลังผลิตไฟฟ้า (กผฟ-ย.)), Generation and Transmission System Planning Division (ฝ่ายวางแผนระบบไฟฟ้า (อผฟ.)). The R code chunk is given below.</p>
+<p>Estimated electricity generation (energy) can be in equation <a href="very-small-power-producer-vspp-situation.html#eq:totVSPPEnergy">(6.1)</a>.</p>
+<p>In this project, VSPP contract capacity and electricity generation are considered. An information is taken from <strong>PDP2018 Rev.1</strong> and <strong>PDP2022 Case 7</strong>. VSPP contract capacity and electricity generation are summarized by Power Development Planning Section (แผนกวางแผนพัฒนากำลังผลิตไฟฟ้า (หผฟ-ย.)), Generation System Development Planning Department (กองวางแผนพัฒนากำลังผลิตไฟฟ้า (กผฟ-ย.)), Generation and Transmission System Planning Division (ฝ่ายวางแผนระบบไฟฟ้า (อผฟ.)).</p>
+<div id="vspp-in-the-pdp2018-revision-1-pdp2018-rev.1" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> VSPP in the PDP2018 revision 1 (PDP2018 Rev.1)<a href="vspp-calculation.html#vspp-in-the-pdp2018-revision-1-pdp2018-rev.1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The summary of VSPP contract capacity and electricity generation is given by Power Development Planning Section. The R code chunk is given below.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="vspp-calculation.html#cb108-1" tabindex="-1"></a>vsppcontractcapPDP2018R1 <span class="ot">&lt;-</span></span>
 <span id="cb108-2"><a href="vspp-calculation.html#cb108-2" tabindex="-1"></a>  </span>
 <span id="cb108-3"><a href="vspp-calculation.html#cb108-3" tabindex="-1"></a>  <span class="fu">read_excel</span>(<span class="st">&quot;raw_data/Domeสรุป VSPP_PDP18R1 and ร่าง PDP2022 เคส 7_เพิ่ม vspp.xlsx&quot;</span>,</span>
@@ -286,11 +292,11 @@ div.csl-indent {
 <span id="cb108-11"><a href="vspp-calculation.html#cb108-11" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">ind_waste =</span> <span class="st">&quot;industrial waste&quot;</span>,</span>
 <span id="cb108-12"><a href="vspp-calculation.html#cb108-12" tabindex="-1"></a>         <span class="at">total =</span> <span class="st">&quot;รวม&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb108-13"><a href="vspp-calculation.html#cb108-13" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>year_th<span class="sc">&amp;-</span>year, <span class="at">names_to =</span> <span class="st">&quot;fuel&quot;</span>,<span class="at">values_to =</span> <span class="st">&quot;contract_mw&quot;</span>) </span></code></pre></div>
-<p><strong>Coal and diesel</strong> contract capacities are constant throughout PDP2018 rev.1 at <strong>31.99 MW</strong> and <strong>29.98 MW</strong>, respectively. Contract capacity from <strong>gas</strong> increases from <strong>24.7 MW</strong> in 2018 to <strong>31.5 MW</strong> in 2019 and remains constant till 2037. <strong>Biogas</strong> and <strong>biomass</strong> substantially increases from 2018-2037. In 2037, <strong>biogas</strong>, <strong>biomass</strong>, <strong>solar</strong> and <strong>wind</strong> contract capacity reach <strong>1,535.48 MW</strong> and <strong>3,887.27 MW</strong>, <strong>11,574.56 MW</strong>, and <strong>1,541.37 MW</strong>, respectively. Industrial waste starts from <strong>5.91 MW</strong> in 2034 to <strong>44 MW</strong> in 2037. Waste contract capacity reach <strong>601 MW</strong> from 2022 till 2037. Hydro power plant remain the same at <strong>27.03 MW</strong> from 2018-2037. <strong>Energy efficiency plan (EE)</strong> increases <strong>354 MW</strong> in 2032 and reaches <strong>4000 MW</strong> in 2037. Total contract capacity increases from <strong>3787.48 MW</strong> in 2018 to <strong>23,304.21 MW</strong> in 2037.</p>
+<p><strong>Coal and diesel</strong> contract capacities are constant throughout PDP2018 rev.1 at <strong>31.99 MW</strong> and <strong>29.98 MW</strong>, respectively. Contract capacity from <strong>gas</strong> increases from <strong>24.7 MW</strong> in 2018 to <strong>31.5 MW</strong> in 2019 and remains constant till 2037. <strong>Biogas</strong> and <strong>biomass</strong> substantially increases from 2018-2037. In 2037, <strong>biogas</strong>, <strong>biomass</strong>, <strong>solar</strong> and <strong>wind</strong> contract capacity reach <strong>1,535.48 MW</strong> and <strong>3,887.27 MW</strong>, <strong>11,574.56 MW</strong>, and <strong>1,541.37 MW</strong>, respectively. Industrial waste starts from <strong>5.91 MW</strong> in 2034 to <strong>44 MW</strong> in 2037. Waste contract capacity reach <strong>601 MW</strong> from 2022 till 2037. Hydro power plant remain the same at <strong>27.03 MW</strong> from 2018-2037. <strong>Energy efficiency plan (EE)</strong> increases <strong>354 MW</strong> in 2032 and reaches <strong>4,000 MW</strong> in 2037. Total contract capacity increases from <strong>3,787.48 MW</strong> in 2018 to <strong>23,304.21 MW</strong> in 2037.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-vsppConCapPDP2018r1"></span>
-<img src="electricity-profiles_files/figure-html/plot-vsppConCapPDP2018r1-1.png" alt="VSPP contract capacity in PDP2018 Rev.1" width="90%" />
+<img src="electricity-profiles_files/figure-html/plot-vsppConCapPDP2018r1-1.png" alt="VSPP contract capacity in the PDP2018 Rev.1" width="90%" />
 <p class="caption">
-Figure 7.1: VSPP contract capacity in PDP2018 Rev.1
+Figure 7.1: VSPP contract capacity in the PDP2018 Rev.1
 </p>
 </div>
 <p>Electricity generation from VSPP in the PDP2018 Rev.1 code chunk is provided below.</p>
@@ -306,13 +312,15 @@ Figure 7.1: VSPP contract capacity in PDP2018 Rev.1
 <span id="cb109-10"><a href="vspp-calculation.html#cb109-10" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">ind_waste =</span> <span class="st">&quot;industrial waste&quot;</span>,</span>
 <span id="cb109-11"><a href="vspp-calculation.html#cb109-11" tabindex="-1"></a>         <span class="at">total =</span> <span class="st">&quot;รวม&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb109-12"><a href="vspp-calculation.html#cb109-12" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>year_th<span class="sc">&amp;-</span>year, <span class="at">names_to =</span> <span class="st">&quot;fuel&quot;</span>,<span class="at">values_to =</span> <span class="st">&quot;vspp_gwh&quot;</span>)</span></code></pre></div>
+<p>Total electricity generation from VSPP increases from <strong>9,070.21 GWh</strong> in 2018 to <strong>75,577.09 GWh</strong> in 2037. Electricity generation from <strong>coal</strong>, <strong>diesel</strong> and <strong>gas</strong> are at <strong>69 GWh</strong>, <strong>50 GWh</strong> and <strong>70 GWh</strong> in 2037. <strong>Biogas</strong> and <strong>biomass</strong> contribute significantly surge an electricity generation to <strong>7,994.75 GWh</strong> and <strong>23,226.09 GWh</strong> in 2037. <strong>Industrial waste</strong> provides an electricity to the system since 2034. The generation reaches <strong>269.81 GWh</strong> in 2037. Waste power plant reaches its peak generation at <strong>2,316.48 GWh</strong> since 2022. Electricity generation from <strong>small hydro power plant</strong> remains constant at <strong>78.99 GWh</strong>. <strong>Solar</strong> and <strong>wind</strong> electricity significantly rise to <strong>17,650.47 GWh</strong> and <strong>3,353.10 GWh</strong> in 2037, respectively. Additional energy efficiency plan increase to <strong>20,498.40 GWh</strong> in 2037.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-vsppEnePDP2018r1"></span>
-<img src="electricity-profiles_files/figure-html/plot-vsppEnePDP2018r1-1.png" alt="VSPP electricity generation in PDP2018 Rev.1" width="90%" />
+<img src="electricity-profiles_files/figure-html/plot-vsppEnePDP2018r1-1.png" alt="VSPP electricity generation in the PDP2018 Rev.1" width="90%" />
 <p class="caption">
-Figure 7.2: VSPP electricity generation in PDP2018 Rev.1
+Figure 7.2: VSPP electricity generation in the PDP2018 Rev.1
 </p>
 </div>
 
+</div>
 </div>
             </section>
 

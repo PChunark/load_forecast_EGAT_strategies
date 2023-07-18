@@ -170,3 +170,4 @@ elygenDEDEPEA
 slfelygenPEA
 total-electricity-generation-from-vspp
 vspp-calculation
+vspp-in-the-pdp2018-revision-1-pdp2018-rev.1
