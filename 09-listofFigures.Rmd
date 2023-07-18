@@ -47,3 +47,5 @@
 | Electricity generation from DEDE in PEA region during 2005–2021 | \@ref(fig:plot-peadede-ene-2005-2021) |
 | Self electricity generation in PEA region during 2005–2021 |\@ref(fig:plot-peasfgen-ene-2005-2021)|
 | Electricity generation from VSPP during 2015–2021 |\@ref(fig:plot-totvspp-ene-2015-2021)|
+| VSPP contract capacity in the PDP2018 Rev.1 | \@ref(fig:plot-vsppConCapPDP2018r1)|
+| VSPP electricity generation in the PDP2018 Rev.1 | \@ref(fig:plot-vsppEnePDP2018r1)|
