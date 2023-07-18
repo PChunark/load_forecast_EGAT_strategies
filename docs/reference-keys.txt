@@ -113,6 +113,7 @@ fig:plot-vsppEnePDP2018r1
 fig:plot-vsppcontractcapPDP2022C7
 fig:plot-vsppenergyPDP2022C7
 fig:plot-merge-vspp-ext-pdp
+fig:plot-merge-vspp-ext-pdp2023c7
 introduction
 electricity-consumption-situation
 electricity-generation-situation
@@ -178,5 +179,6 @@ contract-capacity
 vsppenergyPDP2018R1
 vspp-in-the-pdp2022-case-7
 contract-capacity-1
-electricity-generation
-merge-existing-vspps-and-pdp2018-rev.1
+vsppenergyPDP2022C7
+vspps-electricity-generation-from-existing-vspps-and-pdp2018-rev.1
+vspps-electricity-generation-from-existing-vspps-and-pdp2022-case-7
