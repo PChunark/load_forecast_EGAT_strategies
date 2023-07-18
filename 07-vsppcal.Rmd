@@ -157,7 +157,7 @@ vsppcontractcapPDP2022C7 %>%
   labs(x = NULL,
        y = "Contract capacity (MW)")
 ```
-### Electricity generation
+### Electricity generation {#vsppenergyPDP2022C7}
 The summary of VSPP electricity generation is given by Power Development Planning Section. The R code chunk is given below.
 ```{r vsppenergyPDP2022C7, echo=TRUE, warning=FALSE, message=FALSE}
 vsppenergyPDP2022C7 <-
@@ -206,9 +206,9 @@ vsppenergyPDP2022C7 %>%
        y = "Electricity generation (GWh)")
 ```
 
-## Merge existing VSPPs and PDP2018 Rev.1
+## VSPPs electricity generation from existing VSPPs and PDP2018 Rev.1
 
-Total electricity generation from Existing VSPPs is selected from 2019 onwards (see section \@ref(totVSPPely) and figure \@ref(fig:plot-totvspp-ene-2015-2021)). The R code chunk is given below. 
+Total electricity generation from existing VSPPs is selected from 2019 onwards (see section \@ref(totVSPPely) and figure \@ref(fig:plot-totvspp-ene-2015-2021)). The R code chunk is given below. 
 
 ```{r merge_vspp_ext, echo=TRUE, warning=FALSE, message=FALSE}
 merge_vspp_ext <- 
@@ -254,9 +254,47 @@ ggplotly(
                      labels = comma)+
   labs(x = NULL,
        y = "Electricity generation (GWh)")
-)
+) %>% 
+  style(showlegend = FALSE)
 ```
 
+## VSPPs electricity generation from existing VSPPs and PDP2022 case 7
 
+Total electricity generation from VSPPs in PDP2022 case 7 is selected from 2022 onwards (see section \@ref(vsppenergyPDP2022C7) and figure \@ref(fig:plot-vsppenergyPDP2022C7)). The R code chunk is given below.
 
+```{r merge_vspp_pdp2023c7, echo=TRUE, warning=FALSE, message=FALSE}
+merge_vspp_pdp2023c7 <-
+  
+  vsppenergyPDP2022C7 %>% 
+  filter(fuel =="total",
+         year >= 2022) %>% 
+  select(!fuel)
+```
+Again,  the `full_join` [function](https://dplyr.tidyverse.org/reference/mutate-joins.html) is used. The function belongs to `dplyr` package which is a subset of `tidyverse` package (see section \@ref(packset)). Figure \@ref(fig:plot-merge-vspp-ext-pdp2023c7) illustrates total electricity generation from VSPPs in the PDP2022 case 7.
+
+```{r merge_vspp_ext_pdp2023c7, echo=TRUE, warning=FALSE, message=FALSE}
+merge_vspp_ext_pdp2023c7 <-
+  full_join(merge_vspp_ext,
+            merge_vspp_pdp2023c7,
+            by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
+```
+
+```{r plot-merge-vspp-ext-pdp2023c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2022 case 7',fig.align='center', out.width= '90%'}
+ggplotly(
+  merge_vspp_ext_pdp2023c7 %>% 
+  select(ene_vspp_ext_gwh) %>% 
+  mutate(year = c(2019:2037)) %>% 
+  ggplot(aes(x = year, y = ene_vspp_ext_gwh,  color = "red")) +
+  geom_line(show.legend = FALSE)+
+  geom_point(show.legend = FALSE)+
+  ThemeLine+
+  scale_x_continuous(breaks = c(2019, 2025, 2030, 2037))+
+  scale_y_continuous(limits = c(0,50000),
+                     breaks = seq(0,50000, 5000),
+                     labels = comma)+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
+) %>% 
+  style(showlegend = FALSE)
+```
 
