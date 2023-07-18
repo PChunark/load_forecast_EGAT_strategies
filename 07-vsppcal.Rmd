@@ -108,7 +108,7 @@ vsppenergyPDP2018R1 %>%
 ## VSPP in the PDP2022 Case 7
 ### Contract capacity
 
-The summary of VSPP contract capacity and electricity generation is given by Power Development Planning Section. The R code chunk is given below. 
+The summary of VSPP contract capacity is given by Power Development Planning Section. The R code chunk is given below. 
 
 ```{r vsppcontractcapPDP2022C7, echo=TRUE, warning=FALSE, message=FALSE}
 vsppcontractcapPDP2022C7<-
@@ -157,7 +157,8 @@ vsppcontractcapPDP2022C7 %>%
   labs(x = NULL,
        y = "Contract capacity (MW)")
 ```
-
+### Electricity generation
+The summary of VSPP electricity generation is given by Power Development Planning Section. The R code chunk is given below.
 ```{r vsppenergyPDP2022C7, echo=TRUE, warning=FALSE, message=FALSE}
 vsppenergyPDP2022C7 <-
   
@@ -172,7 +173,7 @@ vsppenergyPDP2022C7 <-
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh")
 ```
 
-### Electricity generation
+
 
 **Total electricity generation** increases from **11,882.25 GWh** in 2022 to **42,213.86 GWh** in 2037. Electricity generation from **solar, biomass and biogas** are the top 3 contributors. In 2037, electricity generation from those 3 contributors are **16,128.4 GWh**, **12,577.94 GWh** and **7,771.70 GWh**. Floating solar and wind electricity generate **100 GWh** and **84.16 GWh**, respectively. MSW electricity generates **3,698 GWh**. Coal, diesel, gas generate **138.44 GWh**.
 
@@ -229,7 +230,7 @@ vsppenergyPDP2018R1 %>%
   select(!fuel)
 ```
 
-The R code chunk below combines 2 data frames above. The `full_join` [function](https://dplyr.tidyverse.org/reference/mutate-joins.html) is used. The function belongs to `dplyr` package which is a subset of `tidyverse` package (see section \@ref(packset)). Figure \@ref(fig:plot-merge_vspp_ext_pdp) illustrates total electricity generation from VSPPs in the PDP2018 Rev.1. 
+The R code chunk below combines 2 data frames above. The `full_join` [function](https://dplyr.tidyverse.org/reference/mutate-joins.html) is used. The function belongs to `dplyr` package which is a subset of `tidyverse` package (see section \@ref(packset)). Figure \@ref(fig:plot-merge-vspp-ext-pdp) illustrates total electricity generation from VSPPs in the PDP2018 Rev.1. 
 
 ```{r merge_vspp_ext_pdp, echo=TRUE, warning=FALSE, message=TRUE}
 merge_vspp_ext_pdp <-
@@ -238,8 +239,9 @@ merge_vspp_ext_pdp <-
           by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
 ```
 
-```{r plot-merge_vspp_ext_pdp, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
-merge_vspp_ext_pdp %>% 
+```{r plot-merge-vspp-ext-pdp, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
+ggplotly(
+  merge_vspp_ext_pdp %>% 
   select(ene_vspp_ext_gwh) %>% 
   mutate(year = c(2019:2037)) %>% 
   ggplot(aes(x = year, y = ene_vspp_ext_gwh,  color = "red")) +
@@ -252,6 +254,7 @@ merge_vspp_ext_pdp %>%
                      labels = comma)+
   labs(x = NULL,
        y = "Electricity generation (GWh)")
+)
 ```
 
 
