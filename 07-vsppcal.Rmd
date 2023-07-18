@@ -240,7 +240,9 @@ merge_vspp_ext_pdp <-
 ```
 
 ```{r plot-merge-vspp-ext-pdp, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
-ggplotly(
+
+plot_merge_vspp_ext_pdp <-
+  
   merge_vspp_ext_pdp %>% 
   select(ene_vspp_ext_gwh) %>% 
   mutate(year = c(2019:2037)) %>% 
@@ -254,7 +256,8 @@ ggplotly(
                      labels = comma)+
   labs(x = NULL,
        y = "Electricity generation (GWh)")
-) %>% 
+
+ggplotly(plot_merge_vspp_ext_pdp) %>% 
   style(showlegend = FALSE)
 ```
 
@@ -280,7 +283,8 @@ merge_vspp_ext_pdp2023c7 <-
 ```
 
 ```{r plot-merge-vspp-ext-pdp2023c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2022 case 7',fig.align='center', out.width= '90%'}
-ggplotly(
+plot_merge_vspp_ext_pdp2023c <-
+  
   merge_vspp_ext_pdp2023c7 %>% 
   select(ene_vspp_ext_gwh) %>% 
   mutate(year = c(2019:2037)) %>% 
@@ -294,7 +298,29 @@ ggplotly(
                      labels = comma)+
   labs(x = NULL,
        y = "Electricity generation (GWh)")
-) %>% 
+
+
+ggplotly(plot_merge_vspp_ext_pdp2023c) %>% 
   style(showlegend = FALSE)
+```
+
+```{r}
+cbind(merge_vspp_ext_pdp %>% 
+  select(ene_vspp_ext_gwh) %>% 
+  mutate(year = c(2019:2037)) %>% 
+  select(year, vspp_pdp2018rev1 = ene_vspp_ext_gwh),
+merge_vspp_ext_pdp2023c7 %>% 
+  select(vspp_pdp2022c7 = ene_vspp_ext_gwh)) %>% 
+pivot_longer(-year, names_to = "case", values_to = "ene_gwh")  %>% 
+  ggplot(aes(x = year, y = ene_gwh, group = case, color = case))+
+  geom_line()+
+  geom_point()+
+  scale_x_continuous(breaks = c(2019, 2025, 2030, 2037))+
+  scale_y_continuous(limits = c(0,80000),
+                     breaks = seq(0,80000, 5000),
+                     labels = comma)+
+  ThemeLine+ 
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
 ```
 
