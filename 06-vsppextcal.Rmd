@@ -175,7 +175,7 @@ pea_sfgen_ene %>%
   labs(x = NULL,
        y = "Electricity generation (GWh)")
 ```
-## Total electricity generation from VSPP
+## Total electricity generation from VSPP {#totVSPPely}
 
 Total electricity generation can be calculated by equation \@ref(eq:totVSPPEnergy).
 
