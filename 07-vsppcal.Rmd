@@ -239,6 +239,8 @@ merge_vspp_ext_pdp <-
           by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
 ```
 
+Total electricity generation from VSPPs increases from 11,665 GWh in 2019 to 75,577 GWh in 2037 (see Figure \@ref(fig:plot-merge-vspp-ext-pdp). The electricity generation increases 11% annually from 2019-2037. **Solar, biomass and biogas** are the top 3 electricity generation (see Figure \@ref(fig:plot-vsppenergyPDP2022C7)).
+
 ```{r plot-merge-vspp-ext-pdp, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2018 Rev.1', fig.align='center', out.width= '90%'}
 
 plot_merge_vspp_ext_pdp <-
@@ -282,6 +284,9 @@ merge_vspp_ext_pdp2023c7 <-
             by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
 ```
 
+Total electricity generation from VSPPs increases from 11,665 GWh in 2019 to 42,214 GWh in 2037 (see Figure \@ref(fig:plot-merge-vspp-ext-pdp2023c7). Figure \@ref(fig:plot-comparevsppPDP2018r1-PDP2022c7) illustrates the comparison of an electricity generation from VSPP in the PDP2018 Rev. 1 and the PDP2022 case 7.
+
+
 ```{r plot-merge-vspp-ext-pdp2023c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2022 case 7',fig.align='center', out.width= '90%'}
 plot_merge_vspp_ext_pdp2023c <-
   
@@ -304,7 +309,9 @@ ggplotly(plot_merge_vspp_ext_pdp2023c) %>%
   style(showlegend = FALSE)
 ```
 
-```{r}
+
+
+```{r plot-comparevsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation from VSPPs', fig.align='center', out.width= '90%'}
 cbind(merge_vspp_ext_pdp %>% 
   select(ene_vspp_ext_gwh) %>% 
   mutate(year = c(2019:2037)) %>% 
@@ -319,7 +326,13 @@ pivot_longer(-year, names_to = "case", values_to = "ene_gwh")  %>%
   scale_y_continuous(limits = c(0,80000),
                      breaks = seq(0,80000, 5000),
                      labels = comma)+
-  ThemeLine+ 
+  scale_color_manual(name = NULL, #Remove legend title
+                     breaks = c("vspp_pdp2018rev1", "vspp_pdp2022c7"), #rearrange the legend
+                     labels = c("PDP2018 Rev.1", "PDP2022 case 7"), #Rename the legend
+                     values = c("dodgerblue", "salmon"))+
+  ThemeLine+
+  theme(legend.position = c(0.2, 0.9),
+        legend.title = element_blank())+
   labs(x = NULL,
        y = "Electricity generation (GWh)")
 ```
