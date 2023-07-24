@@ -16,7 +16,7 @@ There is an integrated development environment (IDE) for R language. The IDE is 
 Required packages can be downloaded by using the command `install.packages()`. A R code chunk is given below.
 
 ```{r, installing packages, echo=TRUE, warning=FALSE, message=FALSE}
-install.packages("tidyverse", "readxl","scales", "glue","knitr", "plotly")
+install.packages("tidyverse", "readxl","scales", "glue","knitr", "plotly", "ggrepel")
 ```
 
 
@@ -38,6 +38,9 @@ Before the project starts, packages are required as follows:
 * A `glue` [package](https://glue.tidyverse.org/) interprets strings literal. The package embeds R expressions and inserts into argument string.
 * A `knitr` [package](https://github.com/yihui/knitr) is a lightweight API's designed to give users full control of the output without heavy coding work. In this project, the package is used for making a HTML.
 * A `plotly` [package](https://plotly.com/r/getting-started/) is an alternative package to a `ggplot2` package. It is an interactive web-base graphic [@ployly2023; @schork2023]. Plotly uses an open source [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) graphing library [ployly.js](https://github.com/plotly/plotly.js) to render dynamic plots.
+* A `ggrepel` [package](https://github.com/slowkow/ggrepel) provides geoms for ggplot2 to repel overlapping text labels.
+  * `geom_text_repel()`, and
+  * `geom_label_repel()`
 
 
 ```{r, library setting, results='hide', message=FALSE}
@@ -47,6 +50,7 @@ library(scales)
 library(glue)
 library(knitr)
 library(plotly)
+library(ggrepel)
 ```
 
 ### Theme settings
