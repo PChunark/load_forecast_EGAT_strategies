@@ -284,7 +284,7 @@ merge_vspp_ext_pdp2023c7 <-
             by = c("ene_vspp_ext_gwh" = "vspp_gwh"))
 ```
 
-Total electricity generation from VSPPs increases from 11,665 GWh in 2019 to 42,214 GWh in 2037 (see Figure \@ref(fig:plot-merge-vspp-ext-pdp2023c7). Figure \@ref(fig:plot-comparevsppPDP2018r1-PDP2022c7) illustrates the comparison of an electricity generation from VSPP in the PDP2018 Rev. 1 and the PDP2022 case 7.
+Total electricity generation from VSPPs increases from 11,665 GWh in 2019 to 42,214 GWh in 2037 (see Figure \@ref(fig:plot-merge-vspp-ext-pdp2023c7). Figure \@ref(fig:plot-comparevsppPDP2018r1-PDP2022c7) illustrates the comparison of an electricity generation from VSPP in the PDP2018 Rev. 1 and the PDP2022 case 7. Electricity generation increases by 33,364 GWh or almost 80% of electricity generation in PDP2022 case 7 than those in PDP2018 Rev.1.
 
 
 ```{r plot-merge-vspp-ext-pdp2023c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2022 case 7',fig.align='center', out.width= '90%'}
@@ -309,15 +309,45 @@ ggplotly(plot_merge_vspp_ext_pdp2023c) %>%
   style(showlegend = FALSE)
 ```
 
+```{r, texannotate1, echo=FALSE, warning=FALSE, message=FALSE}
+annopdp2018r12030<-
+  merge_vspp_ext_pdp %>% 
+  select(ene_vspp_ext_gwh) %>% 
+  mutate(year = c(2019:2037)) %>%
+  filter(year == 2030) %>% 
+  select(year, vspp_pdp2018rev1 = ene_vspp_ext_gwh)
+
+annopdp2018r12037<-
+  merge_vspp_ext_pdp %>% 
+  select(ene_vspp_ext_gwh) %>% 
+  mutate(year = c(2019:2037)) %>% 
+  select(year, vspp_pdp2018rev1 = ene_vspp_ext_gwh) %>% 
+  slice_tail()
+
+annopdp2022c72030 <-
+  merge_vspp_ext_pdp2023c7 %>% 
+  select(vspp_pdp2022c7 = ene_vspp_ext_gwh) %>% 
+  mutate(year = c(2019:2037)) %>% 
+  filter(year == 2030)
+
+annopdp2022c72037 <-
+  merge_vspp_ext_pdp2023c7 %>% 
+  select(vspp_pdp2022c7 = ene_vspp_ext_gwh) %>% 
+  mutate(year = c(2019:2037)) %>% 
+  slice_tail()  
+
+```
 
 
 ```{r plot-comparevsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation from VSPPs', fig.align='center', out.width= '90%'}
-cbind(merge_vspp_ext_pdp %>% 
+cbind(
+  merge_vspp_ext_pdp %>% 
   select(ene_vspp_ext_gwh) %>% 
   mutate(year = c(2019:2037)) %>% 
   select(year, vspp_pdp2018rev1 = ene_vspp_ext_gwh),
-merge_vspp_ext_pdp2023c7 %>% 
-  select(vspp_pdp2022c7 = ene_vspp_ext_gwh)) %>% 
+  merge_vspp_ext_pdp2023c7 %>% 
+  select(vspp_pdp2022c7 = ene_vspp_ext_gwh)
+  ) %>% 
 pivot_longer(-year, names_to = "case", values_to = "ene_gwh")  %>% 
   ggplot(aes(x = year, y = ene_gwh, group = case, color = case))+
   geom_line()+
@@ -334,6 +364,94 @@ pivot_longer(-year, names_to = "case", values_to = "ene_gwh")  %>%
   theme(legend.position = c(0.2, 0.9),
         legend.title = element_blank())+
   labs(x = NULL,
+       y = "Electricity generation (GWh)")+
+  geom_text_repel(data = annopdp2018r12030,
+            aes(x = year, y = vspp_pdp2018rev1, 
+            label = paste0(formatC(vspp_pdp2018rev1, format = "d", big.mark = ",")," GWh")
+            ),
+            hjust = 0.9,
+            size = 4,
+            nudge_y = 4000,
+            inherit.aes = FALSE)+
+   geom_text_repel(data = annopdp2018r12037,
+            aes(x = year, y = vspp_pdp2018rev1, 
+            label = paste0(formatC(vspp_pdp2018rev1, format = "d", big.mark = ",")," GWh")
+            ),
+            hjust = 0.9,
+            size = 4,
+            nudge_y = 4000,
+            inherit.aes = FALSE) +
+  geom_text_repel(data = annopdp2022c72030,
+            aes(x = year , y = vspp_pdp2022c7, 
+                label = paste0(formatC(vspp_pdp2022c7, format = "d", big.mark = ",")," GWh")
+                ),
+            # hjust = 0.9,
+            size = 4,
+            nudge_y = -6000,
+            inherit.aes = FALSE)+
+  geom_text_repel(data = annopdp2022c72037,
+            aes(x = year , y = vspp_pdp2022c7, 
+                label = paste0(formatC(vspp_pdp2022c7, format = "d", big.mark = ",")," GWh")
+                ),
+            hjust = 0.9,
+            size = 4,
+            nudge_y = 4000,
+            inherit.aes = FALSE)
+```
+
+```{r plot-comparefuelvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation mix from VSPPs ', fig.align='center', out.width= '90%'}
+
+  
+full_join(
+  #1
+  vsppenergyPDP2022C7 %>% 
+  mutate(year = as.numeric(year)) %>% 
+  select(-year_th),
+  #2
+  vsppenergyPDP2018R1 %>% 
+  mutate(year = as.numeric(year)) %>% 
+  select(-year_th), 
+by = c("year" = "year", "fuel" = "fuel")
+) %>% 
+  # tidy the data
+  select(year, fuel , vspppdp2022c7 = vspp_gwh.x, vspppdp2018r1 = vspp_gwh.y) %>% 
+  pivot_longer(-year&-fuel, names_to = "scenario", values_to = "vspp_gwh") %>%
+  replace(is.na(.),0) %>%
+  filter(!(fuel %in% c("coal (lignite)","dr","fuel oil","hydro (large)", "hydro (pump)","import (hydro)", "import (interconnection)", "import (lignite)", "total"))) %>%
+
+  ggplot(aes(x = year, y = vspp_gwh, group = scenario, color = scenario))+
+  geom_line()+
+  facet_wrap(~fuel, 
+             scales = "free_y",
+             labeller = as_labeller(c(biogas = "Biogas",
+                                    biomass = "Biomass",
+                                    coal = "Coal",
+                                    diesel = "Diesel",
+                                    ee = "EE",
+                                    gas = "Gas",
+                                    geothermal = "Geothermal",
+                                    hydro = "Hydro (small)",
+                                    "hydro (small)" = "Hydro (small)",
+                                    iew = "Ind. waste",
+                                    ind_waste = "Ind.waste",
+                                    msw = "MSW",
+                                    solar = "Solar",
+                                    "solar floating" = "Solar floating",
+                                    waste = "MSW",
+                                    wasteheat = "Waste heat",
+                                    wind = "Wind")))+
+  scale_x_continuous(breaks = c(2019, 2025, 2030, 2037))+
+  scale_color_manual(breaks = c("vspppdp2018r1", "vspppdp2022c7"), #rearrange the legend
+                     labels = c("PDP2018 Rev.1", "PDP2022 case 7"), #Rename the legend
+                     values = c("dodgerblue", "salmon"))+
+  ThemeLine+
+  theme(legend.position = "top",
+        legend.title = element_blank())+
+  labs(x = NULL,
        y = "Electricity generation (GWh)")
+
+unique(a$fuel)
+unique(vsppenergyPDP2022C7$fuel)
+unique(vsppenergyPDP2018R1$fuel)
 ```
 
