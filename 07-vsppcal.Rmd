@@ -22,7 +22,8 @@ vsppcontractcapPDP2018R1 <-
   mutate(year = as.numeric(year_th)-543) %>%
   pivot_wider(names_from = vspp_mw, values_from = contract_mw) %>% 
   rename_all(tolower) %>% 
-  rename(ind_waste = "industrial waste",
+  rename(msw = "waste",
+         iew = "industrial waste",
          total = "รวม") %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "contract_mw") 
 ```
@@ -33,7 +34,7 @@ vsppcontractcapPDP2018R1 <-
 
 ```{r plot-vsppConCapPDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP contract capacity in the PDP2018 Rev.1', fig.align='center', out.width= '90%'}
 vsppcontractcapPDP2018R1 %>%
-  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "ind_waste", "waste", "hydro", "solar", "wind", "ee", "total"))) %>%
+  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "iew", "msw", "hydro", "solar", "wind", "ee", "total"))) %>%
   ggplot(aes(x = year, y = contract_mw, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE)+
   facet_wrap(~fuel, 
@@ -43,8 +44,8 @@ vsppcontractcapPDP2018R1 %>%
                                       gas = "Gas",
                                       biogas = "Biogas",
                                       biomass = "Biomass",
-                                      ind_waste = "Ind. waste",
-                                      waste = "Waste",
+                                      iew = "Ind. waste",
+                                      msw = "MSW",
                                       hydro = "Hydro",
                                       solar = "Solar",
                                       wind = "Wind",
@@ -72,7 +73,8 @@ vsppenergyPDP2018R1 <-
   mutate(year = as.numeric(year_th)-543) %>%
   pivot_wider(names_from = vspp_gwh, values_from = energy_gwh) %>% 
   rename_all(tolower) %>% 
-  rename(ind_waste = "industrial waste",
+  rename(msw = "waste",
+         iew = "industrial waste",
          total = "รวม") %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh")
 ```
@@ -81,7 +83,7 @@ Total electricity generation from VSPP increases from **9,070.21 GWh** in 2018 t
 
 ```{r plot-vsppEnePDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP electricity generation in the PDP2018 Rev.1', fig.align='center', out.width= '90%'}
 vsppenergyPDP2018R1 %>% 
-  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "ind_waste", "waste", "hydro", "solar", "wind", "ee", "total"))) %>% 
+  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "iew", "msw", "hydro", "solar", "wind", "ee", "total"))) %>% 
     ggplot(aes(x = year, y = vspp_gwh, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE)+
   facet_wrap(~fuel, 
@@ -91,8 +93,8 @@ vsppenergyPDP2018R1 %>%
                                       gas = "Gas",
                                       biogas = "Biogas",
                                       biomass = "Biomass",
-                                      ind_waste = "Ind. waste",
-                                      waste = "Waste",
+                                      iew = "Ind. waste",
+                                      msw = "MSW",
                                       hydro = "Hydro",
                                       solar = "Solar",
                                       wind = "Wind",
@@ -310,6 +312,135 @@ ggplotly(plot_merge_vspp_ext_pdp2023c) %>%
 ```
 
 ```{r, texannotate1, echo=FALSE, warning=FALSE, message=FALSE}
+annopdp2018r12030cont<-
+  vsppcontractcapPDP2018R1 %>%
+  filter(fuel == "total", year == 2030) %>% 
+  select(year, contract_mw)
+
+annopdp2018r12037cont<-
+  vsppcontractcapPDP2018R1 %>%
+  filter(fuel == "total") %>% 
+  select(year, contract_mw) %>% 
+  slice_tail()  
+
+annopdp2022c72030cont <-
+  vsppcontractcapPDP2022C7 %>%
+  mutate(year = as.double(year)) %>% 
+    filter(fuel == "total", year == 2030) %>% 
+    select(year, contract_mw = vspp_mw)
+
+annopdp2022c72037cont <-
+  vsppcontractcapPDP2022C7 %>%
+  mutate(year = as.double(year)) %>% 
+  filter(fuel == "total") %>% 
+  select(year, contract_mw = vspp_mw) %>% 
+  slice_tail()  
+
+```
+
+
+```{r plot-comparecontractvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Contract capacity from VSPPs', fig.align='center', out.width= '90%'}
+cbind(
+  vsppcontractcapPDP2018R1 %>%
+    filter(fuel == "total"&year >= "2022") %>% 
+  select(year,-fuel, vspp_pdp2018rev1 = contract_mw),
+  vsppcontractcapPDP2022C7 %>%
+    filter(fuel == "total") %>%
+  select(vspp_pdp2022c7 = vspp_mw)) %>% 
+  pivot_longer(-year, names_to = "case", values_to = "contract_mw") %>% 
+  ggplot(aes(x = year, y = contract_mw, group = case, color = case))+
+  geom_line()+
+  geom_point()+
+  scale_x_continuous(breaks = c(2022, 2025, 2030, 2037))+
+  scale_y_continuous(limits = c(0,25000),
+                     breaks = seq(0,25000, 5000),
+                     labels = comma)+
+  scale_color_manual(name = NULL, #Remove legend title
+                     breaks = c("vspp_pdp2018rev1", "vspp_pdp2022c7"), #rearrange the legend
+                     labels = c("PDP2018 Rev.1", "PDP2022 case 7"), #Rename the legend
+                     values = c("dodgerblue", "salmon"))+
+  ThemeLine+
+  theme(legend.position = c(0.2, 0.9),
+        legend.title = element_blank())+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")+
+  geom_text_repel(data = annopdp2018r12030cont,
+            aes(x = year, y = contract_mw, 
+            label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," GWh")
+            ),
+            hjust = 0.9,
+            size = 4,
+            nudge_y = 2000,
+            inherit.aes = FALSE)+
+  geom_text_repel(data = annopdp2018r12037cont,
+            aes(x = year, y = contract_mw, 
+            label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," GWh")
+            ),
+            hjust = 0.9,
+            size = 4,
+            nudge_y = 1500,
+            inherit.aes = FALSE) + 
+  geom_text_repel(data = annopdp2022c72030cont,
+            aes(x = year , y = contract_mw,
+                label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," GWh")
+                ),
+            # hjust = 0.9,
+            size = 4,
+            nudge_y = -3000,
+            inherit.aes = FALSE)+
+  geom_text_repel(data = annopdp2022c72037cont,
+            aes(x = year , y = contract_mw, 
+                label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," GWh")
+                ),
+            hjust = 0.9,
+            size = 4,
+            nudge_y = -4000,
+            inherit.aes = FALSE)
+```
+```{r plot-comparecontractfuelvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Contract capacity mix from VSPPs ', fig.align='center', out.width= '90%'}
+full_join(
+  vsppcontractcapPDP2018R1 %>%
+    filter(year >= "2022") %>% 
+  select(year,fuel, vspp_pdp2018rev1 = contract_mw),
+  vsppcontractcapPDP2022C7 %>%
+  mutate(year = as.double(year)) %>%   
+  select(year, fuel, vspp_pdp2022c7 = vspp_mw),
+  by = c("year" = "year", "fuel" = "fuel")) %>% 
+  pivot_longer(-year&-fuel, names_to = "scenario", values_to = "vspp_mw") %>% 
+replace(is.na(.),0) %>%
+  filter(!(fuel %in% c("coal (lignite)","dr","fuel oil","hydro (large)", "hydro (pump)","import (hydro)", "import (interconnection)", "import (lignite)", "total"))) %>% 
+ggplot(aes(x = year, y = vspp_mw, group = scenario, color = scenario))+
+  geom_line()+
+  facet_wrap(~fuel, 
+             scales = "free_y",
+             labeller = as_labeller(c(biogas = "Biogas",
+                                    biomass = "Biomass",
+                                    coal = "Coal",
+                                    diesel = "Diesel",
+                                    ee = "EE",
+                                    gas = "Gas",
+                                    geothermal = "Geothermal",
+                                    hydro = "Hydro (small)",
+                                    "hydro (small)" = "Hydro (small)",
+                                    iew = "Ind.waste",
+                                    msw = "MSW",
+                                    solar = "Solar",
+                                    "solar floating" = "Solar floating",
+                                    waste = "MSW",
+                                    wasteheat = "Waste heat",
+                                    wind = "Wind")))+
+  scale_x_continuous(breaks = c(2022, 2025, 2030, 2037))+
+  scale_color_manual(breaks = c("vspp_pdp2018rev1", "vspp_pdp2022c7"), #rearrange the legend
+                     labels = c("PDP2018 Rev.1", "PDP2022 case 7"), #Rename the legend
+                     values = c("dodgerblue", "salmon"))+
+  ThemeLine+
+  theme(legend.position = "top",
+        legend.title = element_blank())+
+  labs(x = NULL,
+       y = "Contract capacity (MW)")
+```
+
+```{r, texannotate2, echo=FALSE, warning=FALSE, message=FALSE}
 annopdp2018r12030<-
   merge_vspp_ext_pdp %>% 
   select(ene_vspp_ext_gwh) %>% 
@@ -400,8 +531,6 @@ pivot_longer(-year, names_to = "case", values_to = "ene_gwh")  %>%
 ```
 
 ```{r plot-comparefuelvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity generation mix from VSPPs ', fig.align='center', out.width= '90%'}
-
-  
 full_join(
   #1
   vsppenergyPDP2022C7 %>% 
@@ -432,8 +561,7 @@ by = c("year" = "year", "fuel" = "fuel")
                                     geothermal = "Geothermal",
                                     hydro = "Hydro (small)",
                                     "hydro (small)" = "Hydro (small)",
-                                    iew = "Ind. waste",
-                                    ind_waste = "Ind.waste",
+                                    iew = "Ind.waste",
                                     msw = "MSW",
                                     solar = "Solar",
                                     "solar floating" = "Solar floating",
@@ -449,9 +577,5 @@ by = c("year" = "year", "fuel" = "fuel")
         legend.title = element_blank())+
   labs(x = NULL,
        y = "Electricity generation (GWh)")
-
-unique(a$fuel)
-unique(vsppenergyPDP2022C7$fuel)
-unique(vsppenergyPDP2018R1$fuel)
 ```
 
