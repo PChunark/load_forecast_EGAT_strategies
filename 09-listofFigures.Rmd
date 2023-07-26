@@ -53,3 +53,7 @@
 | VSPP electricity generation in the PDP2022 case 7 | \@ref(fig:plot-vsppenergyPDP2022C7) |
 | Total electricity generation from VSPPs in PDP2018 Rev.1 | \@ref(fig:plot-merge-vspp-ext-pdp) |
 | Total electricity generation from VSPPs in PDP2022 case 7 | \@ref(fig:plot-merge-vspp-ext-pdp2023c7) |
+| VSPPs contract capacity | \@ref(fig:plot-comparecontractvsppPDP2018r1-PDP2022c7)|
+| VSPPs contract capacity mix | \@ref(fig:plot-comparecontractfuelvsppPDP2018r1-PDP2022c7)|
+| Electricity generation from VSPPs | \@ref(fig:plot-comparevsppPDP2018r1-PDP2022c7)|
+| Electricity generation mix from VSPPs | \@ref(fig:plot-comparefuelvsppPDP2018r1-PDP2022c7)|
