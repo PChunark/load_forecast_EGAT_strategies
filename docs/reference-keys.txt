@@ -186,3 +186,4 @@ contract-capacity-1
 vsppenergyPDP2022C7
 vspps-electricity-generation-from-existing-vspps-and-pdp2018-rev.1
 vspps-electricity-generation-from-existing-vspps-and-pdp2022-case-7
+vspp-explanation
