@@ -363,10 +363,10 @@ cbind(
   theme(legend.position = c(0.2, 0.9),
         legend.title = element_blank())+
   labs(x = NULL,
-       y = "Electricity generation (GWh)")+
+       y = "Contract capacity (MW)")+
   geom_text_repel(data = annopdp2018r12030cont,
             aes(x = year, y = contract_mw, 
-            label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," GWh")
+            label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," MW")
             ),
             hjust = 0.9,
             size = 4,
@@ -374,7 +374,7 @@ cbind(
             inherit.aes = FALSE)+
   geom_text_repel(data = annopdp2018r12037cont,
             aes(x = year, y = contract_mw, 
-            label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," GWh")
+            label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," MW")
             ),
             hjust = 0.9,
             size = 4,
@@ -382,7 +382,7 @@ cbind(
             inherit.aes = FALSE) + 
   geom_text_repel(data = annopdp2022c72030cont,
             aes(x = year , y = contract_mw,
-                label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," GWh")
+                label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," MW")
                 ),
             # hjust = 0.9,
             size = 4,
@@ -390,13 +390,14 @@ cbind(
             inherit.aes = FALSE)+
   geom_text_repel(data = annopdp2022c72037cont,
             aes(x = year , y = contract_mw, 
-                label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," GWh")
+                label = paste0(formatC(contract_mw, format = "d", big.mark = ",")," MW")
                 ),
             hjust = 0.9,
             size = 4,
             nudge_y = -4000,
             inherit.aes = FALSE)
 ```
+
 ```{r plot-comparecontractfuelvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPPs contract capacity mix', fig.align='center', out.width= '90%'}
 full_join(
   vsppcontractcapPDP2018R1 %>%
