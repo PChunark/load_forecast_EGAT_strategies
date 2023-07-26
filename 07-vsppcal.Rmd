@@ -22,7 +22,8 @@ vsppcontractcapPDP2018R1 <-
   mutate(year = as.numeric(year_th)-543) %>%
   pivot_wider(names_from = vspp_mw, values_from = contract_mw) %>% 
   rename_all(tolower) %>% 
-  rename(msw = "waste",
+  rename("hydro (small)" = hydro,
+         msw = "waste",
          iew = "industrial waste",
          total = "รวม") %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "contract_mw") 
@@ -34,7 +35,7 @@ vsppcontractcapPDP2018R1 <-
 
 ```{r plot-vsppConCapPDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP contract capacity in the PDP2018 Rev.1', fig.align='center', out.width= '90%'}
 vsppcontractcapPDP2018R1 %>%
-  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "iew", "msw", "hydro", "solar", "wind", "ee", "total"))) %>%
+  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "iew", "msw", "hydro (small)", "solar", "wind", "ee", "total"))) %>%
   ggplot(aes(x = year, y = contract_mw, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE)+
   facet_wrap(~fuel, 
@@ -46,7 +47,7 @@ vsppcontractcapPDP2018R1 %>%
                                       biomass = "Biomass",
                                       iew = "Ind. waste",
                                       msw = "MSW",
-                                      hydro = "Hydro",
+                                      "hydro (small)" = "Hydro (small)",
                                       solar = "Solar",
                                       wind = "Wind",
                                       ee = "EE",
@@ -73,7 +74,8 @@ vsppenergyPDP2018R1 <-
   mutate(year = as.numeric(year_th)-543) %>%
   pivot_wider(names_from = vspp_gwh, values_from = energy_gwh) %>% 
   rename_all(tolower) %>% 
-  rename(msw = "waste",
+  rename("hydro (small)" = hydro,
+         msw = "waste",
          iew = "industrial waste",
          total = "รวม") %>% 
   pivot_longer(-year_th&-year, names_to = "fuel",values_to = "vspp_gwh")
@@ -83,7 +85,7 @@ Total electricity generation from VSPP increases from **9,070.21 GWh** in 2018 t
 
 ```{r plot-vsppEnePDP2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPP electricity generation in the PDP2018 Rev.1', fig.align='center', out.width= '90%'}
 vsppenergyPDP2018R1 %>% 
-  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "iew", "msw", "hydro", "solar", "wind", "ee", "total"))) %>% 
+  mutate(fuel = factor(fuel, c("coal", "diesel", "gas", "biogas", "biomass", "iew", "msw", "hydro (small)", "solar", "wind", "ee", "total"))) %>% 
     ggplot(aes(x = year, y = vspp_gwh, group = fuel, color = fuel)) +
   geom_line(show.legend = FALSE)+
   facet_wrap(~fuel, 
@@ -95,7 +97,7 @@ vsppenergyPDP2018R1 %>%
                                       biomass = "Biomass",
                                       iew = "Ind. waste",
                                       msw = "MSW",
-                                      hydro = "Hydro",
+                                      "hydro (small)" = "Hydro (small)",
                                       solar = "Solar",
                                       wind = "Wind",
                                       ee = "EE",
@@ -309,8 +311,14 @@ plot_merge_vspp_ext_pdp2023c <-
 ggplotly(plot_merge_vspp_ext_pdp2023c) %>% 
   style(showlegend = FALSE)
 ```
+## VSPP explanation
 
-Total VSPPs contract capacity in the PDP2018 Rev.1 is higher than those in the PDP2022 case 7 by 33.9% in 2037. 
+The VSPP contract capacity assumption obtained from Department of Alternative Energy Development and Efficiency (DEDE) on 31 January 2023. This data is used for (draft) AEDP2022. Files are used  as follows:
+
+* Additional renewable power plant is obtained from file `Z:\3PDP\PDP2022\Workshop\202301_AEDP 31 ม.ค. 2566\สถานะปัจจุบัน_รายภาค_รายปี.xlsx`
+* Plexos results in case 7 `Z:\3PDP\PDP2022\Workshop\202301_AEDP 31 ม.ค. 2566\Case 7 AEDP310166, 67.7MT CO2, wind1500\Detail_Generation_data_PDP2022_AEDP3101_wind(1500)_addSolar360.xlsx`
+
+Total VSPPs contract capacity in the PDP2018 Rev.1 is higher than those in the PDP2022 case 7 by 33.9% in 2037 (see Figure \@ref(fig:plot-comparecontractvsppPDP2018r1-PDP2022c7)). Electricity generation from VSPPs shows a similar trend (see Figure \@ref(fig:plot-comparevsppPDP2018r1-PDP2022c7)).
 ```{r, texannotate1, echo=FALSE, warning=FALSE, message=FALSE}
 annopdp2018r12030cont<-
   vsppcontractcapPDP2018R1 %>%
@@ -337,7 +345,7 @@ annopdp2022c72037cont <-
   slice_tail()  
 
 ```
-```{r plot-comparecontractvsppPDP2018r1-PDP2022c7, echo=FALSE, fig.align='center', fig.cap='VSPPs contract capacity', message=FALSE, warning=FALSE, out.width=}
+```{r plot-comparecontractvsppPDP2018r1-PDP2022c7, echo=FALSE, fig.align='center', fig.cap='VSPPs contract capacity', message=FALSE, warning=FALSE, out.width='90%'}
 cbind(
   vsppcontractcapPDP2018R1 %>%
     filter(fuel == "total"&year >= "2022") %>% 
@@ -395,6 +403,7 @@ cbind(
             nudge_y = -4000,
             inherit.aes = FALSE)
 ```
+Figure \@ref(fig:plot-comparecontractfuelvsppPDP2018r1-PDP2022c7) illustrates VSPPs contract capacity by fuel type. **Solar** and **biomass** play important role in generating an electricity from VSPPs. **Diesel**, **gas** and **wind** is not an interested source of electricity in the PDP2022 case 7 compared to the PDP2018 Rev.1. Electricity generation from **coal**, **small hydro power**, **industrial waste**, **MSW** and **waste heat** increases in the PDP2022 case 7. Floating solar is a new electricity generation option. **MSW** contract capacity continues to rise. Electricity generation mix shows a similar trend (see Figure \@ref(fig:plot-comparefuelvsppPDP2018r1-PDP2022c7)).
 
 ```{r plot-comparecontractfuelvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPPs contract capacity mix', fig.align='center', out.width= '90%'}
 full_join(
@@ -419,7 +428,6 @@ ggplot(aes(x = year, y = vspp_mw, group = scenario, color = scenario))+
                                     ee = "EE",
                                     gas = "Gas",
                                     geothermal = "Geothermal",
-                                    hydro = "Hydro (small)",
                                     "hydro (small)" = "Hydro (small)",
                                     iew = "Ind.waste",
                                     msw = "MSW",
@@ -558,7 +566,6 @@ by = c("year" = "year", "fuel" = "fuel")
                                     ee = "EE",
                                     gas = "Gas",
                                     geothermal = "Geothermal",
-                                    hydro = "Hydro (small)",
                                     "hydro (small)" = "Hydro (small)",
                                     iew = "Ind.waste",
                                     msw = "MSW",
