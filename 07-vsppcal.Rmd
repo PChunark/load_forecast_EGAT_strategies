@@ -288,7 +288,6 @@ merge_vspp_ext_pdp2023c7 <-
 
 Total electricity generation from VSPPs increases from 11,665 GWh in 2019 to 42,214 GWh in 2037 (see Figure \@ref(fig:plot-merge-vspp-ext-pdp2023c7). Figure \@ref(fig:plot-comparevsppPDP2018r1-PDP2022c7) illustrates the comparison of an electricity generation from VSPP in the PDP2018 Rev. 1 and the PDP2022 case 7. Electricity generation increases by 33,364 GWh or almost 80% of electricity generation in PDP2022 case 7 than those in PDP2018 Rev.1.
 
-
 ```{r plot-merge-vspp-ext-pdp2023c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from VSPPs in PDP2022 case 7',fig.align='center', out.width= '90%'}
 plot_merge_vspp_ext_pdp2023c <-
   
@@ -311,6 +310,7 @@ ggplotly(plot_merge_vspp_ext_pdp2023c) %>%
   style(showlegend = FALSE)
 ```
 
+Total VSPPs contract capacity in the PDP2018 Rev.1 is higher than those in the PDP2022 case 7 by 33.9% in 2037. 
 ```{r, texannotate1, echo=FALSE, warning=FALSE, message=FALSE}
 annopdp2018r12030cont<-
   vsppcontractcapPDP2018R1 %>%
@@ -337,9 +337,7 @@ annopdp2022c72037cont <-
   slice_tail()  
 
 ```
-
-
-```{r plot-comparecontractvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPPs contract capacity', fig.align='center', out.width= '90%'}
+```{r plot-comparecontractvsppPDP2018r1-PDP2022c7, echo=FALSE, fig.align='center', fig.cap='VSPPs contract capacity', message=FALSE, warning=FALSE, out.width=}
 cbind(
   vsppcontractcapPDP2018R1 %>%
     filter(fuel == "total"&year >= "2022") %>% 
