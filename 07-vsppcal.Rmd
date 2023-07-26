@@ -339,7 +339,7 @@ annopdp2022c72037cont <-
 ```
 
 
-```{r plot-comparecontractvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Contract capacity from VSPPs', fig.align='center', out.width= '90%'}
+```{r plot-comparecontractvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPPs contract capacity', fig.align='center', out.width= '90%'}
 cbind(
   vsppcontractcapPDP2018R1 %>%
     filter(fuel == "total"&year >= "2022") %>% 
@@ -397,7 +397,7 @@ cbind(
             nudge_y = -4000,
             inherit.aes = FALSE)
 ```
-```{r plot-comparecontractfuelvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Contract capacity mix from VSPPs ', fig.align='center', out.width= '90%'}
+```{r plot-comparecontractfuelvsppPDP2018r1-PDP2022c7, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='VSPPs contract capacity mix', fig.align='center', out.width= '90%'}
 full_join(
   vsppcontractcapPDP2018R1 %>%
     filter(year >= "2022") %>% 
