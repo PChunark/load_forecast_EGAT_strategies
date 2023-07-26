@@ -114,7 +114,10 @@ fig:plot-vsppcontractcapPDP2022C7
 fig:plot-vsppenergyPDP2022C7
 fig:plot-merge-vspp-ext-pdp
 fig:plot-merge-vspp-ext-pdp2023c7
+fig:plot-comparecontractvsppPDP2018r1-PDP2022c7
+fig:plot-comparecontractfuelvsppPDP2018r1-PDP2022c7
 fig:plot-comparevsppPDP2018r1-PDP2022c7
+fig:plot-comparefuelvsppPDP2018r1-PDP2022c7
 introduction
 electricity-consumption-situation
 electricity-generation-situation

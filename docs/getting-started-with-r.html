@@ -29,7 +29,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
 <meta name="author" content="Puttipong Chunark, Ph.D." />
 
 
-<meta name="date" content="2023-07-21" />
+<meta name="date" content="2023-07-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,7 +297,7 @@ in your computer. R can be run on several operating system.</p>
 <div id="installing-packages" class="section level3 hasAnchor" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Installing packages<a href="getting-started-with-r.html#installing-packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Required packages can be downloaded by using the command <code>install.packages()</code>. A R code chunk is given below.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="getting-started-with-r.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;readxl&quot;</span>,<span class="st">&quot;scales&quot;</span>, <span class="st">&quot;glue&quot;</span>,<span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;plotly&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="getting-started-with-r.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;readxl&quot;</span>,<span class="st">&quot;scales&quot;</span>, <span class="st">&quot;glue&quot;</span>,<span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;plotly&quot;</span>, <span class="st">&quot;ggrepel&quot;</span>)</span></code></pre></div>
 </div>
 <div id="packset" class="section level3 hasAnchor" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Packages settings<a href="getting-started-with-r.html#packset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -320,13 +320,19 @@ in your computer. R can be run on several operating system.</p>
 <li>A <code>glue</code> <a href="https://glue.tidyverse.org/">package</a> interprets strings literal. The package embeds R expressions and inserts into argument string.</li>
 <li>A <code>knitr</code> <a href="https://github.com/yihui/knitr">package</a> is a lightweight API’s designed to give users full control of the output without heavy coding work. In this project, the package is used for making a HTML.</li>
 <li>A <code>plotly</code> <a href="https://plotly.com/r/getting-started/">package</a> is an alternative package to a <code>ggplot2</code> package. It is an interactive web-base graphic <span class="citation">(<a href="#ref-ployly2023">Ployly 2023</a>; <a href="#ref-schork2023">Schork 2023</a>)</span>. Plotly uses an open source <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">JavaScript</a> graphing library <a href="https://github.com/plotly/plotly.js">ployly.js</a> to render dynamic plots.</li>
+<li>A <code>ggrepel</code> <a href="https://github.com/slowkow/ggrepel">package</a> provides geoms for ggplot2 to repel overlapping text labels.
+<ul>
+<li><code>geom_text_repel()</code>, and</li>
+<li><code>geom_label_repel()</code></li>
+</ul></li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="getting-started-with-r.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#For data manipulation</span></span>
 <span id="cb2-2"><a href="getting-started-with-r.html#cb2-2" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co">#For reading the excel sheet</span></span>
 <span id="cb2-3"><a href="getting-started-with-r.html#cb2-3" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
 <span id="cb2-4"><a href="getting-started-with-r.html#cb2-4" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
 <span id="cb2-5"><a href="getting-started-with-r.html#cb2-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb2-6"><a href="getting-started-with-r.html#cb2-6" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code></pre></div>
+<span id="cb2-6"><a href="getting-started-with-r.html#cb2-6" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb2-7"><a href="getting-started-with-r.html#cb2-7" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span></code></pre></div>
 </div>
 <div id="theme-settings" class="section level3 hasAnchor" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Theme settings<a href="getting-started-with-r.html#theme-settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
