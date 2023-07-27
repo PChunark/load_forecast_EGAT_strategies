@@ -1,0 +1,114 @@
+# EGAT internal electricity use and pump and storage
+
+EGAT internal electricity use is categorized into 2 groups as follows:
+
+* EGAT offices
+* EGAT substations and their offices
+* EGAT station services (other processes in force outage power plants)
+* Mae Moh mining
+* EGAT pump and storage system
+
+## Electricity use in office and others
+Electricity use in office and others obtained from 
+
+
+```{r use_office, echo=FALSE, warning=FALSE, message=FALSE}
+use_office <- 
+  
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+             sheet = "C_LossUse",
+             range = "C18:D45",
+             col_names = c("year_th", "ely_gwh")) %>% 
+  mutate(year = year_th - 543)
+```
+
+```{r}
+use_office %>% 
+  ggplot(aes(x = year, y = ely_gwh)) +
+  geom_line(aes(color = "salmon"),
+            show.legend = FALSE)+
+  geom_vline(xintercept = 2010)+
+  geom_vline(xintercept = 2022)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  geom_text(label = "Historical data",
+            aes(x = 2016, y = 50),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "Projected data",
+            aes(x = 2030, y = 50),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2010, 2020, 2030,2037))+
+  scale_y_continuous(breaks = seq(0,50,10),
+                     limits = c(0,50))+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
+```
+
+
+
+
+## Electricity use in EGAT substations and their office
+
+```{r}
+use_egatsub <- 
+  
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+             sheet = "C_LossUse",
+             range = "C59:D86",
+             col_names = c("year_th", "ely_gwh")) %>% 
+  mutate(year = year_th - 543)
+```
+
+## Electricity use in station service (off-load)
+```{r}
+use_statserv <- 
+  
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+             sheet = "C_LossUse",
+             range = "C100:D127",
+             col_names = c("year_th", "ely_gwh")) %>% 
+  mutate(year = year_th - 543)
+```
+
+## Electricity use in Mae Moh
+```{r}
+use_maemoh <- 
+  
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+             sheet = "C_LossUse",
+             range = "C149:D176",
+             col_names = c("year_th", "ely_gwh")) %>% 
+  mutate(year = year_th - 543)
+```
+
+## Electricity use in pump and storage
+```{r}
+use_pump <- 
+  
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+             sheet = "C_LossUse",
+             range = "C190:D217",
+             col_names = c("year_th", "ely_gwh")) %>% 
+  mutate(year = year_th - 543)
+```
+
+## Total use: office + egatsub + statserv + maemoh + pump
+
+```{r}
+total_usepump <- 
+  
+  use_office %>% 
+  mutate(use_egatsub  = use_egatsub$ely_gwh,
+         use_statserv = use_statserv$ely_gwh,
+         use_maemoh   = use_maemoh$ely_gwh,
+         use_pump     = use_pump$ely_gwh,
+         total_usepump  = ely_gwh + use_egatsub + use_statserv + use_maemoh + use_pump)
+```
+
