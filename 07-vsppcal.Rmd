@@ -210,7 +210,8 @@ vsppenergyPDP2022C7 %>%
        y = "Electricity generation (GWh)")
 ```
 
-## VSPPs electricity generation from existing VSPPs and PDP2018 Rev.1
+## VSPPs electricity generation 
+### The PDP2018 Rev.1
 
 Total electricity generation from existing VSPPs is selected from 2019 onwards (see section \@ref(totVSPPely) and figure \@ref(fig:plot-totvspp-ene-2015-2021)). The R code chunk is given below. 
 
@@ -267,7 +268,7 @@ ggplotly(plot_merge_vspp_ext_pdp) %>%
   style(showlegend = FALSE)
 ```
 
-## VSPPs electricity generation from existing VSPPs and PDP2022 case 7
+### The PDP2022 case 7
 
 Total electricity generation from VSPPs in PDP2022 case 7 is selected from 2022 onwards (see section \@ref(vsppenergyPDP2022C7) and figure \@ref(fig:plot-vsppenergyPDP2022C7)). The R code chunk is given below.
 
