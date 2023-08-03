@@ -12,7 +12,7 @@ The EGAT electricity consumption data is obtained from Power System Control and 
 Power Generation and Purchase Data Processing Department (กองประมวลผลข้อมูลการผลิตและซื้อขายไฟฟ้า (กผฟ-ส.)) website.
 
 
-## Electricity use in office and others
+## Electricity use in EGAT head office and others
 
 Electricity consumption is taken from Head of National Load forecast section. The file name is `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chunk is given below.
 
@@ -98,7 +98,7 @@ use_office %>%
 ```
 
 
-## Electricity use in EGAT substations and their office
+## Electricity use in EGAT substations and their offices
 
 The data is extracted from `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chuck is given below.
 
@@ -262,8 +262,7 @@ use_statserv %>%
 ```
 
 
-
-## Electricity use in Mae Moh
+## Electricity use in Mae Moh mining
 The data is extracted from `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chuck is given below.
 ```{r use_maemoh, echo=TRUE, warning=FALSE, message=FALSE}
 use_maemoh <- 
@@ -274,6 +273,109 @@ use_maemoh <-
              col_names = c("year_th", "ely_gwh")) %>% 
   mutate(year = year_th - 543)
 ```
+
+```{r anno_use_maemoh, echo=FALSE, warning=FALSE, message=FALSE}
+annousemaemoh2010 <-
+  use_maemoh %>% 
+  filter(year == 2010)
+
+annousemaemoh2017 <-
+  use_maemoh %>% 
+  filter(year == 2017)
+
+annousemaemoh2023 <-
+  use_maemoh %>% 
+  filter(year == 2023)
+
+annousemaemoh2026 <-
+  use_maemoh %>% 
+  filter(year == 2026)
+
+annousemaemoh2029 <-
+  use_maemoh %>% 
+  filter(year == 2029)
+
+annousemaemoh2035 <-
+  use_maemoh %>% 
+  filter(year == 2035)
+
+```
+
+The electricity consumption in Mea Moh mining would reach its peak 912 GWh in 2023 and would gradually decrease (see Figure \@ref(fig:plot-usemaemoh)). A mining electricity consumption depends on a mining schedule. It is unpredictable. Therefore, it would be better to ask 
+```{r plot-usemaemoh, echo=FALSE,warning=FALSE, message=FALSE}
+use_maemoh %>% 
+  ggplot(aes(x = year, y = ely_gwh)) +
+  geom_line(aes(color = "salmon"),
+            show.legend = FALSE)+
+  geom_vline(xintercept = 2010)+
+  geom_vline(xintercept = 2022)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  geom_text(label = "Historical data",
+            aes(x = 2016, y = 1200),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "Projected data",
+            aes(x = 2030, y = 1200),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2010,2015, 2020, 2025, 2030,2037))+
+  scale_y_continuous(breaks = seq(0,1200,100),
+                     limits = c(0,1200),
+                     labels = comma)+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity consumption (GWh)")+
+  geom_text_repel(data = annousemaemoh2010,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annousemaemoh2010$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3.5,
+                  nudge_y = -100,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annousemaemoh2017,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annousemaemoh2017$ely_gwh, format = "d"), " GWh")),
+                  size = 4,
+                  nudge_y = -100,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annousemaemoh2023,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annousemaemoh2023$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3.5,
+                  nudge_y = 100,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annousemaemoh2026,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annousemaemoh2026$ely_gwh, format = "d"), " GWh")),
+                  size = 4,
+                  nudge_y = -100,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annousemaemoh2029,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annousemaemoh2029$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3.5,
+                  nudge_y = 100,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annousemaemoh2035,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annousemaemoh2035$ely_gwh, format = "d"), " GWh")),
+                  # hjust = 0.9,
+                  size = 4,
+                  # nudge_x = 3.5,
+                  nudge_y = -100,
+                  inherit.aes = FALSE)
+```
+
 
 ## Electricity use in pump and storage
 The data is extracted from `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chuck is given below.
