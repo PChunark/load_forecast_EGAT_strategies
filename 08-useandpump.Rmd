@@ -8,9 +8,13 @@ EGAT internal electricity use is categorized into 2 groups as follows:
 * Mae Moh mining
 * EGAT pump and storage system
 
+The EGAT electricity consumption data is obtained from Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า (อคฟ.)),
+Power Generation and Purchase Data Processing Department (กองประมวลผลข้อมูลการผลิตและซื้อขายไฟฟ้า (กผฟ-ส.)) website.
+
+
 ## Electricity use in office and others
-Electricity use in office and others obtained from Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า (อคฟ.)),
-Power Generation and Purchase Data Processing Department (กองประมวลผลข้อมูลการผลิตและซื้อขายไฟฟ้า (กผฟ-ส.)) website. The R code chunk is given below. 
+
+Electricity consumption is taken from Head of National Load forecast section. The file name is `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chunk is given below.
 
 
 ```{r use_office, echo=TRUE, warning=FALSE, message=FALSE}
@@ -23,11 +27,23 @@ use_office <-
   mutate(year = year_th - 543)
 ```
 
-```{r anno_useoffice}
-# annouseoffice2010 <-
-    use_office %>% 
-```
 
+```{r anno_useoffice, echo=FALSE, message=FALSE, warning=FALSE}
+annouseoffice2010 <-
+    use_office %>% 
+    filter(year == 2010) %>% 
+    select(-year_th)
+
+annouseoffice2019 <-
+    use_office %>% 
+    filter(year == 2019)
+
+annouseoffice2023 <-
+    use_office %>% 
+    filter(year == 2023)
+    
+```
+Electricity use in office and others reached its peak 37 GWh in 2019. In 2023, it assumed that the electricity consumption will be similar to 2018 at 35 GWh according to EGAT staff returned to work onsite (see Figure \@ref(fig:plot-useandoffice)).  
 
 ```{r plot-useandoffice, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity consumption in EGAT head office and others', fig.align='center', out.width= '90%'}
 use_office %>% 
@@ -50,20 +66,43 @@ use_office %>%
             color = "dodgerblue",
             show.legend = FALSE,
             inherit.aes = FALSE)+
-  scale_x_continuous(breaks = c(2010, 2020, 2030,2037))+
+  scale_x_continuous(breaks = c(2010,2015, 2020,2025, 2030,2037))+
   scale_y_continuous(breaks = seq(0,50,10),
                      limits = c(0,50))+
   ThemeLine+
   labs(x = NULL,
-       y = "Electricity consumption (GWh)")
+       y = "Electricity consumption (GWh)")+
+  geom_text_repel(data = annouseoffice2010,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annouseoffice2010$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 2,
+                  nudge_y = 4,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annouseoffice2019,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annouseoffice2019$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_y = 4,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annouseoffice2023,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annouseoffice2023$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 2,
+                  nudge_y = 4,
+                  inherit.aes = FALSE)
 ```
-
-
 
 
 ## Electricity use in EGAT substations and their office
 
-```{r}
+The data is extracted from `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chuck is given below.
+
+```{r use_egatsub, echo=TRUE, warning=FALSE, message=FALSE}
 use_egatsub <- 
   
   read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
@@ -73,8 +112,80 @@ use_egatsub <-
   mutate(year = year_th - 543)
 ```
 
+```{r anno_egatsub, echo=FALSE, warning=FALSE, message=FALSE}
+annouseegatsub2010 <-
+  use_egatsub %>% 
+  filter(year ==2010)
+
+annouseegatsub2015 <-
+  use_egatsub %>% 
+  filter(year ==2015)
+
+annouseegatsub2023 <-
+  use_egatsub %>% 
+  filter(year ==2023)
+```
+
+Electricity consumption in EGAT substations decreased from 84 GWh in 2010 to 64 GWh in 2015. It is assumed that the electricity consumtion will be similar to those in 2019 (see Figure \@ref(fig:plot-useegatsub)).
+
+```{r plot-useegatsub, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity consumption in EGAT substations', fig.align='center', out.width= '90%'}
+use_egatsub %>% 
+  ggplot(aes(x = year, y = ely_gwh)) +
+  geom_line(aes(color = "salmon"),
+            show.legend = FALSE)+
+  geom_vline(xintercept = 2010)+
+  geom_vline(xintercept = 2022)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  geom_text(label = "Historical data",
+            aes(x = 2016, y = 150),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "Projected data",
+            aes(x = 2030, y = 150),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2010,2015, 2020, 2025, 2030,2037))+
+  scale_y_continuous(breaks = seq(0,150,50),
+                     limits = c(0,150))+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity consumption (GWh)")+
+  geom_text_repel(data = annouseegatsub2010,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annouseegatsub2010$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3,
+                  nudge_y = 10,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annouseegatsub2015,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annouseegatsub2015$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3,
+                  nudge_y = -10,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annouseegatsub2023,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annouseegatsub2023$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3,
+                  nudge_y = 10,
+                  inherit.aes = FALSE)
+```
+
 ## Electricity use in station service (off-load)
-```{r}
+
+The data is extracted from `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chuck is given below.
+
+```{r use_statserv, echo=TRUE, warning=FALSE, message=FALSE}
 use_statserv <- 
   
   read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
@@ -83,9 +194,78 @@ use_statserv <-
              col_names = c("year_th", "ely_gwh")) %>% 
   mutate(year = year_th - 543)
 ```
+```{r anno_use_statserv, echo=FALSE, message=FALSE, warning=FALSE}
+annousestatserv2022 <-
+  use_statserv %>% 
+  filter(year == 2022)
+
+annousestatserv2023 <-
+  use_statserv %>% 
+  filter(year == 2023)
+
+```
+
+
+Electricity consumption in station services (off-load) reached its peak 103 GWh in 2022. It is assumed that the consumption in2023 would be similar to those in 2019 (see Figure \@ref(fig:plot-usestatserv)).
+
+```{r plot-usestatserv, echo=FALSE, message=FALSE, warning=FALSE, fig.cap='Electricity consumption in station service (off-load)', , fig.align='center', out.width= '90%'}
+use_statserv %>% 
+  ggplot(aes(x = year, y = ely_gwh)) +
+  geom_line(aes(color = "salmon"),
+            show.legend = FALSE)+
+  geom_vline(xintercept = 2010)+
+  geom_vline(xintercept = 2022)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  geom_text(label = "Data unavailable",
+            aes(x = 2011, y = 1),
+            size = 3,
+            color = "darkgrey",
+            nudge_x = 1,
+            nudge_y = 10,
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "Historical data",
+            aes(x = 2016, y = 150),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "Projected data",
+            aes(x = 2030, y = 150),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2010,2015, 2020, 2025, 2030,2037))+
+  scale_y_continuous(breaks = seq(0,150,50),
+                     limits = c(0,150))+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity consumption (GWh)")+
+  geom_text_repel(data = annousestatserv2022,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annousestatserv2022$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3.5,
+                  nudge_y = 10,
+                  inherit.aes = FALSE)+
+   geom_text_repel(data = annousestatserv2023,
+                  aes(x = year, y = ely_gwh,
+                      label = paste0(formatC(annousestatserv2023$ely_gwh, format = "d"), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 2,
+                  nudge_y = 10,
+                  inherit.aes = FALSE)
+```
+
+
 
 ## Electricity use in Mae Moh
-```{r}
+The data is extracted from `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chuck is given below.
+```{r use_maemoh, echo=TRUE, warning=FALSE, message=FALSE}
 use_maemoh <- 
   
   read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
@@ -96,7 +276,8 @@ use_maemoh <-
 ```
 
 ## Electricity use in pump and storage
-```{r}
+The data is extracted from `01 EGAT_20Oct2022_งบ66 67_Final.xlsx`. The R code chuck is given below.
+```{r use_pump, echo=TRUE, warning=FALSE, message=FALSE}
 use_pump <- 
   
   read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
@@ -106,9 +287,9 @@ use_pump <-
   mutate(year = year_th - 543)
 ```
 
-## Total use: office + egatsub + statserv + maemoh + pump
+## Total electricity consumption
 
-```{r}
+```{r total_usepump, echo=TRUE, warning=FALSE, message=FALSE}
 total_usepump <- 
   
   use_office %>% 
