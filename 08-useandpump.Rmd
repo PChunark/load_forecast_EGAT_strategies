@@ -2,17 +2,18 @@
 
 EGAT internal electricity use is categorized into 2 groups as follows:
 
-* EGAT offices
+* EGAT head office and others
 * EGAT substations and their offices
 * EGAT station services (other processes in force outage power plants)
 * Mae Moh mining
 * EGAT pump and storage system
 
 ## Electricity use in office and others
-Electricity use in office and others obtained from 
+Electricity use in office and others obtained from Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า (อคฟ.)),
+Power Generation and Purchase Data Processing Department (กองประมวลผลข้อมูลการผลิตและซื้อขายไฟฟ้า (กผฟ-ส.)) website. The R code chunk is given below. 
 
 
-```{r use_office, echo=FALSE, warning=FALSE, message=FALSE}
+```{r use_office, echo=TRUE, warning=FALSE, message=FALSE}
 use_office <- 
   
   read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
@@ -22,7 +23,13 @@ use_office <-
   mutate(year = year_th - 543)
 ```
 
-```{r}
+```{r anno_useoffice}
+# annouseoffice2010 <-
+    use_office %>% 
+```
+
+
+```{r plot-useandoffice, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Electricity consumption in EGAT head office and others', fig.align='center', out.width= '90%'}
 use_office %>% 
   ggplot(aes(x = year, y = ely_gwh)) +
   geom_line(aes(color = "salmon"),
@@ -48,7 +55,7 @@ use_office %>%
                      limits = c(0,50))+
   ThemeLine+
   labs(x = NULL,
-       y = "Electricity generation (GWh)")
+       y = "Electricity consumption (GWh)")
 ```
 
 
