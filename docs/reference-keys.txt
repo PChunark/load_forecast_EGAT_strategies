@@ -118,6 +118,9 @@ fig:plot-comparecontractvsppPDP2018r1-PDP2022c7
 fig:plot-comparecontractfuelvsppPDP2018r1-PDP2022c7
 fig:plot-comparevsppPDP2018r1-PDP2022c7
 fig:plot-comparefuelvsppPDP2018r1-PDP2022c7
+fig:plot-useandoffice
+fig:plot-useegatsub
+fig:plot-usestatserv
 introduction
 electricity-consumption-situation
 electricity-generation-situation
@@ -188,3 +191,10 @@ vspps-electricity-generation
 the-pdp2018-rev.1
 the-pdp2022-case-7
 vspp-explanation
+egat-internal-electricity-use-and-pump-and-storage
+electricity-use-in-office-and-others
+electricity-use-in-egat-substations-and-their-office
+electricity-use-in-station-service-off-load
+electricity-use-in-mae-moh
+electricity-use-in-pump-and-storage
+total-electricity-consumption
