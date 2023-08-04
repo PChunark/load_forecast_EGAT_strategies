@@ -301,7 +301,7 @@ annousemaemoh2035 <-
 
 ```
 
-The electricity consumption in Mea Moh mining would reach its peak 912 GWh in 2023 and would gradually decrease (see Figure \@ref(fig:plot-usemaemoh)). A mining electricity consumption depends on a mining schedule. It is unpredictable. Therefore, it would be better to ask 
+The electricity consumption in Mea Moh mining would reach its peak 912 GWh in 2023 and would gradually decrease (see Figure \@ref(fig:plot-usemaemoh)). A mining electricity consumption depends on a mining schedule. It is unpredictable. It should be closely monitored. The contact number is Tel. **66440** (internal call), Mechanical and Electrical Engineering Department (กวคฟ-ช.), Fuel Engineering Division (อวพ.), Deputy Governor-Fuel (รวช.).   
 ```{r plot-usemaemoh, echo=FALSE,warning=FALSE, message=FALSE}
 use_maemoh %>% 
   ggplot(aes(x = year, y = ely_gwh)) +
