@@ -71,3 +71,12 @@ EVSPP_{i,t} = EVSPP_{MEA,t} + (EVSPP_{PEA,t}+EVSPP_{DEDE,t}+EVSPP_{Selfgen,t})
 (\#eq:totVSPPEnergy)
 
 \end{equation}
+
+Total EGAT internal electricity consumption \@ref(eq:totalUsePump)
+
+\begin{equation}
+
+TOTUSEPUMP_{t} = ELY_{headoffice,t}+ELY_{substation,t}+ELY_{stationserv,t}+ELY_{maemoh,t}+ELY_{pump,t}
+(\#eq:totalUsePump)
+
+\end{equation}
