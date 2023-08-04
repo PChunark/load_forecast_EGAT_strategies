@@ -57,3 +57,10 @@
 | VSPPs contract capacity mix | \@ref(fig:plot-comparecontractfuelvsppPDP2018r1-PDP2022c7)|
 | Electricity generation from VSPPs | \@ref(fig:plot-comparevsppPDP2018r1-PDP2022c7)|
 | Electricity generation mix from VSPPs | \@ref(fig:plot-comparefuelvsppPDP2018r1-PDP2022c7)|
+| Electricity consumption in EGAT head office and others | \@ref(fig:plot-useandoffice)|
+| Electricity consumption in EGAT substations | \@ref(fig:plot-useegatsub) |
+| Electricity consumption in station service (off-load) | \@ref(fig:plot-usestatserv) |
+| Electricity consumption in Mae Moh mining | \@ref(fig:plot-usemaemoh) |
+| Electricity consumption by pumped storage hydropower plants | \@ref(fig:plot-usepump)|
+| Total EGAT internal electricity consumption | \@ref(fig:plot-totalusepump) |
+| Total EGAT electricity consumption by categories | \@ref(fig:plot-facettotalusepump) |
