@@ -44,7 +44,7 @@ tran_loss_percent %>%
 
 The transmission loss decreased from 1.94% in 2010 to 1.57% in 2021. It is assumed that the loss would be similar to those in 2019. The reason is that the EGAT electricity sale in 2020 and 2021 was in a pandemic situation. The transmission loss would be 1.65% from 2022 onwards.
 
-```{r plot-translosspercent, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Transmission loss', fig.align='center', out.width= '90%'}
+```{r plot-translosspercent, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Transmission loss in EGAT power system', fig.align='center', out.width= '90%'}
 
 tran_loss_percent %>%
   ggplot(aes(x = year, y = percent_loss)) +
