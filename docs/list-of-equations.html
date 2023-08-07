@@ -36,7 +36,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="transmission-loss-in-egat-power-system.html"/>
+<link rel="prev" href="egat-direct-customers.html"/>
 <link rel="next" href="list-of-figures.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -274,6 +274,7 @@ div.csl-indent {
 <li class="chapter" data-level="8.6" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#total-egat-internal-electricity-consumption"><i class="fa fa-check"></i><b>8.6</b> Total EGAT internal electricity consumption</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="transmission-loss-in-egat-power-system.html"><a href="transmission-loss-in-egat-power-system.html"><i class="fa fa-check"></i><b>9</b> Transmission loss in EGAT power system</a></li>
+<li class="chapter" data-level="10" data-path="egat-direct-customers.html"><a href="egat-direct-customers.html"><i class="fa fa-check"></i><b>10</b> EGAT direct customers</a></li>
 <li class="chapter" data-level="" data-path="list-of-equations.html"><a href="list-of-equations.html"><i class="fa fa-check"></i>List of equations</a></li>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i>List of figures</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -354,12 +355,13 @@ EVSPP_{i,t} = EVSPP_{MEA,t} + (EVSPP_{PEA,t}+EVSPP_{DEDE,t}+EVSPP_{Selfgen,t})
 
 \end{equation}\]</span></p>
 <p>Total EGAT internal electricity consumption <a href="egat-internal-electricity-use-and-pump-and-storage.html#eq:totalUsePump">(8.1)</a></p>
-<p><span class="math display" id="eq:totalUsePump">\[\begin{equation}
+<p><span class="math display" id="eq:totalUsePump">\[\begin{align*}
 
-TOTUSEPUMP_{t} = ELY_{headoffice,t}+ELY_{substation,t}+ELY_{stationserv,t}+ELY_{maemoh,t}+ELY_{pump,t}
+TOTUSEPUMP_{t}  = &amp; ELY_{headoffice,t}+ELY_{substation,t}+ELY_{stationserv,t}+\\
+                  &amp; ELY_{maemoh,t}+ELY_{pump,t}
 \tag{8.1}
 
-\end{equation}\]</span></p>
+\end{align*}\]</span></p>
 <p>EGAT power system transmission loss <a href="transmission-loss-in-egat-power-system.html#eq:transloss">(9.1)</a></p>
 <p><span class="math display" id="eq:transloss">\[\begin{equation}
 
@@ -376,7 +378,7 @@ TRNLSS_{t}  = \frac{LSS_{t}}{EGATSLE_{t}}
           </div>
         </div>
       </div>
-<a href="transmission-loss-in-egat-power-system.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="egat-direct-customers.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="list-of-figures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -408,7 +410,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/PChunark/load_forecast_EGAT_strategies/edit/main/10-listofeqns.Rmd",
+"link": "https://github.com/PChunark/load_forecast_EGAT_strategies/edit/main/11-listofeqns.Rmd",
 "text": "Edit"
 },
 "history": {

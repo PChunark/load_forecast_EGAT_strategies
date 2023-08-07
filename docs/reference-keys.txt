@@ -128,6 +128,7 @@ fig:plot-totalusepump
 fig:plot-facettotalusepump
 eq:transloss
 fig:plot-translosspercent
+fig:plot-directCustomer
 introduction
 electricity-consumption-situation
 electricity-generation-situation
@@ -206,3 +207,4 @@ elymaemoh
 elypump
 total-egat-internal-electricity-consumption
 transmission-loss-in-egat-power-system
+egat-direct-customers
