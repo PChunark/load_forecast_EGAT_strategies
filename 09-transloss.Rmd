@@ -1,0 +1,102 @@
+# Transmission loss in EGAT power system
+
+A transmission loss data is obtained from Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า (อคฟ.)),
+Power Generation and Purchase Data Processing Department (กองประมวลผลข้อมูลการผลิตและซื้อขายไฟฟ้า (กผฟ-ส.)) [website](http://control.egat.co.th/gpddwebsite/ReportYear_Table_01.aspx) (EGAT intranet only).\
+
+The transmission loss is calculated by an equation \@ref(eq:transloss) as follows:
+
+\begin{equation}
+
+
+TRNLSS_{t}  = \frac{LSS_{t}}{EGATSLE_{t}}
+(\#eq:transloss)
+
+
+\end{equation}
+
+Where, $TRNLSS_{t}$ denotes a transmission loss in year $t$ in percentage.\
+$LSS_{t}$ denotes a transmission loss in year $t$ in GWh.
+$EGATSLE_{t}$ denotes a EGAT electricity sale in year $t$ in GWh.
+
+```{r percenttransloss, echo=TRUE, warning=FALSE, message=FALSE}
+tran_loss_percent <- 
+  
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final.xlsx",
+             sheet = "C_LossUse",
+             range = "C321:D348",
+             col_names = c("year_th", "percent_loss")) %>% 
+  mutate(year = year_th - 543)
+```
+```{r anno_transloss, echo=FALSE, warning=FALSE, message=FALSE}
+
+annotransloss2010 <-
+tran_loss_percent %>% 
+  filter(year == 2010)
+
+annotransloss2021 <-
+tran_loss_percent %>% 
+  filter(year == 2021)
+
+annotransloss2022 <-
+tran_loss_percent %>% 
+  filter(year == 2022)
+```
+
+The transmission loss decreased from 1.94% in 2010 to 1.57% in 2021. It is assumed that the loss would be similar to those in 2019. The reason is that the EGAT electricity sale in 2020 and 2021 was in a pandemic situation. The transmission loss would be 1.65% from 2022 onwards.
+
+```{r plot-translosspercent, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Transmission loss', fig.align='center', out.width= '90%'}
+
+tran_loss_percent %>%
+  ggplot(aes(x = year, y = percent_loss)) +
+  geom_line(aes(color = "salmon"),
+            show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  geom_vline(xintercept = 2010)+
+  geom_vline(xintercept = 2021)+
+  geom_text(label = "Historical data",
+            aes(x = 2015.5, y = 0.03),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "Projected data",
+            aes(x = 2030, y = 0.03),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2010, 2015,2020,2025,2030,2037))+
+  scale_y_continuous(breaks = seq(0,0.03,0.005),
+                     limits = c(0,0.03),
+                     labels = scales::percent)+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Transmission loss (%)")+
+  geom_text_repel(data = annotransloss2010,
+                  aes(x = year, y = percent_loss,
+                      label = paste0(formatC(annotransloss2010$percent_loss*100, format = "g", digits = 3), " %")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3,
+                  nudge_y = 0.001,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annotransloss2021,
+                  aes(x = year, y = percent_loss,
+                      label = paste0(formatC(annotransloss2021$percent_loss*100, format = "g", digits = 3), " %")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = -1,
+                  nudge_y = 0.003,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annotransloss2022,
+                  aes(x = year, y = percent_loss,
+                      label = paste0(formatC(annotransloss2022$percent_loss*100, format = "g", digits = 3), " %")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 2,
+                  nudge_y = 0.003,
+                  inherit.aes = FALSE)
+  
+```
+
