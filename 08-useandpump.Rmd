@@ -472,13 +472,13 @@ use_pump %>%
 Total EGAT internal electricity consumption can be found in equation \@ref(eq:totalUsePump).
 
 \begin{equation}
-\begin{split}
+\begin{align*}
 
 TOTUSEPUMP_{t}  = & ELY_{headoffice,t}+ELY_{substation,t}+ELY_{stationserv,t}+\\
                   & ELY_{maemoh,t}+ELY_{pump,t}
 (\#eq:totalUsePump)
 
-\end{split}
+\end{align*}
 \end{equation}
 
 Where,\
