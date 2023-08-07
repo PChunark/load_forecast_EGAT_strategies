@@ -1,0 +1,158 @@
+# EGAT direct customers
+
+EGAT direct customers are as follows:
+
+* 14 domestic customers
+** Sattahip Navy station
+** Voice of America (VOA) radio station
+** SCG Tung Song
+** SCG Ta Luang
+** Jalaprathan cement
+** Siam Iron and Steel
+** Padaeng industry
+** ESSO Ao Phai
+** IPP-Ratch (Tharab)
+** IPP-Ratchburi power
+** Others
+** IPP & SPP standby
+** Temporary
+** Thaioil
+
+* 12 neighboring customers
+** Electricité du Cambodge (EDC)
+** Tenaga Nasional Berhad (TNB)
+** Électricité du Laos (EDL)
+** Theun Hinboun Hydro Power Plant (เทิน-หินบุน)
+** Houay Ho Hydro Power Plant (ห้วยเฮาะ)
+** Nam Theun 2 Hydro Power Plant (น้ำเทิน 2)
+** Nam Ngum 2 Hydro Power Plant (น้ำงึม 2)
+** Hongsa Mine Mouth Thermal Power Plant
+** Xe-Pian Xe-Namnoy Hydro Power Plant (เซเปียน-เซน้ำน้อย)
+** Nam Ngiep 1 Hydro Power Plant (น้ำเงี๊ยบ 1)
+** Xayaburi Hydro Power Plant
+** Nam Theun 1 Hydro Power Plant (น้ำเทิน 1)
+
+A historical purchased electricity between 2019–2021, is obtained from a budget load approved on *September 2022*. An estimated electricity purchased electricity is taken from a budget load approved on *March 2022*. The R code chunk are given below. \
+
+The historical and estimated purchased electricity are named as `b_dc_ene` and `pdp2022_dc_ene`, respectively.
+
+```{r dcELYBudgetloadSep2022, echo=TRUE, warning=FALSE, message=FALSE}
+b_dc_ene <-
+  
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "DCs",
+           range = "A6:K44",
+           col_names = c("direct_cus", 2019:2028)) %>% 
+  drop_na() %>% 
+  filter(str_detect(direct_cus, "Energy Demand ")) %>% 
+  pivot_longer(-direct_cus, names_to = "year", values_to = "dc_gwh") %>% 
+  mutate(year = as.numeric(year),
+         year_th = year + 543)
+
+```
+
+```{r dcELYPDP2022Mar2022, echo=TRUE, warning=FALSE, message=FALSE}
+pdp2022_dc_ene <-
+  
+read_excel("raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_EE70__Sent.xlsx",
+           sheet = "DCs_Mar_BAU",
+           range = "A6:V51",
+           col_names = c("direct_cus", 2017:2037)) %>% 
+  drop_na() %>% 
+  filter(str_detect(direct_cus, "Energy Demand ")) %>% 
+  pivot_longer(-direct_cus, names_to = "year", values_to = "dc_gwh") %>%
+  filter(direct_cus == "Energy Demand of  OVER ALL") %>% 
+  mutate(year = as.numeric(year),
+         year_th = year + 543) %>% 
+  filter(year >= 2029)
+
+```
+
+A `rbind` function is a function combined EGAT direct customers. It is named `newdc_ene`.
+
+```{r combineDCELY, echo=FALSE, warning=FALSE, message=FALSE}
+newdc_ene <- rbind(x = b_dc_ene, y = pdp2022_dc_ene)
+```  
+```{r anno_dcELY, echo=FALSE, message=FALSE, warning=FALSE}
+annodcely2019 <-
+  newdc_ene %>% 
+  filter(year == 2019)
+
+annodcely2021 <-
+  newdc_ene %>% 
+  filter(year == 2021)
+
+annodcely2030 <-
+  newdc_ene %>% 
+  filter(year == 2030)
+
+annodcely2037 <-
+  newdc_ene %>% 
+  filter(year == 2037)
+```
+
+
+```{r plot-directCustomer, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Purchased electricity by EGAT direct customers', fig.align='center', out.width= '90%'}
+newdc_ene %>% 
+  ggplot(aes(x = year, y = dc_gwh)) +
+  geom_line(aes(color = "salmon"),
+            show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  geom_vline(xintercept = 2019)+
+  geom_vline(xintercept = 2021)+
+  geom_text(label = "Historical data",
+            aes(x = 2020, y = 6000),
+            color = "dodgerblue",
+            size = 2.5,
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "Projected data",
+            aes(x = 2030, y = 6000),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2019, 2021,2025,2030,2037))+
+  scale_y_continuous(breaks = seq(0,6000,500),
+                     limits = c(0,6000),
+                     labels = scales::comma)+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Purchased electricity (GWh)")+
+  geom_text_repel(data = annodcely2019,
+                  aes(x = year, y = dc_gwh,
+                      label = paste0(formatC(annodcely2019$dc_gwh, format = "d", big.mark = ","), " GWh")),
+                  # hjust = 0.9,
+                  size = 4,
+                  nudge_x = 1,
+                  nudge_y = 500,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annodcely2021,
+                  aes(x = year, y = dc_gwh,
+                      label = paste0(formatC(annodcely2021$dc_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3,
+                  nudge_y = 500,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annodcely2030,
+                  aes(x = year, y = dc_gwh,
+                      label = paste0(formatC(annodcely2030$dc_gwh, format = "d", big.mark = ","), " GWh")),
+                  # hjust = 0.9,
+                  size = 4,
+                  nudge_x = 1,
+                  nudge_y = 500,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annodcely2037,
+                  aes(x = year, y = dc_gwh,
+                      label = paste0(formatC(annodcely2037$dc_gwh, format = "d", big.mark = ","), " GWh")),
+                  # hjust = 0.9,
+                  size = 4,
+                  nudge_x = -1,
+                  nudge_y = 500,
+                  inherit.aes = FALSE)
+
+```
+
