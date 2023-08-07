@@ -126,6 +126,8 @@ fig:plot-usepump
 eq:totalUsePump
 fig:plot-totalusepump
 fig:plot-facettotalusepump
+eq:transloss
+fig:plot-translosspercent
 introduction
 electricity-consumption-situation
 electricity-generation-situation
@@ -197,9 +199,10 @@ the-pdp2018-rev.1
 the-pdp2022-case-7
 vspp-explanation
 egat-internal-electricity-use-and-pump-and-storage
-electricity-use-in-egat-head-office-and-others
-electricity-use-in-egat-substations-and-their-offices
-electricity-use-in-station-service-off-load
-electricity-use-in-mae-moh-mining
-electricity-use-in-pumped-storage-hydropower-plants
+elyegatheadoffice
+elyegatsub
+elystationservice
+elymaemoh
+elypump
 total-egat-internal-electricity-consumption
+transmission-loss-in-egat-power-system

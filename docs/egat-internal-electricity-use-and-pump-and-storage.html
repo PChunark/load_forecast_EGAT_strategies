@@ -29,7 +29,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
 <meta name="author" content="Puttipong Chunark, Ph.D." />
 
 
-<meta name="date" content="2023-08-04" />
+<meta name="date" content="2023-08-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -37,7 +37,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
   
   
 <link rel="prev" href="vspps-calculation.html"/>
-<link rel="next" href="list-of-equations.html"/>
+<link rel="next" href="transmission-loss-in-egat-power-system.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -266,13 +266,14 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="8" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html"><i class="fa fa-check"></i><b>8</b> EGAT internal electricity use and pump and storage</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-egat-head-office-and-others"><i class="fa fa-check"></i><b>8.1</b> Electricity use in EGAT head office and others</a></li>
-<li class="chapter" data-level="8.2" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-egat-substations-and-their-offices"><i class="fa fa-check"></i><b>8.2</b> Electricity use in EGAT substations and their offices</a></li>
-<li class="chapter" data-level="8.3" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-station-service-off-load"><i class="fa fa-check"></i><b>8.3</b> Electricity use in station service (off-load)</a></li>
-<li class="chapter" data-level="8.4" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-mae-moh-mining"><i class="fa fa-check"></i><b>8.4</b> Electricity use in Mae Moh mining</a></li>
-<li class="chapter" data-level="8.5" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-pumped-storage-hydropower-plants"><i class="fa fa-check"></i><b>8.5</b> Electricity use in pumped storage hydropower plants</a></li>
+<li class="chapter" data-level="8.1" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#elyegatheadoffice"><i class="fa fa-check"></i><b>8.1</b> Electricity consumption in EGAT head office and others</a></li>
+<li class="chapter" data-level="8.2" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#elyegatsub"><i class="fa fa-check"></i><b>8.2</b> Electricity consumption in EGAT substations and their offices</a></li>
+<li class="chapter" data-level="8.3" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#elystationservice"><i class="fa fa-check"></i><b>8.3</b> Electricity consumption in station service (off-load)</a></li>
+<li class="chapter" data-level="8.4" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#elymaemoh"><i class="fa fa-check"></i><b>8.4</b> Electricity consumption in Mae Moh mining</a></li>
+<li class="chapter" data-level="8.5" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#elypump"><i class="fa fa-check"></i><b>8.5</b> Electricity consumption in pumped storage hydropower plants</a></li>
 <li class="chapter" data-level="8.6" data-path="egat-internal-electricity-use-and-pump-and-storage.html"><a href="egat-internal-electricity-use-and-pump-and-storage.html#total-egat-internal-electricity-consumption"><i class="fa fa-check"></i><b>8.6</b> Total EGAT internal electricity consumption</a></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="transmission-loss-in-egat-power-system.html"><a href="transmission-loss-in-egat-power-system.html"><i class="fa fa-check"></i><b>9</b> Transmission loss in EGAT power system</a></li>
 <li class="chapter" data-level="" data-path="list-of-equations.html"><a href="list-of-equations.html"><i class="fa fa-check"></i>List of equations</a></li>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i>List of figures</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -298,7 +299,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="egat-internal-electricity-use-and-pump-and-storage" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Chapter 8</span> EGAT internal electricity use and pump and storage<a href="egat-internal-electricity-use-and-pump-and-storage.html#egat-internal-electricity-use-and-pump-and-storage" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>EGAT internal electricity use is categorized into 2 groups as follows:</p>
+<p>EGAT internal electricity use is categorized into 5 groups as follows:</p>
 <ul>
 <li>EGAT head office and others</li>
 <li>EGAT substations and their offices</li>
@@ -307,9 +308,9 @@ div.csl-indent {
 <li>EGAT pump and storage system</li>
 </ul>
 <p>The EGAT electricity consumption data is obtained from Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า (อคฟ.)),
-Power Generation and Purchase Data Processing Department (กองประมวลผลข้อมูลการผลิตและซื้อขายไฟฟ้า (กผฟ-ส.)) website.</p>
-<div id="electricity-use-in-egat-head-office-and-others" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Electricity use in EGAT head office and others<a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-egat-head-office-and-others" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+Power Generation and Purchase Data Processing Department (กองประมวลผลข้อมูลการผลิตและซื้อขายไฟฟ้า (กผฟ-ส.)) <a href="http://control.egat.co.th/gpddwebsite/index.aspx">website</a> (EGAT intranet only).</p>
+<div id="elyegatheadoffice" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Electricity consumption in EGAT head office and others<a href="egat-internal-electricity-use-and-pump-and-storage.html#elyegatheadoffice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Electricity consumption is taken from Head of National Load forecast section. The file name is <code>01 EGAT_20Oct2022_งบ66 67_Final.xlsx</code>. The R code chunk is given below.</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb117-1" tabindex="-1"></a>use_office <span class="ot">&lt;-</span> </span>
 <span id="cb117-2"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb117-2" tabindex="-1"></a>  </span>
@@ -318,7 +319,7 @@ Power Generation and Purchase Data Processing Department (กองประม�
 <span id="cb117-5"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb117-5" tabindex="-1"></a>             <span class="at">range =</span> <span class="st">&quot;C18:D45&quot;</span>,</span>
 <span id="cb117-6"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb117-6" tabindex="-1"></a>             <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;year_th&quot;</span>, <span class="st">&quot;ely_gwh&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb117-7"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb117-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> year_th <span class="sc">-</span> <span class="dv">543</span>)</span></code></pre></div>
-<p>Electricity use in office and others reached its peak 37 GWh in 2019. In 2023, it assumed that the electricity consumption will be similar to 2018 at 35 GWh according to EGAT staff returned to work onsite (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-useandoffice">8.1</a>).</p>
+<p>An electricity use in EGAT head office and others reached its peak 37 GWh in 2019. In 2023, it assumed that the electricity consumption will be similar to those in 2018 at 35 GWh due to EGAT staff returned to work onsite (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-useandoffice">8.1</a>).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-useandoffice"></span>
 <img src="electricity-profiles_files/figure-html/plot-useandoffice-1.png" alt="Electricity consumption in EGAT head office and others" width="90%" />
 <p class="caption">
@@ -326,8 +327,8 @@ Figure 8.1: Electricity consumption in EGAT head office and others
 </p>
 </div>
 </div>
-<div id="electricity-use-in-egat-substations-and-their-offices" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Electricity use in EGAT substations and their offices<a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-egat-substations-and-their-offices" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="elyegatsub" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Electricity consumption in EGAT substations and their offices<a href="egat-internal-electricity-use-and-pump-and-storage.html#elyegatsub" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The data is extracted from <code>01 EGAT_20Oct2022_งบ66 67_Final.xlsx</code>. The R code chuck is given below.</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb118-1" tabindex="-1"></a>use_egatsub <span class="ot">&lt;-</span> </span>
 <span id="cb118-2"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb118-2" tabindex="-1"></a>  </span>
@@ -336,7 +337,7 @@ Figure 8.1: Electricity consumption in EGAT head office and others
 <span id="cb118-5"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb118-5" tabindex="-1"></a>             <span class="at">range =</span> <span class="st">&quot;C59:D86&quot;</span>,</span>
 <span id="cb118-6"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb118-6" tabindex="-1"></a>             <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;year_th&quot;</span>, <span class="st">&quot;ely_gwh&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb118-7"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb118-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> year_th <span class="sc">-</span> <span class="dv">543</span>)</span></code></pre></div>
-<p>Electricity consumption in EGAT substations decreased from 84 GWh in 2010 to 64 GWh in 2015. It is assumed that the electricity consumption will be similar to those in 2019 (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-useegatsub">8.2</a>).</p>
+<p>An electricity consumption in EGAT substations decreased from 84 GWh in 2010 to 64 GWh in 2015. It is assumed that the electricity consumption will be similar to those in 2019 (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-useegatsub">8.2</a>).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-useegatsub"></span>
 <img src="electricity-profiles_files/figure-html/plot-useegatsub-1.png" alt="Electricity consumption in EGAT substations" width="90%" />
 <p class="caption">
@@ -344,8 +345,8 @@ Figure 8.2: Electricity consumption in EGAT substations
 </p>
 </div>
 </div>
-<div id="electricity-use-in-station-service-off-load" class="section level2 hasAnchor" number="8.3">
-<h2><span class="header-section-number">8.3</span> Electricity use in station service (off-load)<a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-station-service-off-load" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="elystationservice" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Electricity consumption in station service (off-load)<a href="egat-internal-electricity-use-and-pump-and-storage.html#elystationservice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The data is extracted from <code>01 EGAT_20Oct2022_งบ66 67_Final.xlsx</code>. The R code chuck is given below.</p>
 <div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb119-1" tabindex="-1"></a>use_statserv <span class="ot">&lt;-</span> </span>
 <span id="cb119-2"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb119-2" tabindex="-1"></a>  </span>
@@ -354,7 +355,7 @@ Figure 8.2: Electricity consumption in EGAT substations
 <span id="cb119-5"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb119-5" tabindex="-1"></a>             <span class="at">range =</span> <span class="st">&quot;C100:D127&quot;</span>,</span>
 <span id="cb119-6"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb119-6" tabindex="-1"></a>             <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;year_th&quot;</span>, <span class="st">&quot;ely_gwh&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb119-7"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb119-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> year_th <span class="sc">-</span> <span class="dv">543</span>)</span></code></pre></div>
-<p>Electricity consumption in station services (off-load) reached its peak 103 GWh in 2022. It is assumed that the consumption in2023 would be similar to those in 2019 (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-usestatserv">8.3</a>).</p>
+<p>An electricity consumption in station services (off-load) reached its peak 103 GWh in 2022. It is assumed that the consumption in 2023 would be similar to those in 2019 (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-usestatserv">8.3</a>).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-usestatserv"></span>
 <img src="electricity-profiles_files/figure-html/plot-usestatserv-1.png" alt="Electricity consumption in station service (off-load)" width="90%" />
 <p class="caption">
@@ -362,8 +363,8 @@ Figure 8.3: Electricity consumption in station service (off-load)
 </p>
 </div>
 </div>
-<div id="electricity-use-in-mae-moh-mining" class="section level2 hasAnchor" number="8.4">
-<h2><span class="header-section-number">8.4</span> Electricity use in Mae Moh mining<a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-mae-moh-mining" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="elymaemoh" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> Electricity consumption in Mae Moh mining<a href="egat-internal-electricity-use-and-pump-and-storage.html#elymaemoh" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The data is extracted from <code>01 EGAT_20Oct2022_งบ66 67_Final.xlsx</code>. The R code chuck is given below.</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb120-1" tabindex="-1"></a>use_maemoh <span class="ot">&lt;-</span> </span>
 <span id="cb120-2"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb120-2" tabindex="-1"></a>  </span>
@@ -372,7 +373,7 @@ Figure 8.3: Electricity consumption in station service (off-load)
 <span id="cb120-5"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb120-5" tabindex="-1"></a>             <span class="at">range =</span> <span class="st">&quot;C149:D176&quot;</span>,</span>
 <span id="cb120-6"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb120-6" tabindex="-1"></a>             <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;year_th&quot;</span>, <span class="st">&quot;ely_gwh&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb120-7"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb120-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> year_th <span class="sc">-</span> <span class="dv">543</span>)</span></code></pre></div>
-The electricity consumption in Mea Moh mining would reach its peak 912 GWh in 2023 and would gradually decrease (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-usemaemoh">8.4</a>). A mining electricity consumption depends on a mining schedule. It is unpredictable. It should be closely monitored. The contact number is Tel. <strong>66440</strong> (internal call), Mechanical and Electrical Engineering Department (กวคฟ-ช.), Fuel Engineering Division (อวพ.), Deputy Governor-Fuel (รวช.).<br />
+An electricity consumption in Mea Moh mining would reach its peak 912 GWh in 2023 and would gradually decrease (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-usemaemoh">8.4</a>). A mining electricity consumption depends on a mining schedule. It is unpredictable. It should be closely monitored. The contact number is Tel. <strong>66440</strong> (internal call), Mechanical and Electrical Engineering Department (กวคฟ-ช.), Fuel Engineering Division (อวพ.), Deputy Governor-Fuel (รวช.).<br />
 
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-usemaemoh"></span>
 <img src="electricity-profiles_files/figure-html/plot-usemaemoh-1.png" alt="Electricity consumption in Mae Moh mining" width="90%" />
@@ -381,8 +382,8 @@ Figure 8.4: Electricity consumption in Mae Moh mining
 </p>
 </div>
 </div>
-<div id="electricity-use-in-pumped-storage-hydropower-plants" class="section level2 hasAnchor" number="8.5">
-<h2><span class="header-section-number">8.5</span> Electricity use in pumped storage hydropower plants<a href="egat-internal-electricity-use-and-pump-and-storage.html#electricity-use-in-pumped-storage-hydropower-plants" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="elypump" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> Electricity consumption in pumped storage hydropower plants<a href="egat-internal-electricity-use-and-pump-and-storage.html#elypump" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The data is extracted from <code>01 EGAT_20Oct2022_งบ66 67_Final.xlsx</code>. The R code chuck is given below.</p>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb121-1" tabindex="-1"></a>use_pump <span class="ot">&lt;-</span> </span>
 <span id="cb121-2"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb121-2" tabindex="-1"></a>  </span>
@@ -395,11 +396,11 @@ Figure 8.4: Electricity consumption in Mae Moh mining
 <ul>
 <li><strong>Srinagarind</strong> pumped storage hydropower plant <strong>unit 4 and 5</strong>, Kanchanaburi with <strong>360 MW</strong> of installed capacity;</li>
 <li><strong>Bhumibol</strong> pumped storage hydropower plant <strong>unit 8</strong>, Tak with <strong>171 MW</strong> of installed capacity; and</li>
-<li><strong>Lamtakong</strong> pumped storage hydropower plant, Nakorn Ratchasima with 1,000 MW of installed capacity</li>
+<li><strong>Lamtakong</strong> pumped storage hydropower plant, Nakorn Ratchasima with <strong>1,000 MW</strong> of installed capacity</li>
 </ul>
-<p>The Chulabhorn pumped storage hydropower plant is currently under an Environmental Impact Assessment (EIA). The plant’s commercial operation date (COD) would be in <em>2034</em> with <em>800 MW</em> of installed capacity.<br />
+<p>The <em>Chulabhorn</em> pumped storage hydropower plant is currently under an Environmental Impact Assessment (EIA). The plant’s commercial operation date (COD) would be in <em>2034</em> with <em>800 MW</em> of installed capacity.<br />
 </p>
-<p>Electricity consumption by pumped storage hydropower plants increased from 434 GWh in 2010 and reached it peak 610 GWh in 2020. Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า (อคฟ.)) estimates a yearly operation short- and a long-term plans. It is estimated that the electricity consumption would be 555 GWh in 2023 and continuously the same until 2037 (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-usepump">8.5</a>).</p>
+<p>An electricity consumption by pumped storage hydropower plants increased from 434 GWh in 2010 and reached it peak 610 GWh in 2020. Power System Control and Operation Division (ฝ่ายควบคุมระบบกำลังไฟฟ้า (อคฟ.)) estimates a yearly operation short- and a long-term plans. It is estimated that the electricity consumption would be 555 GWh in 2023 until 2037 (see Figure <a href="egat-internal-electricity-use-and-pump-and-storage.html#fig:plot-usepump">8.5</a>). It accounts only the electricity consumption in the Lamtakong pumped storage hydropower plant.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-usepump"></span>
 <img src="electricity-profiles_files/figure-html/plot-usepump-1.png" alt="Electricity consumption by pumped storage hydropower plants" width="90%" />
 <p class="caption">
@@ -410,19 +411,20 @@ Figure 8.5: Electricity consumption by pumped storage hydropower plants
 <div id="total-egat-internal-electricity-consumption" class="section level2 hasAnchor" number="8.6">
 <h2><span class="header-section-number">8.6</span> Total EGAT internal electricity consumption<a href="egat-internal-electricity-use-and-pump-and-storage.html#total-egat-internal-electricity-consumption" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Total EGAT internal electricity consumption can be found in equation <a href="egat-internal-electricity-use-and-pump-and-storage.html#eq:totalUsePump">(8.1)</a>.</p>
-<p><span class="math display" id="eq:totalUsePump">\[\begin{equation}
+<p><span class="math display" id="eq:totalUsePump">\[\begin{align*}
 
-TOTUSEPUMP_{t} = ELY_{headoffice,t}+ELY_{substation,t}+ELY_{stationserv,t}+ELY_{maemoh,t}+ELY_{pump,t}
+TOTUSEPUMP_{t}  = &amp; ELY_{headoffice,t}+ELY_{substation,t}+ELY_{stationserv,t}+\\
+                  &amp; ELY_{maemoh,t}+ELY_{pump,t}
 \tag{8.1}
 
-\end{equation}\]</span></p>
+\end{align*}\]</span></p>
 <p>Where,<br />
 <span class="math inline">\(TOTUSEPUMP_{t}\)</span> denotes total EGAT internal electricity consumption in year <span class="math inline">\(t\)</span>.<br />
-<span class="math inline">\(ELY_{headoffice}\)</span> denotes an electricity consumption in EGAT head office and others in year <span class="math inline">\(t\)</span>.<br />
-<span class="math inline">\(ELY_{substation}\)</span> denotes an electricity consumption in EGAT substations in year <span class="math inline">\(t\)</span>.<br />
-<span class="math inline">\(ELY_{stationserv,t}\)</span> denotes an electricity consumption in EGAT station services in year <span class="math inline">\(t\)</span>.<br />
-<span class="math inline">\(ELY_{maemoh,t}\)</span> denotes an electricity consumption in EGAT Mae Moh mining in year <span class="math inline">\(t\)</span>.<br />
-<span class="math inline">\(ELY_{pump,t}\)</span> denotes an electricity consumption in EGAT pumped storage hydropower plants in year <span class="math inline">\(t\)</span>.<br />
+<span class="math inline">\(ELY_{headoffice}\)</span> denotes an electricity consumption in EGAT head office and others in year <span class="math inline">\(t\)</span> (see section <a href="egat-internal-electricity-use-and-pump-and-storage.html#elyegatheadoffice">8.1</a>).<br />
+<span class="math inline">\(ELY_{substation}\)</span> denotes an electricity consumption in EGAT substations in year <span class="math inline">\(t\)</span> (see section <a href="egat-internal-electricity-use-and-pump-and-storage.html#elyegatsub">8.2</a>).<br />
+<span class="math inline">\(ELY_{stationserv,t}\)</span> denotes an electricity consumption in EGAT station services in year <span class="math inline">\(t\)</span> (see section <a href="egat-internal-electricity-use-and-pump-and-storage.html#elystationservice">8.3</a>).<br />
+<span class="math inline">\(ELY_{maemoh,t}\)</span> denotes an electricity consumption in EGAT Mae Moh mining in year <span class="math inline">\(t\)</span> (see section <a href="egat-internal-electricity-use-and-pump-and-storage.html#elymaemoh">8.4</a>).<br />
+<span class="math inline">\(ELY_{pump,t}\)</span> denotes an electricity consumption in EGAT pumped storage hydropower plants in year <span class="math inline">\(t\)</span> (see section <a href="egat-internal-electricity-use-and-pump-and-storage.html#elypump">8.5</a>).<br />
 </p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb122-1" tabindex="-1"></a>total_usepump <span class="ot">&lt;-</span></span>
 <span id="cb122-2"><a href="egat-internal-electricity-use-and-pump-and-storage.html#cb122-2" tabindex="-1"></a>  </span>
@@ -455,7 +457,7 @@ Figure 8.7: Total EGAT electricity consumption by categories
         </div>
       </div>
 <a href="vspps-calculation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="list-of-equations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="transmission-loss-in-egat-power-system.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
