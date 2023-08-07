@@ -80,3 +80,14 @@ TOTUSEPUMP_{t} = ELY_{headoffice,t}+ELY_{substation,t}+ELY_{stationserv,t}+ELY_{
 (\#eq:totalUsePump)
 
 \end{equation}
+
+EGAT power system transmission loss \@ref(eq:transloss)
+
+\begin{equation}
+
+
+TRNLSS_{t}  = \frac{LSS_{t}}{EGATSLE_{t}}
+(\#eq:transloss)
+
+
+\end{equation}
