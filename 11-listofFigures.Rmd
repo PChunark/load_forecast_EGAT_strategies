@@ -64,3 +64,4 @@
 | Electricity consumption by pumped storage hydropower plants | \@ref(fig:plot-usepump)|
 | Total EGAT internal electricity consumption | \@ref(fig:plot-totalusepump) |
 | Total EGAT electricity consumption by categories | \@ref(fig:plot-facettotalusepump) |
+| Transmission loss in EGAT power system | \@ref(fig:plot-translosspercent) |
