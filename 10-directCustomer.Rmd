@@ -3,34 +3,34 @@
 EGAT direct customers are as follows:
 
 * 14 domestic customers
-** Sattahip Navy station
-** Voice of America (VOA) radio station
-** SCG Tung Song
-** SCG Ta Luang
-** Jalaprathan cement
-** Siam Iron and Steel
-** Padaeng industry
-** ESSO Ao Phai
-** IPP-Ratch (Tharab)
-** IPP-Ratchburi power
-** Others
-** IPP & SPP standby
-** Temporary
-** Thaioil
+  + Sattahip Navy station
+  + Voice of America (VOA) radio station
+  + SCG Tung Song
+  + SCG Ta Luang
+  + Jalaprathan cement
+  + Siam Iron and Steel
+  + Padaeng industry
+  + ESSO Ao Phai
+  + IPP-Ratch (Tharab)
+  + IPP-Ratchburi power
+  + Others
+  + IPP & SPP standby
+  + Temporary
+  + Thai Oil
 
 * 12 neighboring customers
-** Electricité du Cambodge (EDC)
-** Tenaga Nasional Berhad (TNB)
-** Électricité du Laos (EDL)
-** Theun Hinboun Hydro Power Plant (เทิน-หินบุน)
-** Houay Ho Hydro Power Plant (ห้วยเฮาะ)
-** Nam Theun 2 Hydro Power Plant (น้ำเทิน 2)
-** Nam Ngum 2 Hydro Power Plant (น้ำงึม 2)
-** Hongsa Mine Mouth Thermal Power Plant
-** Xe-Pian Xe-Namnoy Hydro Power Plant (เซเปียน-เซน้ำน้อย)
-** Nam Ngiep 1 Hydro Power Plant (น้ำเงี๊ยบ 1)
-** Xayaburi Hydro Power Plant
-** Nam Theun 1 Hydro Power Plant (น้ำเทิน 1)
+  + Electricité du Cambodge (EDC)
+  + Tenaga Nasional Berhad (TNB)
+  + Électricité du Laos (EDL)
+  + Theun Hinboun Hydro Power Plant (เทิน-หินบุน)
+  + Houay Ho Hydro Power Plant (ห้วยเฮาะ)
+  + Nam Theun 2 Hydro Power Plant (น้ำเทิน 2)
+  + Nam Ngum 2 Hydro Power Plant (น้ำงึม 2)
+  + Hongsa Mine Mouth Thermal Power Plant
+  + Xe-Pian Xe-Namnoy Hydro Power Plant (เซเปียน-เซน้ำน้อย)
+  + Nam Ngiep 1 Hydro Power Plant (น้ำเงี๊ยบ 1)
+  + Xayaburi Hydro Power Plant
+  + Nam Theun 1 Hydro Power Plant (น้ำเทิน 1)
 
 A historical purchased electricity between 2019–2021, is obtained from a budget load approved on *September 2022*. An estimated electricity purchased electricity is taken from a budget load approved on *March 2022*. The R code chunk are given below. \
 
@@ -82,6 +82,10 @@ annodcely2021 <-
   newdc_ene %>% 
   filter(year == 2021)
 
+annodcely2023 <-
+  newdc_ene %>% 
+  filter(year == 2023)
+
 annodcely2030 <-
   newdc_ene %>% 
   filter(year == 2030)
@@ -91,6 +95,7 @@ annodcely2037 <-
   filter(year == 2037)
 ```
 
+Total purchased electricity from EGAT direct customers decreased from 3,831 GWh in 2010 and reached its minimum 2,392 GWh in 2023. The purchased electricity gradually increases to 2,744 GWh in 2037 
 
 ```{r plot-directCustomer, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Purchased electricity by EGAT direct customers', fig.align='center', out.width= '90%'}
 newdc_ene %>% 
@@ -137,6 +142,14 @@ newdc_ene %>%
                   nudge_x = 3,
                   nudge_y = 500,
                   inherit.aes = FALSE)+
+  geom_text_repel(data = annodcely2023,
+                  aes(x = year, y = dc_gwh,
+                      label = paste0(formatC(annodcely2023$dc_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.9,
+                  size = 4,
+                  nudge_x = 3,
+                  nudge_y = 500,
+                  inherit.aes = FALSE)+
   geom_text_repel(data = annodcely2030,
                   aes(x = year, y = dc_gwh,
                       label = paste0(formatC(annodcely2030$dc_gwh, format = "d", big.mark = ","), " GWh")),
@@ -155,4 +168,57 @@ newdc_ene %>%
                   inherit.aes = FALSE)
 
 ```
+```{r plot-dcdomestic, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='EGAT direct purchased electricity from domestic customers'}
+full_join(
+  #1
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "DCs",
+           range = "A6:K43",
+           col_names = c("direct_cus", 2019:2028)) %>% 
+  drop_na(),
+  #2
+  read_excel("raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_EE70__Sent.xlsx",
+           sheet = "DCs_Mar_BAU",
+           range = "A6:V43",
+           col_names = c("direct_cus", 2017:2037)) %>% 
+  drop_na() %>% 
+  pivot_longer(-direct_cus, names_to = "year", values_to = "dc_gwh") %>% 
+  filter(year >= 2029) %>% 
+  pivot_wider(names_from = "year", values_from = "dc_gwh"),
+  #command
+  by = c("direct_cus"="direct_cus")
+          )%>% 
+  replace(is.na(.),0) %>% 
+mutate(name = c("sattahip", "voa", "scg_tungsong", "scg_taluang","jalapratanCement","siamIronAndCement","Padaeng","esso_AoPhai","ipp_ratch_ThaRab", "ipp_ratchburi", "others", "ipp_spp_standby","temporary","thaioil","edc","tnb","edl","TheunHinboun","HouayHo","NamTheun2", "NamNgum2", "Hongsa","XePianXeNamnoy","NamNgiep1","Xayaburi","NamTheun1")) %>% 
+  mutate(region = rep(c("domestic","neighboring"),times =c(14,12))) %>% 
+pivot_longer(-c(direct_cus,name,region), names_to = "year", values_to = "ene_gwh") %>% 
+filter(region == "domestic") %>%   
+ggplot(aes(x = as.numeric(year), y = ene_gwh))+
+  geom_line(aes(group = name, color = name),
+            show.legend = FALSE)+
+  facet_wrap(~name,
+             scales = "free_y",
+             labeller = as_labeller(c(sattahip = "Sattahip navy station", 
+                                      voa = "Voice of America radio",
+                                      scg_tungsong = "SCG Tungsong",
+                                      scg_taluang = "SCG Taluang",
+                                      jalapratanCement = "Jalapratan Cement",
+                                      siamIronAndCement = "Siam Iron and Cement",
+                                      Padaeng = "Padaeng Industry",
+                                      esso_AoPhai = "ESSO Ao Phai",
+                                      ipp_ratch_ThaRab = "IPP Ratch Tharab", 
+                                      ipp_ratchburi = "IPP Ratchburi", 
+                                      others = "Others", 
+                                      ipp_spp_standby = "IPP&SPP stand by",
+                                      temporary = "Temporary",
+                                      thaioil = "Thai Oil")
+                                    )
+             )+
+  ThemeLine+
+  theme(strip.text.x = element_text(size = 8))+
+  labs(x = NULL,
+       y = "Purchased electricity (GWh)")
+
+```
+
 
