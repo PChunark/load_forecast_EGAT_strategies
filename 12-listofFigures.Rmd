@@ -65,3 +65,6 @@
 | Total EGAT internal electricity consumption | \@ref(fig:plot-totalusepump) |
 | Total EGAT electricity consumption by categories | \@ref(fig:plot-facettotalusepump) |
 | Transmission loss in EGAT power system | \@ref(fig:plot-translosspercent) |
+| Purchased electricity by EGAT direct customers | \@ref(fig:plot-directCustomer)|
+| Purchased electricity by domestic customers | \@ref(fig:plot-dcdomestic) |
+| Purchased electricity by neighboring customers | \@ref(fig:plot-dcneighboring) |
