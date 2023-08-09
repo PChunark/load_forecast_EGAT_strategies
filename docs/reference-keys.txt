@@ -129,6 +129,8 @@ fig:plot-facettotalusepump
 eq:transloss
 fig:plot-translosspercent
 fig:plot-directCustomer
+fig:plot-dcdomestic
+fig:plot-dcneighboring
 introduction
 electricity-consumption-situation
 electricity-generation-situation

@@ -29,7 +29,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
 <meta name="author" content="Puttipong Chunark, Ph.D." />
 
 
-<meta name="date" content="2023-08-07" />
+<meta name="date" content="2023-08-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -302,34 +302,38 @@ div.csl-indent {
 <h1><span class="header-section-number">Chapter 10</span> EGAT direct customers<a href="egat-direct-customers.html#egat-direct-customers" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>EGAT direct customers are as follows:</p>
 <ul>
-<li><p>14 domestic customers
-** Sattahip Navy station
-** Voice of America (VOA) radio station
-** SCG Tung Song
-** SCG Ta Luang
-** Jalaprathan cement
-** Siam Iron and Steel
-** Padaeng industry
-** ESSO Ao Phai
-** IPP-Ratch (Tharab)
-** IPP-Ratchburi power
-** Others
-** IPP &amp; SPP standby
-** Temporary
-** Thaioil</p></li>
-<li><p>12 neighboring customers
-** Electricité du Cambodge (EDC)
-** Tenaga Nasional Berhad (TNB)
-** Électricité du Laos (EDL)
-** Theun Hinboun Hydro Power Plant (เทิน-หินบุน)
-** Houay Ho Hydro Power Plant (ห้วยเฮาะ)
-** Nam Theun 2 Hydro Power Plant (น้ำเทิน 2)
-** Nam Ngum 2 Hydro Power Plant (น้ำงึม 2)
-** Hongsa Mine Mouth Thermal Power Plant
-** Xe-Pian Xe-Namnoy Hydro Power Plant (เซเปียน-เซน้ำน้อย)
-** Nam Ngiep 1 Hydro Power Plant (น้ำเงี๊ยบ 1)
-** Xayaburi Hydro Power Plant
-** Nam Theun 1 Hydro Power Plant (น้ำเทิน 1)</p></li>
+<li>14 domestic customers
+<ul>
+<li>Sattahip Navy station</li>
+<li>Voice of America (VOA) radio station</li>
+<li>SCG Tung Song</li>
+<li>SCG Ta Luang</li>
+<li>Jalaprathan cement</li>
+<li>Siam Iron and Steel</li>
+<li>Padaeng industry</li>
+<li>ESSO Ao Phai</li>
+<li>IPP-Ratch (Tharab)</li>
+<li>IPP-Ratchburi power</li>
+<li>Others</li>
+<li>IPP &amp; SPP standby</li>
+<li>Temporary</li>
+<li>Thai Oil</li>
+</ul></li>
+<li>12 neighboring customers
+<ul>
+<li>Electricité du Cambodge (EDC)</li>
+<li>Tenaga Nasional Berhad (TNB)</li>
+<li>Électricité du Laos (EDL)</li>
+<li>Theun Hinboun Hydro Power Plant (เทิน-หินบุน)</li>
+<li>Houay Ho Hydro Power Plant (ห้วยเฮาะ)</li>
+<li>Nam Theun 2 Hydro Power Plant (น้ำเทิน 2)</li>
+<li>Nam Ngum 2 Hydro Power Plant (น้ำงึม 2)</li>
+<li>Hongsa Mine Mouth Thermal Power Plant</li>
+<li>Xe-Pian Xe-Namnoy Hydro Power Plant (เซเปียน-เซน้ำน้อย)</li>
+<li>Nam Ngiep 1 Hydro Power Plant (น้ำเงี๊ยบ 1)</li>
+<li>Xayaburi Hydro Power Plant</li>
+<li>Nam Theun 1 Hydro Power Plant (น้ำเทิน 1)</li>
+</ul></li>
 </ul>
 <p>A historical purchased electricity between 2019–2021, is obtained from a budget load approved on <em>September 2022</em>. An estimated electricity purchased electricity is taken from a budget load approved on <em>March 2022</em>. The R code chunk are given below.<br />
 </p>
@@ -359,10 +363,23 @@ div.csl-indent {
 <span id="cb125-12"><a href="egat-direct-customers.html#cb125-12" tabindex="-1"></a>         <span class="at">year_th =</span> year <span class="sc">+</span> <span class="dv">543</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb125-13"><a href="egat-direct-customers.html#cb125-13" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2029</span>)</span></code></pre></div>
 <p>A <code>rbind</code> function is a function combined EGAT direct customers. It is named <code>newdc_ene</code>.</p>
+<p>Total purchased electricity from EGAT direct customers decreased from 3,831 GWh in 2010 and reached its minimum 2,392 GWh in 2023. The purchased electricity gradually increases to 2,744 GWh in 2037 (see Figure <a href="egat-direct-customers.html#fig:plot-directCustomer">10.1</a>). Figure <a href="egat-direct-customers.html#fig:plot-dcdomestic">10.2</a> and <a href="egat-direct-customers.html#fig:plot-dcneighboring">10.3</a> shows a purchased electricity from a domestic and a neighboring customers. <strong>Sattahip navy station</strong> purchased the highest electricity, followed by <strong>SCG Tungsong</strong> and <strong>SCG Talung</strong> (see Figure <a href="egat-direct-customers.html#fig:plot-dcdomestic">10.2</a>). EDL and EDC are the top purchased elecricity from EGAT (see Figure <a href="egat-direct-customers.html#fig:plot-dcneighboring">10.3</a>).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-directCustomer"></span>
 <img src="electricity-profiles_files/figure-html/plot-directCustomer-1.png" alt="Purchased electricity by EGAT direct customers" width="90%" />
 <p class="caption">
 Figure 10.1: Purchased electricity by EGAT direct customers
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-dcdomestic"></span>
+<img src="electricity-profiles_files/figure-html/plot-dcdomestic-1.png" alt="Purchased electricity by domestic customers" width="90%" />
+<p class="caption">
+Figure 10.2: Purchased electricity by domestic customers
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-dcneighboring"></span>
+<img src="electricity-profiles_files/figure-html/plot-dcneighboring-1.png" alt="Purchased electricity by neighboring customers" width="90%" />
+<p class="caption">
+Figure 10.3: Purchased electricity by neighboring customers
 </p>
 </div>
 
