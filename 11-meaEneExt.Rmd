@@ -1,0 +1,77 @@
+# MEA and PEA electricity requirement
+
+This section provides an electricity requirement from MEA and PEA.
+
+## MEA actual electricity requirement
+
+Actual MEA's electricity requirement is collected from 2017-2022. The requirement increased from 52,881 GWh in 2017 to 53,291 GWh in 2022. There was a significant drop in 2020 and 2021 due a covid-19 pandemic. In 2022, the electricity requirement rebounded similar to those in 2018.  
+
+```{r mea_ene_ext, echo=FALSE, message=FALSE, warning=FALSE}
+mea_ene_ext <- 
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "MEA",
+           range = "A8:N27",
+           col_names = c("sector","a", 2017:2028)) %>%
+  select(!a) %>% 
+  drop_na() %>% 
+  pivot_longer(-sector, names_to = "year", values_to = "mea_gwh") %>%
+  mutate(year = as.numeric(year),
+         year_th = as.numeric(year) + 543) %>% 
+  filter(sector == "MEA's System Requirement" &
+         year %in% c(2017:2022))
+```
+
+```{r plot-meaeneext, echo=FALSE, message=FALSE, warning=FALSE, fig.cap='Electricity requirement in the MEA area', fig.align='center', out.width= '90%'}
+mea_ene_ext %>% 
+  ggplot(aes(x = year, y = mea_gwh)) + 
+  geom_line()+
+  scale_y_continuous(breaks = seq(0,70000,5000),
+                     limits = c(0,70000),
+                     labels = comma)+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity requirement (GWh)")
+```
+
+
+
+
+
+
+
+```{r}
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "MEA",
+           range = "A8:N27",
+           col_names = c("sector","a", 2017:2028)) %>%
+  select(!a) %>% 
+  drop_na() %>% 
+  pivot_longer(-sector, names_to = "year", values_to = "mea_gwh") %>%
+  ggplot(aes(x = year, y = mea_gwh, group = sector, color = sector))+
+  geom_line(show.legend = FALSE)+
+  facet_wrap(~sector, scales = "free_y")
+```
+
+
+
+```{r}
+pea_ene_ext <-
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category == "ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.") %>% 
+  mutate(year = as.numeric(year),
+         year_th = year + 543) %>% 
+  select(year_th, year, pea_gwh, !category) %>% 
+  filter(year %in% c(2017:2022))
+
+ pea_ene_latest <-
+  pea_ene_ext %>%
+  last() %>% 
+  select(pea_gwh) %>% 
+  pull()
+```
+
