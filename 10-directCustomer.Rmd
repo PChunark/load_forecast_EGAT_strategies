@@ -95,7 +95,7 @@ annodcely2037 <-
   filter(year == 2037)
 ```
 
-Total purchased electricity from EGAT direct customers decreased from 3,831 GWh in 2010 and reached its minimum 2,392 GWh in 2023. The purchased electricity gradually increases to 2,744 GWh in 2037 
+Total purchased electricity from EGAT direct customers decreased from 3,831 GWh in 2010 and reached its minimum 2,392 GWh in 2023. The purchased electricity gradually increases to 2,744 GWh in 2037 (see Figure \@ref(fig:plot-directCustomer)). Figure \@ref(fig:plot-dcdomestic) and \@ref(fig:plot-dcneighboring) shows a purchased electricity from a domestic and a neighboring customers. **Sattahip navy station** purchased the highest electricity, followed by **SCG Tungsong** and **SCG Talung** (see Figure \@ref(fig:plot-dcdomestic)). EDL and EDC are the top purchased elecricity from EGAT (see Figure \@ref(fig:plot-dcneighboring)). 
 
 ```{r plot-directCustomer, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Purchased electricity by EGAT direct customers', fig.align='center', out.width= '90%'}
 newdc_ene %>% 
@@ -168,7 +168,7 @@ newdc_ene %>%
                   inherit.aes = FALSE)
 
 ```
-```{r plot-dcdomestic, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='EGAT direct purchased electricity from domestic customers'}
+```{r plot-dcdomestic, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Purchased electricity by domestic customers', fig.align='center', out.width= '90%'}
 full_join(
   #1
   read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
@@ -191,8 +191,12 @@ full_join(
   replace(is.na(.),0) %>% 
 mutate(name = c("sattahip", "voa", "scg_tungsong", "scg_taluang","jalapratanCement","siamIronAndCement","Padaeng","esso_AoPhai","ipp_ratch_ThaRab", "ipp_ratchburi", "others", "ipp_spp_standby","temporary","thaioil","edc","tnb","edl","TheunHinboun","HouayHo","NamTheun2", "NamNgum2", "Hongsa","XePianXeNamnoy","NamNgiep1","Xayaburi","NamTheun1")) %>% 
   mutate(region = rep(c("domestic","neighboring"),times =c(14,12))) %>% 
-pivot_longer(-c(direct_cus,name,region), names_to = "year", values_to = "ene_gwh") %>% 
-filter(region == "domestic") %>%   
+pivot_longer(-c(direct_cus,name,region), names_to = "year", values_to = "ene_gwh") %>%
+select(-direct_cus) %>%
+filter(region == "domestic") %>%
+pivot_wider( names_from = name, values_from = ene_gwh) %>% 
+mutate(total_domestic = rowSums(across(where(is.numeric)), na.rm=TRUE)) %>% 
+pivot_longer(-year&-region, names_to = "name", values_to = "ene_gwh")  %>% 
 ggplot(aes(x = as.numeric(year), y = ene_gwh))+
   geom_line(aes(group = name, color = name),
             show.legend = FALSE)+
@@ -211,9 +215,11 @@ ggplot(aes(x = as.numeric(year), y = ene_gwh))+
                                       others = "Others", 
                                       ipp_spp_standby = "IPP&SPP stand by",
                                       temporary = "Temporary",
-                                      thaioil = "Thai Oil")
+                                      thaioil = "Thai Oil",
+                                      total_domestic = "TOTAL")
                                     )
              )+
+  scale_color_manual(values = linepalette2)+
   ThemeLine+
   theme(strip.text.x = element_text(size = 8))+
   labs(x = NULL,
@@ -221,4 +227,59 @@ ggplot(aes(x = as.numeric(year), y = ene_gwh))+
 
 ```
 
+```{r plot-dcneighboring, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Purchased electricity by neighboring customers', fig.align='center', out.width= '90%'}
+full_join(
+  #1
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "DCs",
+           range = "A6:K43",
+           col_names = c("direct_cus", 2019:2028)) %>% 
+  drop_na(),
+  #2
+  read_excel("raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_EE70__Sent.xlsx",
+           sheet = "DCs_Mar_BAU",
+           range = "A6:V43",
+           col_names = c("direct_cus", 2017:2037)) %>% 
+  drop_na() %>% 
+  pivot_longer(-direct_cus, names_to = "year", values_to = "dc_gwh") %>% 
+  filter(year >= 2029) %>% 
+  pivot_wider(names_from = "year", values_from = "dc_gwh"),
+  #command
+  by = c("direct_cus"="direct_cus")
+          )%>% 
+  replace(is.na(.),0) %>% 
+mutate(name = c("sattahip", "voa", "scg_tungsong", "scg_taluang","jalapratanCement","siamIronAndCement","Padaeng","esso_AoPhai","ipp_ratch_ThaRab", "ipp_ratchburi", "others", "ipp_spp_standby","temporary","thaioil","edc","tnb","edl","TheunHinboun","HouayHo","NamTheun2", "NamNgum2", "Hongsa","XePianXeNamnoy","NamNgiep1","Xayaburi","NamTheun1")) %>% 
+  mutate(region = rep(c("domestic","neighboring"),times =c(14,12))) %>% 
+pivot_longer(-c(direct_cus,name,region), names_to = "year", values_to = "ene_gwh") %>%
+select(-direct_cus) %>%
+filter(region == "neighboring") %>%
+pivot_wider( names_from = name, values_from = ene_gwh) %>% 
+mutate(total_neighboring = rowSums(across(where(is.numeric)), na.rm=TRUE)) %>% 
+pivot_longer(-year&-region, names_to = "name", values_to = "ene_gwh")  %>% 
+ggplot(aes(x = as.numeric(year), y = ene_gwh))+
+  geom_line(aes(group = name, color = name),
+            show.legend = FALSE)+
+  facet_wrap(~name,
+             scales = "free_y",
+             labeller = as_labeller(c(edc = "EDC",
+                                      tnb = "TNB",
+                                      edl = "EDL",
+                                      TheunHinboun = "Theun Hin boun hydro",
+                                      HouayHo = "Houay Ho hydro",
+                                      NamTheun2 = "Nam Theun 2 hydro", 
+                                      NamNgum2 = "Nam Ngum 2 hydro",
+                                      Hongsa = "Hongsa Thermal",
+                                      XePianXeNamnoy = "Xe-Pian Xe-Namnoy",
+                                      NamNgiep1 = "Nam Ngiep 1 hydro",
+                                      Xayaburi = "Xayaburi hydro",
+                                      NamTheun1 = "Nam Theun 1 hydro",
+                                      total_neighboring = "TOTAL")
+                                    )
+             )+
+  scale_color_manual(values = linepalette2)+
+  ThemeLine+
+  theme(strip.text.x = element_text(size = 8))+
+  labs(x = NULL,
+       y = "Purchased electricity (GWh)")
 
+```
