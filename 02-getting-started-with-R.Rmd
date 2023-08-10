@@ -16,7 +16,7 @@ There is an integrated development environment (IDE) for R language. The IDE is 
 Required packages can be downloaded by using the command `install.packages()`. A R code chunk is given below.
 
 ```{r, installing packages, echo=TRUE, warning=FALSE, message=FALSE}
-install.packages("tidyverse", "readxl","scales", "glue","knitr", "plotly", "ggrepel")
+install.packages("tidyverse", "readxl","scales", "glue","knitr", "plotly", "ggrepel", "cowplot")
 ```
 
 
@@ -41,6 +41,8 @@ Before the project starts, packages are required as follows:
 * A `ggrepel` [package](https://github.com/slowkow/ggrepel) provides geoms for ggplot2 to repel overlapping text labels.
   * `geom_text_repel()`, and
   * `geom_label_repel()`
+* A `cowplot` [package](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html) is a simple package add-on a `ggplot2` package. It allows to arrange multiple plots into a publication-quality figure.
+  * A `plot_grid` function is a function used in this project.
 
 
 ```{r, library setting, results='hide', message=FALSE}
@@ -51,6 +53,7 @@ library(glue)
 library(knitr)
 library(plotly)
 library(ggrepel)
+library(cowplot)
 ```
 
 ### Theme settings
