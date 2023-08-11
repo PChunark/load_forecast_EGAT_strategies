@@ -92,3 +92,12 @@ TRNLSS_{t}  = \frac{LSS_{t}}{EGATSLE_{t}}
 
 
 \end{equation}
+
+MEA and PEA electricity requirement
+
+\begin{equation}
+
+ELYREQ_{r,t}  =  ELYCON_{r,t} + ELYLSS_{r,t}
+(\#eq:elyreq)
+
+\end{equation}
