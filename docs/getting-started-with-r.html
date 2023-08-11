@@ -29,7 +29,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
 <meta name="author" content="Puttipong Chunark, Ph.D." />
 
 
-<meta name="date" content="2023-08-09" />
+<meta name="date" content="2023-08-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -275,6 +275,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="9" data-path="transmission-loss-in-egat-power-system.html"><a href="transmission-loss-in-egat-power-system.html"><i class="fa fa-check"></i><b>9</b> Transmission loss in EGAT power system</a></li>
 <li class="chapter" data-level="10" data-path="egat-direct-customers.html"><a href="egat-direct-customers.html"><i class="fa fa-check"></i><b>10</b> EGAT direct customers</a></li>
+<li class="chapter" data-level="11" data-path="mea-and-pea-electricity-requirement.html"><a href="mea-and-pea-electricity-requirement.html"><i class="fa fa-check"></i><b>11</b> MEA and PEA electricity requirement</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="mea-and-pea-electricity-requirement.html"><a href="mea-and-pea-electricity-requirement.html#mea-actual-electricity-requirement"><i class="fa fa-check"></i><b>11.1</b> MEA actual electricity requirement</a></li>
+<li class="chapter" data-level="11.2" data-path="mea-and-pea-electricity-requirement.html"><a href="mea-and-pea-electricity-requirement.html#pea-actual-electricity-requirement"><i class="fa fa-check"></i><b>11.2</b> PEA actual electricity requirement</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="list-of-equations.html"><a href="list-of-equations.html"><i class="fa fa-check"></i>List of equations</a></li>
 <li class="chapter" data-level="" data-path="list-of-figures.html"><a href="list-of-figures.html"><i class="fa fa-check"></i>List of figures</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -312,7 +317,7 @@ in your computer. R can be run on several operating system.</p>
 <div id="installing-packages" class="section level3 hasAnchor" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Installing packages<a href="getting-started-with-r.html#installing-packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Required packages can be downloaded by using the command <code>install.packages()</code>. A R code chunk is given below.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="getting-started-with-r.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;readxl&quot;</span>,<span class="st">&quot;scales&quot;</span>, <span class="st">&quot;glue&quot;</span>,<span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;plotly&quot;</span>, <span class="st">&quot;ggrepel&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="getting-started-with-r.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;readxl&quot;</span>,<span class="st">&quot;scales&quot;</span>, <span class="st">&quot;glue&quot;</span>,<span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;plotly&quot;</span>, <span class="st">&quot;ggrepel&quot;</span>, <span class="st">&quot;cowplot&quot;</span>)</span></code></pre></div>
 </div>
 <div id="packset" class="section level3 hasAnchor" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Packages settings<a href="getting-started-with-r.html#packset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -340,6 +345,10 @@ in your computer. R can be run on several operating system.</p>
 <li><code>geom_text_repel()</code>, and</li>
 <li><code>geom_label_repel()</code></li>
 </ul></li>
+<li>A <code>cowplot</code> <a href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html">package</a> is a simple package add-on a <code>ggplot2</code> package. It allows to arrange multiple plots into a publication-quality figure.
+<ul>
+<li>A <code>plot_grid</code> function is a function used in this project.</li>
+</ul></li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="getting-started-with-r.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#For data manipulation</span></span>
 <span id="cb2-2"><a href="getting-started-with-r.html#cb2-2" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co">#For reading the excel sheet</span></span>
@@ -347,7 +356,8 @@ in your computer. R can be run on several operating system.</p>
 <span id="cb2-4"><a href="getting-started-with-r.html#cb2-4" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
 <span id="cb2-5"><a href="getting-started-with-r.html#cb2-5" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb2-6"><a href="getting-started-with-r.html#cb2-6" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb2-7"><a href="getting-started-with-r.html#cb2-7" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span></code></pre></div>
+<span id="cb2-7"><a href="getting-started-with-r.html#cb2-7" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb2-8"><a href="getting-started-with-r.html#cb2-8" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span></code></pre></div>
 </div>
 <div id="theme-settings" class="section level3 hasAnchor" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Theme settings<a href="getting-started-with-r.html#theme-settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>

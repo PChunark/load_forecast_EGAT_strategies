@@ -131,6 +131,9 @@ fig:plot-translosspercent
 fig:plot-directCustomer
 fig:plot-dcdomestic
 fig:plot-dcneighboring
+eq:elyreq
+fig:plot-meaeneext
+fig:plot-meaelycon
 introduction
 electricity-consumption-situation
 electricity-generation-situation
@@ -210,3 +213,6 @@ elypump
 total-egat-internal-electricity-consumption
 transmission-loss-in-egat-power-system
 egat-direct-customers
+mea-and-pea-electricity-requirement
+mea-actual-electricity-requirement
+pea-actual-electricity-requirement
