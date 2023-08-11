@@ -68,3 +68,5 @@
 | Purchased electricity by EGAT direct customers | \@ref(fig:plot-directCustomer)|
 | Purchased electricity by domestic customers | \@ref(fig:plot-dcdomestic) |
 | Purchased electricity by neighboring customers | \@ref(fig:plot-dcneighboring) |
+| Total electricity requirement, consumption and loss in MEA area | \@ref(fig:plot-meaeneext |
+| Sector-wise electricity consumption in MEA region | \@ref(fig:plot-meaelycon) |
