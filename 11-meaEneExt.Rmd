@@ -35,7 +35,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
          year %in% c(2017:2022))
 ```
 
-Actual MEA's electricity requirement is collected from 2017-2022. The requirement increased from 52,881 GWh in 2017 to 53,291 GWh in 2022 (see Figure \@ref(fig:plot-meaeneext A)). There was a significant drop in 2020 and 2021 due a covid-19 pandemic. In 2022, the electricity requirement rebounded similar to those in 2018. Total electricity consumption is similar to the requirement (see Figure \@ref(fig:plot-meaeneext B)). An electricity loss in MEA system gradually increased (see Figure \@ref(fig:plot-meaeneext C)). 
+Actual MEA's electricity requirement is collected from 2017-2022. The requirement increased from 52,881 GWh in 2017 to 53,291 GWh in 2022 (see Figure \@ref(fig:plot-meaeneext)A). There was a significant drop in 2020 and 2021 due a Covid-19 pandemic. In 2022, the electricity requirement rebounded similar to those in 2018. Total electricity consumption is similar to the requirement (see Figure \@ref(fig:plot-meaeneext)B). An electricity loss in MEA system gradually increased (see Figure \@ref(fig:plot-meaeneext)C). 
 
 ```{r annomeaelyreq, echo=FALSE, warning=FALSE, message=FALSE}
 annomeaelyreq2017 <-
@@ -246,7 +246,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
                      labels = comma)+
   ThemeLine+
   labs(x = NULL,
-       y = "Electricity consumption (GWh)")+
+       y = "Electricity loss (GWh)")+
    geom_text_repel(data = annomeaelyloss2017,
                   aes(x = year, y = mea_gwh,
                       label = paste0(formatC(annomeaelyloss2017$mea_gwh, format = "d", big.mark = ","), " GWh")),
