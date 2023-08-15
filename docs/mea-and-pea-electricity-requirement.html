@@ -321,6 +321,13 @@ ELYREQ_{r,t}  =  ELYCON_{r,t} + ELYLSS_{r,t}
 <div id="mea-actual-electricity-requirement" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> MEA actual electricity requirement<a href="mea-and-pea-electricity-requirement.html#mea-actual-electricity-requirement" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>An electricity requirement, consumption and loss is given by MEA. The R code chunk is provided below.</p>
+<p>A 2022 electricity requirement in MEA area is required (<code>mea_ene_latest</code>). The code is use in the script named <code>mea_ene_cal.R</code>. In 2022, the MEA electricity requirement was 53,290.55 GWh (see figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-meaeneext">11.1</a>A). This information is used as an input for a MEA’s electricity requirement calculation in <strong>the worst case</strong>. A R code chunk is given below.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="mea-and-pea-electricity-requirement.html#cb126-1" tabindex="-1"></a>mea_ene_latest <span class="ot">&lt;-</span></span>
+<span id="cb126-2"><a href="mea-and-pea-electricity-requirement.html#cb126-2" tabindex="-1"></a>mea_ene_ext <span class="sc">%&gt;%</span></span>
+<span id="cb126-3"><a href="mea-and-pea-electricity-requirement.html#cb126-3" tabindex="-1"></a>  <span class="fu">last</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb126-4"><a href="mea-and-pea-electricity-requirement.html#cb126-4" tabindex="-1"></a>  <span class="fu">select</span>(mea_gwh) <span class="sc">%&gt;%</span> </span>
+<span id="cb126-5"><a href="mea-and-pea-electricity-requirement.html#cb126-5" tabindex="-1"></a>  <span class="fu">pull</span>()</span></code></pre></div>
+<pre><code>## [1] 53290.55</code></pre>
 <p>Actual MEA’s electricity requirement is collected from 2017-2022. The requirement increased from 52,881 GWh in 2017 to 53,291 GWh in 2022 (see Figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-meaeneext">11.1</a>A). There was a significant drop in 2020 and 2021 due a Covid-19 pandemic. In 2022, the electricity requirement rebounded similar to those in 2018. Total electricity consumption is similar to the requirement (see Figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-meaeneext">11.1</a>B). An electricity loss in MEA system gradually increased (see Figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-meaeneext">11.1</a>C).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-meaeneext"></span>
 <img src="electricity-profiles_files/figure-html/plot-meaeneext-1.png" alt="Total electricity requirement, consumption and loss in MEA area" width="90%" />
@@ -337,37 +344,65 @@ Figure 11.1: Total electricity requirement, consumption and loss in MEA area
 <li>Specific business</li>
 <li>Non profit organization</li>
 <li>Temporary electricity consumption</li>
-<li>Street lighting; and</li>
+<li>Street lighting</li>
 <li>ไฟทำการ</li>
 </ul>
 <p>Figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-meaelycon">11.2</a> illustrates a sector-wise electricity consumption in MEA region. During the pandemic, the electricity consumption reduced in all sectors during 2020-2021 excepted for street lighting. Organization launched a work from home (WFH) program. An electricity consumption in a residential sector significantly raised. The pandemic eased up in 2022. The consumption recovered in all sectors.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-meaelycon"></span>
-<img src="electricity-profiles_files/figure-html/plot-meaelycon-1.png" alt="Sector-wise electricity consumption in MEA region" width="90%" />
+<img src="electricity-profiles_files/figure-html/plot-meaelycon-1.png" alt="Sector-wise electricity consumption in MEA area" width="90%" />
 <p class="caption">
-Figure 11.2: Sector-wise electricity consumption in MEA region
+Figure 11.2: Sector-wise electricity consumption in MEA area
 </p>
 </div>
 </div>
 <div id="pea-actual-electricity-requirement" class="section level2 hasAnchor" number="11.2">
 <h2><span class="header-section-number">11.2</span> PEA actual electricity requirement<a href="mea-and-pea-electricity-requirement.html#pea-actual-electricity-requirement" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="mea-and-pea-electricity-requirement.html#cb126-1" tabindex="-1"></a>pea_ene_ext <span class="ot">&lt;-</span></span>
-<span id="cb126-2"><a href="mea-and-pea-electricity-requirement.html#cb126-2" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&quot;raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx&quot;</span>,</span>
-<span id="cb126-3"><a href="mea-and-pea-electricity-requirement.html#cb126-3" tabindex="-1"></a>           <span class="at">sheet =</span> <span class="st">&quot;PEA&quot;</span>,</span>
-<span id="cb126-4"><a href="mea-and-pea-electricity-requirement.html#cb126-4" tabindex="-1"></a>           <span class="at">range =</span> <span class="st">&quot;A41:N56&quot;</span>,</span>
-<span id="cb126-5"><a href="mea-and-pea-electricity-requirement.html#cb126-5" tabindex="-1"></a>           <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;category&quot;</span>,<span class="st">&quot;a&quot;</span>, <span class="dv">2017</span><span class="sc">:</span><span class="dv">2028</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb126-6"><a href="mea-and-pea-electricity-requirement.html#cb126-6" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>a) <span class="sc">%&gt;%</span> </span>
-<span id="cb126-7"><a href="mea-and-pea-electricity-requirement.html#cb126-7" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>category, <span class="at">names_to =</span> <span class="st">&quot;year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;pea_gwh&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb126-8"><a href="mea-and-pea-electricity-requirement.html#cb126-8" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">==</span> <span class="st">&quot;ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb126-9"><a href="mea-and-pea-electricity-requirement.html#cb126-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year),</span>
-<span id="cb126-10"><a href="mea-and-pea-electricity-requirement.html#cb126-10" tabindex="-1"></a>         <span class="at">year_th =</span> year <span class="sc">+</span> <span class="dv">543</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb126-11"><a href="mea-and-pea-electricity-requirement.html#cb126-11" tabindex="-1"></a>  <span class="fu">select</span>(year_th, year, pea_gwh, <span class="sc">!</span>category) <span class="sc">%&gt;%</span> </span>
-<span id="cb126-12"><a href="mea-and-pea-electricity-requirement.html#cb126-12" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2017</span><span class="sc">:</span><span class="dv">2022</span>))</span>
-<span id="cb126-13"><a href="mea-and-pea-electricity-requirement.html#cb126-13" tabindex="-1"></a></span>
-<span id="cb126-14"><a href="mea-and-pea-electricity-requirement.html#cb126-14" tabindex="-1"></a> pea_ene_latest <span class="ot">&lt;-</span></span>
-<span id="cb126-15"><a href="mea-and-pea-electricity-requirement.html#cb126-15" tabindex="-1"></a>  pea_ene_ext <span class="sc">%&gt;%</span></span>
-<span id="cb126-16"><a href="mea-and-pea-electricity-requirement.html#cb126-16" tabindex="-1"></a>  <span class="fu">last</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb126-17"><a href="mea-and-pea-electricity-requirement.html#cb126-17" tabindex="-1"></a>  <span class="fu">select</span>(pea_gwh) <span class="sc">%&gt;%</span> </span>
-<span id="cb126-18"><a href="mea-and-pea-electricity-requirement.html#cb126-18" tabindex="-1"></a>  <span class="fu">pull</span>()</span></code></pre></div>
+<p>An electricity requirement, consumption and loss is given by MEA. A R code chunk is provided below.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="mea-and-pea-electricity-requirement.html#cb128-1" tabindex="-1"></a>pea_ene_ext <span class="ot">&lt;-</span></span>
+<span id="cb128-2"><a href="mea-and-pea-electricity-requirement.html#cb128-2" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&quot;raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx&quot;</span>,</span>
+<span id="cb128-3"><a href="mea-and-pea-electricity-requirement.html#cb128-3" tabindex="-1"></a>           <span class="at">sheet =</span> <span class="st">&quot;PEA&quot;</span>,</span>
+<span id="cb128-4"><a href="mea-and-pea-electricity-requirement.html#cb128-4" tabindex="-1"></a>           <span class="at">range =</span> <span class="st">&quot;A41:N56&quot;</span>,</span>
+<span id="cb128-5"><a href="mea-and-pea-electricity-requirement.html#cb128-5" tabindex="-1"></a>           <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;category&quot;</span>,<span class="st">&quot;a&quot;</span>, <span class="dv">2017</span><span class="sc">:</span><span class="dv">2028</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb128-6"><a href="mea-and-pea-electricity-requirement.html#cb128-6" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>a) <span class="sc">%&gt;%</span> </span>
+<span id="cb128-7"><a href="mea-and-pea-electricity-requirement.html#cb128-7" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>category, <span class="at">names_to =</span> <span class="st">&quot;year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;pea_gwh&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb128-8"><a href="mea-and-pea-electricity-requirement.html#cb128-8" tabindex="-1"></a>  <span class="fu">filter</span>(category <span class="sc">==</span> <span class="st">&quot;ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb128-9"><a href="mea-and-pea-electricity-requirement.html#cb128-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year),</span>
+<span id="cb128-10"><a href="mea-and-pea-electricity-requirement.html#cb128-10" tabindex="-1"></a>         <span class="at">year_th =</span> year <span class="sc">+</span> <span class="dv">543</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb128-11"><a href="mea-and-pea-electricity-requirement.html#cb128-11" tabindex="-1"></a>  <span class="fu">select</span>(year_th, year, pea_gwh, <span class="sc">!</span>category) <span class="sc">%&gt;%</span> </span>
+<span id="cb128-12"><a href="mea-and-pea-electricity-requirement.html#cb128-12" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2017</span><span class="sc">:</span><span class="dv">2022</span>))</span></code></pre></div>
+<p>A 2022 electricity requirement in PEA area is required (<code>pea_ene_latest</code>). The code is use in the script named <code>pea_ene_cal.R</code>. In 2022, the PEA electricity requirement was 152,895.8 GWh. This information is used as an input for a PEA’s electricity requirement calculation in <strong>the worst case</strong>. A R code chunk is given below.</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="mea-and-pea-electricity-requirement.html#cb129-1" tabindex="-1"></a> pea_ene_latest <span class="ot">&lt;-</span></span>
+<span id="cb129-2"><a href="mea-and-pea-electricity-requirement.html#cb129-2" tabindex="-1"></a>  pea_ene_ext <span class="sc">%&gt;%</span></span>
+<span id="cb129-3"><a href="mea-and-pea-electricity-requirement.html#cb129-3" tabindex="-1"></a>  <span class="fu">last</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb129-4"><a href="mea-and-pea-electricity-requirement.html#cb129-4" tabindex="-1"></a>  <span class="fu">select</span>(pea_gwh) <span class="sc">%&gt;%</span> </span>
+<span id="cb129-5"><a href="mea-and-pea-electricity-requirement.html#cb129-5" tabindex="-1"></a>  <span class="fu">pull</span>()</span></code></pre></div>
+<pre><code>## [1] 152895.8</code></pre>
+<p>Actual PEA’s electricity requirement is collected from 2017-2022. The requirement increased from 139,548 GWh in 2017 to 152,895.8 GWh in 2022 (see Figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-pearequire">11.3</a>A). There was a significant drop in 2020 and 2021 due a Covid-19 pandemic. In 2022, the electricity requirement rebounded similar to those in 2018. Total electricity consumption is similar to the requirement (see Figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-pearequire">11.3</a>B). An electricity loss in MEA system gradually increased (see Figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-pearequire">11.3</a>C).</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-pearequire"></span>
+<img src="electricity-profiles_files/figure-html/plot-pearequire-1.png" alt="Total electricity requirement, consumption, solar IPS and loss in PEA region" width="90%" />
+<p class="caption">
+Figure 11.3: Total electricity requirement, consumption, solar IPS and loss in PEA region
+</p>
+</div>
+<p>Electricity consumption in PEA area is divided into 9 categories as follows:</p>
+<ul>
+<li>Residences</li>
+<li>Small general services</li>
+<li>Medium general services</li>
+<li>Large general services</li>
+<li>Specific business</li>
+<li>Non profit organization</li>
+<li>Pumped in agriculture</li>
+<li>Temporary electricity consumption</li>
+<li>Free of charge customer</li>
+</ul>
+<p>Figure <a href="mea-and-pea-electricity-requirement.html#fig:plot-peaelycon">11.4</a> illustrates a sector-wise electricity consumption in PEA region. During the pandemic, the electricity consumption reduced in all sectors during 2020-2021 excepted for a consumption in free of charge customers. Organization launched a work from home (WFH) program. An electricity consumption in a residential sector significantly raised. The pandemic eased up in 2022. The consumption recovered in all sectors.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-peaelycon"></span>
+<img src="electricity-profiles_files/figure-html/plot-peaelycon-1.png" alt="Sector-wise electricity consumption in PEA region" width="90%" />
+<p class="caption">
+Figure 11.4: Sector-wise electricity consumption in PEA region
+</p>
+</div>
 
 </div>
 </div>

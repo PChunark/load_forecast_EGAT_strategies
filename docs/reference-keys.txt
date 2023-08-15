@@ -134,6 +134,8 @@ fig:plot-dcneighboring
 eq:elyreq
 fig:plot-meaeneext
 fig:plot-meaelycon
+fig:plot-pearequire
+fig:plot-peaelycon
 introduction
 electricity-consumption-situation
 electricity-generation-situation
