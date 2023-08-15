@@ -1,0 +1,3 @@
+# MEA electricity calculation
+
+this section explains the MEA electricity calculation. The VSPP 
