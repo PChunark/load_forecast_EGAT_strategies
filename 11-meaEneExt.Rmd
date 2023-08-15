@@ -35,6 +35,21 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
          year %in% c(2017:2022))
 ```
 
+A 2022 electricity requirement in MEA area is required (`mea_ene_latest`). The code is use in the script named `mea_ene_cal.R`. In 2022, the MEA electricity requirement was 53,290.55 GWh (see figure \@ref(fig:plot-meaeneext)A). This information is used as an input for a MEA's electricity requirement calculation in **the worst case**. A R code chunk is given below.
+
+```{r numlat_meaene, echo=TRUE, warning=FALSE, message=FALSE}
+mea_ene_latest <-
+mea_ene_ext %>%
+  last() %>% 
+  select(mea_gwh) %>% 
+  pull()
+```
+
+```{r numMeaene, echo=FALSE, warning=FALSE}
+mea_ene_latest
+```
+
+
 Actual MEA's electricity requirement is collected from 2017-2022. The requirement increased from 52,881 GWh in 2017 to 53,291 GWh in 2022 (see Figure \@ref(fig:plot-meaeneext)A). There was a significant drop in 2020 and 2021 due a Covid-19 pandemic. In 2022, the electricity requirement rebounded similar to those in 2018. Total electricity consumption is similar to the requirement (see Figure \@ref(fig:plot-meaeneext)B). An electricity loss in MEA system gradually increased (see Figure \@ref(fig:plot-meaeneext)C). 
 
 ```{r annomeaelyreq, echo=FALSE, warning=FALSE, message=FALSE}
@@ -135,19 +150,21 @@ annomeaelyloss2022 <-
 ```
 
 ```{r plot-meaeneext, echo=FALSE, message=FALSE, warning=FALSE, fig.cap='Total electricity requirement, consumption and loss in MEA area', fig.align='center', out.width= '90%'}
-cowplot::plot_grid(
-  #fig 1
-  mea_ene_ext %>% 
+
+#fig 1 MEA requirement
+plot_meareq <-  
+mea_ene_ext %>% 
   ggplot(aes(x = year, y = mea_gwh)) + 
   geom_line(aes(color = "salmon"), show.legend = FALSE)+
   geom_point(shape = 21,
              size = 2,
              color = "salmon",
              fill = "grey")+
-  scale_y_continuous(breaks = seq(0,70000,5000),
+  scale_y_continuous(breaks = seq(0,70000,10000),
                      limits = c(0,70000),
                      labels = comma)+
   ThemeLine+
+  theme(axis.title.y = element_text(size = 8))+
   labs(x = NULL,
        y = "Electricity requirement (GWh)")+
   geom_text_repel(data = annomeaelyreq2017,
@@ -155,27 +172,29 @@ cowplot::plot_grid(
                       label = paste0(formatC(annomeaelyreq2017$mea_gwh, format = "d", big.mark = ","), " GWh")),
                   hjust = 0.9,
                   size = 3,
-                  nudge_x = 1,
-                  nudge_y = -5000,
+                  nudge_x = 0.5,
+                  nudge_y = -10000,
                   inherit.aes = FALSE)+
 geom_text_repel(data = annomeaelyreq2019,
                   aes(x = year, y = mea_gwh,
                       label = paste0(formatC(annomeaelyreq2019$mea_gwh, format = "d", big.mark = ","), " GWh")),
-                  hjust = 0.9,
+                  # hjust = 0.9,
                   size = 3,
-                  nudge_x = 1,
+                  nudge_x = 0.5,
                   nudge_y = 5000,
                   inherit.aes = FALSE)+
 geom_text_repel(data = annomeaelyreq2022,
                   aes(x = year, y = mea_gwh,
                       label = paste0(formatC(annomeaelyreq2022$mea_gwh, format = "d", big.mark = ","), " GWh")),
-                  hjust = -0.9,
+                  # hjust = -0.9,
                   size = 3,
-                  nudge_x = -1,
-                  nudge_y = -5000,
-                  inherit.aes = FALSE)  ,
+                  # nudge_x = -0.5,
+                  nudge_y = -10000,
+                  inherit.aes = FALSE)  
 
-# fig.2
+plot_meacon<-
+  cowplot::plot_grid(
+# fig.2 MEA consumption
 read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
            sheet = "MEA",
            range = "A8:N27",
@@ -193,10 +212,11 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
              size = 2,
              color = "dodgerblue",
              fill = "grey")+
-  scale_y_continuous(breaks = seq(0,70000,5000),
+  scale_y_continuous(breaks = seq(0,70000,10000),
                      limits = c(0,70000),
                      labels = comma)+
   ThemeLine+
+  theme(axis.title.y = element_text(size = 8))+
   labs(x = NULL,
        y = "Electricity consumption (GWh)")+
  geom_text_repel(data = annomeaelycon2017,
@@ -205,7 +225,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
                   hjust = 0.9,
                   size = 3,
                   nudge_x = 1,
-                  nudge_y = -5000,
+                  nudge_y = -10000,
                   inherit.aes = FALSE)+
   geom_text_repel(data = annomeaelycon2019,
                   aes(x = year, y = mea_gwh,
@@ -213,7 +233,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
                   hjust = 0.9,
                   size = 3,
                   nudge_x = 1,
-                  nudge_y = 5000,
+                  nudge_y = 10000,
                   inherit.aes = FALSE) + 
   geom_text_repel(data = annomeaelycon2022,
                   aes(x = year, y = mea_gwh,
@@ -221,9 +241,9 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
                   hjust = -0.9,
                   size = 3,
                   nudge_x = -1,
-                  nudge_y = -5000,
+                  nudge_y = -10000,
                   inherit.aes = FALSE),
-#fig.3
+#fig.3 MEA loss
 read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
            sheet = "MEA",
            range = "A8:N27",
@@ -253,7 +273,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
                   hjust = 0.9,
                   size = 3,
                   nudge_x = 1,
-                  nudge_y = -200,
+                  nudge_y = -1000,
                   inherit.aes = FALSE)+
   geom_text_repel(data = annomeaelyloss2019,
                   aes(x = year, y = mea_gwh,
@@ -261,7 +281,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
                   hjust = 0.9,
                   size = 3,
                   nudge_x = 1,
-                  nudge_y = 200,
+                  nudge_y = 700,
                   inherit.aes = FALSE)+
   geom_text_repel(data = annomeaelyloss2022,
                   aes(x = year, y = mea_gwh,
@@ -269,13 +289,19 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
                   hjust = -0.9,
                   size = 3,
                   nudge_x = -1,
-                  nudge_y = 200,
+                  nudge_y = 700,
                   inherit.aes = FALSE),
-ncol = 3,
-rel_widths =c(1,1, 1),
+ncol = 2,
 align = "h",
-labels = "AUTO"
+labels = c('B','C'),
+label_size = 10
 )
+
+plot_grid(plot_meareq,
+          plot_meacon,
+          ncol = 1,
+          labels = c('A',''),
+          label_size = 10)
 ```
 Electricity consumption in MEA area is divided into 9 categories as follows:
 
@@ -286,13 +312,13 @@ Electricity consumption in MEA area is divided into 9 categories as follows:
 * Specific business
 * Non profit organization
 * Temporary electricity consumption
-* Street lighting; and
+* Street lighting
 * ไฟทำการ
 
 Figure \@ref(fig:plot-meaelycon) illustrates a sector-wise electricity consumption in MEA region. During the pandemic, the electricity consumption reduced in all sectors during 2020-2021 excepted for street lighting. Organization launched a work from home (WFH) program. An electricity consumption in a residential sector significantly raised. The pandemic eased up in 2022. The consumption recovered in all sectors.    
 
 
-```{r plot-meaelycon, echo=FALSE, message=FALSE, warning=FALSE, fig.cap='Sector-wise electricity consumption in MEA region', fig.align='center', out.width= '90%'}
+```{r plot-meaelycon, echo=FALSE, message=FALSE, warning=FALSE, fig.cap='Sector-wise electricity consumption in MEA area', fig.align='center', out.width= '90%'}
 readxl::read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
            sheet = "MEA",
            range = "A8:N27",
@@ -323,11 +349,12 @@ readxl::read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.
   ThemeLine+
   theme(strip.text.x = element_text(size = 7))+
   labs(x = NULL,
-       y = "Electricity consumption")
+       y = "Electricity consumption")+
+  scale_color_manual(values = linepalette1)
 ```
 ## PEA actual electricity requirement
 
-
+An electricity requirement, consumption and loss is given by MEA. A R code chunk is provided below.
 ```{r pea_ene_ext, echo=TRUE, warning=FALSE, message=FALSE}
 pea_ene_ext <-
 read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
@@ -341,11 +368,344 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
          year_th = year + 543) %>% 
   select(year_th, year, pea_gwh, !category) %>% 
   filter(year %in% c(2017:2022))
+```
 
+
+A 2022 electricity requirement in PEA area is required (`pea_ene_latest`). The code is use in the script named `pea_ene_cal.R`. In 2022, the PEA electricity requirement was 152,895.8 GWh. This information is used as an input for a PEA's electricity requirement calculation in **the worst case**. A R code chunk is given below.
+
+```{r numlat_peaene, echo=TRUE, warning=FALSE, message=FALSE}
  pea_ene_latest <-
   pea_ene_ext %>%
   last() %>% 
   select(pea_gwh) %>% 
   pull()
+```
+
+```{r numPeaene, echo=FALSE, warning=FALSE}
+pea_ene_latest
+```
+
+Actual PEA's electricity requirement is collected from 2017-2022. Electricity requirement are as follows:
+
+* Electricity consumption
+* Electricity generation from IPS
+* Electricity loss
+
+The requirement increased from 139,548 GWh in 2017 to 152,895.8 GWh in 2022 (see Figure \@ref(fig:plot-pearequire)A). The requirement and consumption slightly declined in 2020 due to a Covid-19 pandemic. The consumption rebounded in 2021 (see Figure \@ref(fig:plot-pearequire)B).\
+
+Solar electricity generation from IPS was 125 GWh in 2022 (see Figure \@ref(fig:plot-pearequire)C). \
+
+The loss continuously increased from 7,147 GWh in 2017 to 8,177 GWh in 2022. PEA's electricity loss was moderately increased from 2017-2022 (see Figure \@ref(fig:plot-pearequire)D).  
+
+```{r annopeareq, echo=FALSE, warning=FALSE, message=FALSE}
+annopeareq2017<-
+  pea_ene_ext %>% 
+  filter(year == 2017)
+
+annopeareq2022<-
+  pea_ene_ext %>% 
+  filter(year == 2022)
+```
+
+```{r annopeacon, echo=FALSE, warning=FALSE, message=FALSE}
+
+annopeacon2017<-
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category == "การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.") %>% 
+  mutate(year = as.numeric(year),
+         year_th = year + 543) %>% 
+  select(year_th, year, pea_gwh, !category) %>% 
+  filter(year == 2017)
+
+annopeacon2022<-
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category == "การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.") %>% 
+  mutate(year = as.numeric(year),
+         year_th = year + 543) %>% 
+  select(year_th, year, pea_gwh, !category) %>% 
+  filter(year == 2022)
+```
+
+```{r annosolarips, echo=FALSE, warning=FALSE, message=FALSE}
+annoslrips2022 <-
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category == "การผลิตไฟฟ้านอกระบบไฟฟ้า (IPS-SolarRT)") %>% 
+  mutate(year = as.numeric(year),
+         year_th = year + 543) %>% 
+  select(year_th, year, pea_gwh, !category) %>% 
+  filter(year == 2022)
+```
+
+```{r annopealoss, echo=FALSE, warning=FALSE, message=FALSE}
+annopealoss2017<-
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category %in% c("การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.",
+                         "ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.")) %>%
+  pivot_wider(names_from = category, values_from = pea_gwh) %>% 
+  select(year, 
+         pea_con_gwh = "การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.",
+         pea_req_gwh = "ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.") %>% 
+  mutate(pea_loss_gwh = pea_req_gwh-pea_con_gwh) %>% 
+  pivot_longer(-year, names_to = "category", values_to = "pea_gwh") %>% 
+  filter(year == 2017 &
+         category == "pea_loss_gwh")
+
+annopealoss2022<-
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category %in% c("การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.",
+                         "ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.")) %>%
+  pivot_wider(names_from = category, values_from = pea_gwh) %>% 
+  select(year, 
+         pea_con_gwh = "การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.",
+         pea_req_gwh = "ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.") %>% 
+  mutate(pea_loss_gwh = pea_req_gwh-pea_con_gwh) %>% 
+  pivot_longer(-year, names_to = "category", values_to = "pea_gwh") %>% 
+  filter(year == 2022 &
+         category == "pea_loss_gwh")
+```
+
+
+```{r plot-pearequire, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity requirement, consumption, solar IPS and loss in PEA region', fig.align='center', out.width= '90%'}
+
+#1 PEA requirement
+plot_peareq <-
+  pea_ene_ext %>% 
+  ggplot(aes(x= year, y = pea_gwh))+
+  geom_line(aes(color = "salmon"), show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  ThemeLine+
+  theme(axis.title.y = element_text(size = 8))+
+  labs(x = NULL,
+       y = "Electricity requirement (GWh)")+
+  scale_y_continuous(breaks = seq(0, 180000, 20000),
+                     limits = c(0,180000),
+                     labels = comma)+
+  geom_text_repel(data = annopeareq2017,
+                  aes(x = year, y = pea_gwh,
+                      label = paste0(formatC(annopeareq2017$pea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.9,
+                  size = 3.5,
+                  nudge_x = 0.5,
+                  nudge_y = -20000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annopeareq2022,
+                  aes(x = year, y = pea_gwh,
+                      label = paste0(formatC(annopeareq2022$pea_gwh, format = "d", big.mark = ","), " GWh")),
+                  # hjust = 0.9,
+                  size = 3.5,
+                  nudge_x = -0.2,
+                  nudge_y = -20000,
+                  inherit.aes = FALSE)
+
+plot_peacon <-
+  plot_grid(
+  #2 PEA consumption
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category == "การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.") %>% 
+  mutate(year = as.numeric(year),
+         year_th = year + 543) %>% 
+  select(year_th, year, pea_gwh, !category) %>% 
+  filter(year %in% c(2017:2022)) %>% 
+    ggplot(aes(x= year, y = pea_gwh))+
+  geom_line(aes(color = "dodgerblue"), show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "dodgerblue",
+             fill = "grey")+
+  ThemeLine+
+  theme(axis.title.y = element_text(size = 8))+
+  labs(x = NULL,
+       y = "Electricity consumption (GWh)")+
+  scale_y_continuous(breaks = seq(0, 180000, 20000),
+                     limits = c(0,180000),
+                     labels = comma)+
+    geom_text_repel(data = annopeacon2017,
+                  aes(x = year, y = pea_gwh,
+                      label = paste0(formatC(annopeacon2017$pea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.9,
+                  size = 2.5,
+                  nudge_x = 0.5,
+                  nudge_y = -20000,
+                  inherit.aes = FALSE)+
+    geom_text_repel(data = annopeacon2022,
+                  aes(x = year, y = pea_gwh,
+                      label = paste0(formatC(annopeacon2022$pea_gwh, format = "d", big.mark = ","), " GWh")),
+                  # hjust = 0.9,
+                  size = 2.5,
+                  nudge_x = -0.5,
+                  nudge_y = -30000,
+                  inherit.aes = FALSE),
+  #3 PEA solar IPS
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category == "การผลิตไฟฟ้านอกระบบไฟฟ้า (IPS-SolarRT)") %>% 
+  mutate(year = as.numeric(year),
+         year_th = year + 543) %>% 
+  select(year_th, year, pea_gwh, !category) %>% 
+  filter(year %in% c(2017:2022)) %>% 
+    ggplot(aes(x= year, y = pea_gwh))+
+  geom_line(aes(color = "limegreen"), show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "limegreen",
+             fill = "grey")+
+  ThemeLine+
+  theme(axis.title.y = element_text(size = 8))+
+  labs(x = NULL,
+       y = glue("Electricity generation \n by solar IPS (GWh)"))+
+  scale_y_continuous(breaks = seq(0, 200, 25),
+                     limits = c(0,200)
+                     )+
+    geom_text_repel(data = annoslrips2022,
+                  aes(x = year, y = pea_gwh,
+                      label = paste0(formatC(annoslrips2022$pea_gwh, format = "d", big.mark = ","), " GWh")),
+                  # hjust = 0.9,
+                  size = 2.5,
+                  nudge_x = -0.5,
+                  nudge_y = -50,
+                  inherit.aes = FALSE),
+  #4 PEA electricity loss
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A41:N56",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>%
+  filter(category %in% c("การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.",
+                         "ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.")) %>%
+  pivot_wider(names_from = category, values_from = pea_gwh) %>% 
+  select(year, 
+         pea_con_gwh = "การใช้พลังงานไฟฟ้าในพื้นที่ กฟภ.",
+         pea_req_gwh = "ความต้องการพลังงานไฟฟ้าในระบบไฟฟ้า กฟภ.") %>% 
+  mutate(pea_loss_gwh = pea_req_gwh-pea_con_gwh) %>% 
+  pivot_longer(-year, names_to = "category", values_to = "pea_gwh") %>% 
+  filter(year %in% c(2017:2022) &
+         category == "pea_loss_gwh") %>% 
+  ggplot(aes(x = year, y = pea_gwh))+
+  geom_line(aes(group = category, color = "darkorange"), show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "darkorange",
+             fill = "grey")+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity loss (GWh)")+
+  scale_y_continuous(breaks = seq(0, 10000, 2000),
+                     limits = c(0,10000)
+                     ) +
+    geom_text_repel(data = annopealoss2017,
+                  aes(x = year, y = pea_gwh,
+                      label = paste0(formatC(annopealoss2017$pea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.9,
+                  size = 2.5,
+                  nudge_x = 0.5,
+                  nudge_y = -2000,
+                  inherit.aes = FALSE)+
+    geom_text_repel(data = annopealoss2022,
+                  aes(x = year, y = pea_gwh,
+                      label = paste0(formatC(annopealoss2022$pea_gwh, format = "d", big.mark = ","), " GWh")),
+                  # hjust = 0.9,
+                  size = 2.5,
+                  nudge_x = -0.5,
+                  nudge_y = 1500,
+                  inherit.aes = FALSE)
+  ,
+  ncol = 3,
+  # rel_widths =c(1,1,1),
+align = "h",
+labels = c('B','C','D'),
+label_size = 10
+)  
+
+plot_grid(plot_peareq,plot_peacon, 
+          ncol = 1, 
+          labels = c('A', ''), 
+          label_size = 10)
+```
+
+
+
+Electricity consumption in PEA area is divided into 9 categories as follows:
+
+* Residences
+* Small general services
+* Medium general services
+* Large general services
+* Specific business
+* Non profit organization
+* Pumped in agriculture
+* Temporary electricity consumption
+* Free of charge customer
+
+Figure \@ref(fig:plot-peaelycon) illustrates a sector-wise electricity consumption in PEA region. During the pandemic, the electricity consumption reduced in all sectors during 2020-2021 excepted for a consumption in free of charge customers. Organization launched a work from home (WFH) program. An electricity consumption in a residential sector significantly raised. The pandemic eased up in 2022. The consumption recovered in all sectors.    
+
+
+```{r plot-peaelycon, echo=FALSE, message=FALSE, warning=FALSE, fig.cap='Sector-wise electricity consumption in PEA region', fig.align='center', out.width= '90%'}
+read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+           sheet = "PEA",
+           range = "A11:N31",
+           col_names = c("category","a", 2017:2028)) %>%
+  select(!a) %>%
+  drop_na() %>% 
+  pivot_longer(-category, names_to = "year", values_to = "pea_gwh") %>% 
+  mutate(category = factor(category, c("Residences",
+                                        "Small general services",
+                                        "Medium general services",
+                                        "Large general services",
+                                        "Specific business",
+                                        "Non profit organization",
+                                        "Pumped in agriculture",
+                                        "Temporary",
+                                        "Selling units",
+                                        "Free of charge",
+                                        "Total electricity consumption"))) %>%
+  
+  filter(!category %in% c("Selling units", "Total electricity consumption"), year %in% c(2017:2022)) %>% 
+  ggplot(aes(x = year, y = pea_gwh, group = category, color=category)) + 
+  geom_line(show.legend = FALSE) +
+  geom_point(show.legend = FALSE)+
+  facet_wrap(~category,
+             scales = "free_y")+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity consumption (GWh)")+
+  scale_color_manual(values = linepalette1)
 ```
 
