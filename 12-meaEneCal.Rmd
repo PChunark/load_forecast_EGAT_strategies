@@ -1,3 +1,12 @@
 # MEA electricity calculation
 
-This section explains the MEA electricity calculation. Existing VSPPs electricity generation are needed. Such a generation is obtained R code chunks provided in Chapter \@ref(vsppsituation).
+This section explains the MEA electricity calculation. Existing VSPPs electricity generation are needed. Such a generation is obtained R code chunks provided in Chapter \@ref(vsppsituation).\
+
+This study merges 2  MEA's electricity load datasets as follows:
+
+1. A budget load 2566–2567 (2023–2024)
+2. An electricity load from the NIDA study approved on 25 August 2022
+
+The budget load provides a required electricity demand. It covers from EGAT sales to total net generation for 3 utilities' power system. An estimated electricity generation ranges from 2023-2028.\
+
+The electricity load from the NIDA study is merged to the budget load from 2029 onward.
