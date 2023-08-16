@@ -2,7 +2,7 @@
 
 This section provides an electricity requirement from MEA and PEA.
 
-The electricity requirement from MEA and PEA area can be calculated by following equation:
+The electricity requirement from the MEA and the PEA areas can be calculated by following equation:
 
 \begin{equation}
 
@@ -12,13 +12,13 @@ ELYREQ_{r,t}  =  ELYCON_{r,t} + ELYLSS_{r,t}
 \end{equation}
 
 Where,\
-$ELYREQ_{r,t}$ denotes an electricity requirement in region `r` in year `t`.\
-$ELYCON_{r,t}$ denotes an electricity consumption in region `r` in year `t`.\
-$ELYLSS_{r,t}$ denotes an electricity loss in region `r` in year `t`.\
+$ELYREQ_{r,t}$ denotes an electricity requirement in region $r$ in year $t$.\
+$ELYCON_{r,t}$ denotes an electricity consumption in region $r$ in year $t$.\
+$ELYLSS_{r,t}$ denotes an electricity loss in region $r$ in year $t$.\
 
 ## MEA actual electricity requirement  
 
-An electricity requirement, consumption and loss is given by MEA. The R code chunk is provided below.
+Electricity requirement, consumption and loss are given by staff in the MEA. A R code chunk is provided below.
 
 ```{r mea_ene_ext, echo=FALSE, message=FALSE, warning=FALSE}
 mea_ene_ext <- 
@@ -35,7 +35,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
          year %in% c(2017:2022))
 ```
 
-A 2022 electricity requirement in MEA area is required (`mea_ene_latest`). The code is use in the script named `mea_ene_cal.R`. In 2022, the MEA electricity requirement was 53,290.55 GWh (see figure \@ref(fig:plot-meaeneext)A). This information is used as an input for a MEA's electricity requirement calculation in **the worst case**. A R code chunk is given below.
+A 2022 electricity requirement in the MEA area is required (`mea_ene_latest`). The code is used in the script named `mea_ene_cal.R`. In 2022, the MEA electricity requirement was 53,290.55 GWh (see figure \@ref(fig:plot-meaeneext)A). This information is used as an input for the MEA's electricity requirement calculation in **the worst case**. A R code chunk is given below.
 
 ```{r numlat_meaene, echo=TRUE, warning=FALSE, message=FALSE}
 mea_ene_latest <-
@@ -50,7 +50,7 @@ mea_ene_latest
 ```
 
 
-Actual MEA's electricity requirement is collected from 2017-2022. The requirement increased from 52,881 GWh in 2017 to 53,291 GWh in 2022 (see Figure \@ref(fig:plot-meaeneext)A). There was a significant drop in 2020 and 2021 due a Covid-19 pandemic. In 2022, the electricity requirement rebounded similar to those in 2018. Total electricity consumption is similar to the requirement (see Figure \@ref(fig:plot-meaeneext)B). An electricity loss in MEA system gradually increased (see Figure \@ref(fig:plot-meaeneext)C). 
+An actual MEA's electricity requirement is collected from 2017-2022. The requirement increased from 52,881 GWh in 2017 to 53,291 GWh in 2022 (see Figure \@ref(fig:plot-meaeneext)A). There was a significant drop in 2020 and 2021 due a Covid-19 pandemic. In 2022, the electricity requirement rebounded similar to those in 2018. Total electricity consumption is similar to the requirement (see Figure \@ref(fig:plot-meaeneext)B). An electricity loss in a MEA system gradually increased (see Figure \@ref(fig:plot-meaeneext)C). 
 
 ```{r annomeaelyreq, echo=FALSE, warning=FALSE, message=FALSE}
 annomeaelyreq2017 <-
@@ -303,7 +303,8 @@ plot_grid(plot_meareq,
           labels = c('A',''),
           label_size = 10)
 ```
-Electricity consumption in MEA area is divided into 9 categories as follows:
+
+An electricity consumption in the MEA area is divided into 9 categories as follows:
 
 * Residences
 * Small general services
@@ -315,7 +316,7 @@ Electricity consumption in MEA area is divided into 9 categories as follows:
 * Street lighting
 * ไฟทำการ
 
-Figure \@ref(fig:plot-meaelycon) illustrates a sector-wise electricity consumption in MEA region. During the pandemic, the electricity consumption reduced in all sectors during 2020-2021 excepted for street lighting. Organization launched a work from home (WFH) program. An electricity consumption in a residential sector significantly raised. The pandemic eased up in 2022. The consumption recovered in all sectors.    
+Figure \@ref(fig:plot-meaelycon) illustrates a sector-wise electricity consumption in the MEA area. During the pandemic, the electricity consumption reduced in all sectors during 2020-2021 excepted for street lighting. Organizations launched a work from home (WFH) program. An electricity consumption in a residential sector significantly raised. The pandemic eased up in 2022. The consumption recovered.    
 
 
 ```{r plot-meaelycon, echo=FALSE, message=FALSE, warning=FALSE, fig.cap='Sector-wise electricity consumption in the MEA area', fig.align='center', out.width= '90%'}
@@ -352,9 +353,11 @@ readxl::read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.
        y = "Electricity consumption")+
   scale_color_manual(values = linepalette1)
 ```
+
 ## PEA actual electricity requirement
 
-An electricity requirement, consumption and loss is given by MEA. A R code chunk is provided below.
+An electricity requirement, consumption and loss is given by staff from the PEA. A R code chunk is provided below.
+
 ```{r pea_ene_ext, echo=TRUE, warning=FALSE, message=FALSE}
 pea_ene_ext <-
 read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
@@ -371,7 +374,7 @@ read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
 ```
 
 
-A 2022 electricity requirement in PEA area is required (`pea_ene_latest`). The code is use in the script named `pea_ene_cal.R`. In 2022, the PEA electricity requirement was 152,895.8 GWh. This information is used as an input for a PEA's electricity requirement calculation in **the worst case**. A R code chunk is given below.
+A 2022 electricity requirement in the PEA area is required (`pea_ene_latest`). The code is used in the script named `pea_ene_cal.R`. In 2022, the PEA electricity requirement was 152,895.8 GWh. This information is used as an input for a PEA's electricity requirement calculation in **the worst case**. A R code chunk is given below.
 
 ```{r numlat_peaene, echo=TRUE, warning=FALSE, message=FALSE}
  pea_ene_latest <-
@@ -385,7 +388,7 @@ A 2022 electricity requirement in PEA area is required (`pea_ene_latest`). The c
 pea_ene_latest
 ```
 
-Actual PEA's electricity requirement is collected from 2017-2022. Electricity requirement are as follows:
+An actual PEA's electricity requirement is collected from 2017-2022. Electricity requirements are as follows (see equation \@ref(eq:elyreq)):
 
 * Electricity consumption
 * Electricity generation from IPS
@@ -395,7 +398,7 @@ The requirement increased from 139,548 GWh in 2017 to 152,895.8 GWh in 2022 (see
 
 Solar electricity generation from IPS was 125 GWh in 2022 (see Figure \@ref(fig:plot-pearequire)C). \
 
-The loss continuously increased from 7,147 GWh in 2017 to 8,177 GWh in 2022. PEA's electricity loss was moderately increased from 2017-2022 (see Figure \@ref(fig:plot-pearequire)D).  
+The electricity loss continuously increased from 7,147 GWh in 2017 to 8,177 GWh in 2022. PEA's electricity loss was moderately increased from 2017-2022 (see Figure \@ref(fig:plot-pearequire)D).  
 
 ```{r annopeareq, echo=FALSE, warning=FALSE, message=FALSE}
 annopeareq2017<-
@@ -661,8 +664,12 @@ plot_grid(plot_peareq,plot_peacon,
 ```
 
 
+<<<<<<< HEAD
 
 Electricity consumption in PEA areas is divided into 9 categories as follows:
+=======
+Electricity consumption in PEA area is divided into 9 categories as follows:
+>>>>>>> dc16594b6455b68c7981358e48db48bbc0565069
 
 * Residences
 * Small general services
@@ -674,7 +681,7 @@ Electricity consumption in PEA areas is divided into 9 categories as follows:
 * Temporary electricity consumption
 * Free of charge customer
 
-Figure \@ref(fig:plot-peaelycon) illustrates a sector-wise electricity consumption in PEA region. During the pandemic, the electricity consumption reduced in all sectors during 2020-2021 excepted for a consumption in free of charge customers. Organization launched a work from home (WFH) program. An electricity consumption in a residential sector significantly raised. The pandemic eased up in 2022. The consumption recovered in all sectors.    
+Figure \@ref(fig:plot-peaelycon) illustrates a sector-wise electricity consumption in PEA region. During the pandemic, the electricity consumption reduced in all sectors during 2020-2021 excepted for a consumption in free of charge customers. Organizations launched a work from home (WFH) program. An electricity consumption in a residential sector significantly raised. The pandemic eased up in 2022. The consumption recovered.    
 
 
 ```{r plot-peaelycon, echo=FALSE, message=FALSE, warning=FALSE, fig.cap='Sector-wise electricity consumption in PEA regions', fig.align='center', out.width= '90%'}

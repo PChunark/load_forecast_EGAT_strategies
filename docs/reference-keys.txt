@@ -218,3 +218,4 @@ egat-direct-customers
 mea-and-pea-electricity-requirement
 mea-actual-electricity-requirement
 pea-actual-electricity-requirement
+mea-electricity-calculation
