@@ -189,7 +189,7 @@ the-2019-pea-r2-north-eastern-region-total-net-generation-requirement-profile
 the-2019-pea-r3-southern-region-total-net-generation-requirement-profile
 the-2019-pea-r4-northern-region-total-net-generation-requirement-profile
 the-2019-total-net-generation-requirement-profile
-very-small-power-producer-vspp-situation
+vsppsituation
 elygenVSPPMEA
 elygenVSPPPEA
 elygenDEDEPEA
@@ -218,4 +218,5 @@ egat-direct-customers
 mea-and-pea-electricity-requirement
 mea-actual-electricity-requirement
 pea-actual-electricity-requirement
+electricity-consumption-in-pea-areas-is-divided-into-9-categories-as-follows
 mea-electricity-calculation
