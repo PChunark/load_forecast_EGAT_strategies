@@ -2,11 +2,86 @@
 
 This section explains the MEA electricity calculation. Existing VSPPs electricity generation are needed. Such a generation is obtained R code chunks provided in Chapter \@ref(vsppsituation).\
 
-This study merges 2  MEA's electricity load datasets as follows:
+This study merges 2 MEA's electricity load datasets as follows:
 
 1. A budget load 2566–2567 (2023–2024)
 2. An electricity load from the NIDA study approved on 25 August 2022
 
 The budget load provides a required electricity demand. It covers from EGAT sales to total net generation for 3 utilities' power system. An estimated electricity generation ranges from 2023-2028.\
 
-The electricity load from the NIDA study is merged to the budget load from 2029 onward.
+The MEA electricity load from the NIDA study is merged to the budget load from 2029 onward.\
+
+R code chunks to extract the budget load and the NIDA load are given below.
+
+* The budget load 2566–2567 (2023–2024) code chunk
+
+```{r b_mea_ene, echo=TRUE, warning=FALSE, message=FALSE}
+b_mea_ene <-
+  
+  read_excel("raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx",
+             sheet = "MEA",
+             range = "A8:N27",
+             col_names = c("sector","a", 2017:2028)) %>%
+  select(!a) %>% 
+  drop_na() %>% 
+  pivot_longer(-sector, names_to = "year", values_to = "mea_gwh") %>%
+  mutate(year = as.numeric(year),
+         year_th = as.numeric(year) + 543) %>% 
+  filter(sector == "MEA's System Requirement")
+```
+
+* The electricity load from the NIDA study approved on 25 August 2022
+
+```{r pdp2022_mea_ene, echo=TRUE, warning=FALSE, message=FALSE}
+
+pdp2022_mea_ene <-
+  
+read_excel("raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_EE70__Sent.xlsx",
+           sheet = "MEA",
+           range = "A8:AB33",
+           col_names = c("sector","a", 2012:2037)) %>%
+  select(!a) %>% 
+  drop_na() %>% 
+  pivot_longer(-sector, names_to = "year", values_to = "mea_gwh") %>%
+  mutate(year = as.numeric(year),
+         year_th = as.numeric(year) + 543) %>% 
+  filter(sector == "MEA's System Requirement")
+```
+
+* Merge 2 datasets
+```{r newmea_ene, echo=TRUE, message=FALSE, warning=FALSE}
+newmea_ene <-
+  
+  rbind(b_mea_ene %>% filter(year >= 2019), 
+        pdp2022_mea_ene %>% filter(year >=2029))
+```
+
+```{r plot-newmea_ene, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Estimated MEA electricity requirement from the budget load and the NIDA study', fig.align='center', out.width= '90%'}
+# ggplotly(
+  newmea_ene %>% 
+  ggplot(aes(x = year, y = mea_gwh))+
+  geom_line(aes(group = sector, color = "salmon"),
+            show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  geom_vline(xintercept = 2019)+
+  geom_vline(xintercept = 2022)+
+  geom_vline(xintercept = 2028)+
+  geom_vline(xintercept = 2037)+
+  geom_text(label = "Historical data",
+            aes(x = 2020.5, y = 80000),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2019, 2025, 2030, 2035, 2037))+
+  scale_y_continuous(breaks = seq(0,80000, 5000),
+                     limits = c(0,80000),
+                     labels = comma)+
+  ThemeLine+
+  labs(x = NULL,
+       y = "MEA's electricity requirement (GWh)")
+# )
+```
+
