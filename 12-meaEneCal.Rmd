@@ -1,3 +1,3 @@
 # MEA electricity calculation
 
-this section explains the MEA electricity calculation. The VSPP 
+This section explains the MEA electricity calculation. Existing VSPPs electricity generation are needed. Such a generation is obtained R code chunks provided in Chapter \@ref(vsppsituation).
