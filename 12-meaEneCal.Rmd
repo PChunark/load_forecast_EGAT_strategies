@@ -56,6 +56,34 @@ newmea_ene <-
         pdp2022_mea_ene %>% filter(year >=2029))
 ```
 
+```{r annonewmea_ene, echo=FALSE, warning=FALSE, message=FALSE}
+annonewmeaene2019 <-
+  newmea_ene %>% 
+  filter(year == 2019)
+  
+annonewmeaene2022 <-
+  newmea_ene %>% 
+  filter(year == 2022)
+
+annonewmeaene2019 <-
+  newmea_ene %>% 
+  filter(year == 2019)
+
+annonewmeaene2025 <-
+  newmea_ene %>% 
+  filter(year == 2025)
+
+annonewmeaene2028 <-
+  newmea_ene %>% 
+  filter(year == 2028)
+
+annonewmeaene2037 <-
+  newmea_ene %>% 
+  filter(year == 2037)
+  
+```
+
+
 ```{r plot-newmea_ene, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Estimated MEA electricity requirement from the budget load and the NIDA study', fig.align='center', out.width= '90%'}
 # ggplotly(
   newmea_ene %>% 
@@ -75,13 +103,63 @@ newmea_ene <-
             color = "dodgerblue",
             show.legend = FALSE,
             inherit.aes = FALSE)+
-  scale_x_continuous(breaks = c(2019, 2025, 2030, 2035, 2037))+
+  geom_text(label = "Budget load 2566–2567 \n (2023–2024)",
+            aes(x = 2025, y = 80000),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "NIDA load 25 AUG 2022",
+            aes(x = 2032.5, y = 80000),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2019, 2022, 2025, 2028, 2030, 2035, 2037))+
   scale_y_continuous(breaks = seq(0,80000, 5000),
                      limits = c(0,80000),
                      labels = comma)+
   ThemeLine+
   labs(x = NULL,
-       y = "MEA's electricity requirement (GWh)")
+       y = "MEA's electricity requirement (GWh)")+
+  geom_text_repel(data = annonewmeaene2019,
+                  aes(x = year, y = mea_gwh,
+                      label = paste0(formatC(annonewmeaene2019$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.5,
+                  nudge_x = 1,
+                  nudge_y = 10000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annonewmeaene2022,
+                  aes(x = year, y = mea_gwh,
+                      label = paste0(formatC(annonewmeaene2022$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.3,
+                  size = 3.5,
+                  nudge_x = 1,
+                  nudge_y = 10000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annonewmeaene2025,
+                  aes(x = year, y = mea_gwh,
+                      label = paste0(formatC(annonewmeaene2025$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 1,
+                  size = 3.5,
+                  nudge_x = 1,
+                  nudge_y = -10000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annonewmeaene2028,
+                  aes(x = year, y = mea_gwh,
+                      label = paste0(formatC(annonewmeaene2028$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.2,
+                  size = 3.5,
+                  nudge_x = 1,
+                  nudge_y = 10000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annonewmeaene2037,
+                  aes(x = year, y = mea_gwh,
+                      label = paste0(formatC(annonewmeaene2037$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.5,
+                  nudge_x = -1.2,
+                  nudge_y = -10000,
+                  inherit.aes = FALSE)
 # )
 ```
 
