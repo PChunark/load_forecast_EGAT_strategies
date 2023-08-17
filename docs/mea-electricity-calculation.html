@@ -29,7 +29,7 @@ and minimum load in (MW) and time. Load factor is calculated.</p>" />
 <meta name="author" content="Puttipong Chunark, Ph.D." />
 
 
-<meta name="date" content="2023-08-16" />
+<meta name="date" content="2023-08-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -316,7 +316,52 @@ div.csl-indent {
 </ol>
 <p>The budget load provides a required electricity demand. It covers from EGAT sales to total net generation for 3 utilities’ power system. An estimated electricity generation ranges from 2023-2028.<br />
 </p>
-<p>The electricity load from the NIDA study is merged to the budget load from 2029 onward.</p>
+<p>The MEA electricity load from the NIDA study is merged to the budget load from 2029 onward.<br />
+</p>
+<p>R code chunks to extract the budget load and the NIDA load are given below.</p>
+<ul>
+<li>The budget load 2566–2567 (2023–2024) code chunk</li>
+</ul>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="mea-electricity-calculation.html#cb131-1" tabindex="-1"></a>b_mea_ene <span class="ot">&lt;-</span></span>
+<span id="cb131-2"><a href="mea-electricity-calculation.html#cb131-2" tabindex="-1"></a>  </span>
+<span id="cb131-3"><a href="mea-electricity-calculation.html#cb131-3" tabindex="-1"></a>  <span class="fu">read_excel</span>(<span class="st">&quot;raw_data/01 EGAT_20Oct2022_งบ66 67_Final_Sent อศง.xlsx&quot;</span>,</span>
+<span id="cb131-4"><a href="mea-electricity-calculation.html#cb131-4" tabindex="-1"></a>             <span class="at">sheet =</span> <span class="st">&quot;MEA&quot;</span>,</span>
+<span id="cb131-5"><a href="mea-electricity-calculation.html#cb131-5" tabindex="-1"></a>             <span class="at">range =</span> <span class="st">&quot;A8:N27&quot;</span>,</span>
+<span id="cb131-6"><a href="mea-electricity-calculation.html#cb131-6" tabindex="-1"></a>             <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;sector&quot;</span>,<span class="st">&quot;a&quot;</span>, <span class="dv">2017</span><span class="sc">:</span><span class="dv">2028</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb131-7"><a href="mea-electricity-calculation.html#cb131-7" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>a) <span class="sc">%&gt;%</span> </span>
+<span id="cb131-8"><a href="mea-electricity-calculation.html#cb131-8" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb131-9"><a href="mea-electricity-calculation.html#cb131-9" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>sector, <span class="at">names_to =</span> <span class="st">&quot;year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;mea_gwh&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb131-10"><a href="mea-electricity-calculation.html#cb131-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year),</span>
+<span id="cb131-11"><a href="mea-electricity-calculation.html#cb131-11" tabindex="-1"></a>         <span class="at">year_th =</span> <span class="fu">as.numeric</span>(year) <span class="sc">+</span> <span class="dv">543</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb131-12"><a href="mea-electricity-calculation.html#cb131-12" tabindex="-1"></a>  <span class="fu">filter</span>(sector <span class="sc">==</span> <span class="st">&quot;MEA&#39;s System Requirement&quot;</span>)</span></code></pre></div>
+<ul>
+<li>The electricity load from the NIDA study approved on 25 August 2022</li>
+</ul>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="mea-electricity-calculation.html#cb132-1" tabindex="-1"></a>pdp2022_mea_ene <span class="ot">&lt;-</span></span>
+<span id="cb132-2"><a href="mea-electricity-calculation.html#cb132-2" tabindex="-1"></a>  </span>
+<span id="cb132-3"><a href="mea-electricity-calculation.html#cb132-3" tabindex="-1"></a><span class="fu">read_excel</span>(<span class="st">&quot;raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_EE70__Sent.xlsx&quot;</span>,</span>
+<span id="cb132-4"><a href="mea-electricity-calculation.html#cb132-4" tabindex="-1"></a>           <span class="at">sheet =</span> <span class="st">&quot;MEA&quot;</span>,</span>
+<span id="cb132-5"><a href="mea-electricity-calculation.html#cb132-5" tabindex="-1"></a>           <span class="at">range =</span> <span class="st">&quot;A8:AB33&quot;</span>,</span>
+<span id="cb132-6"><a href="mea-electricity-calculation.html#cb132-6" tabindex="-1"></a>           <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;sector&quot;</span>,<span class="st">&quot;a&quot;</span>, <span class="dv">2012</span><span class="sc">:</span><span class="dv">2037</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb132-7"><a href="mea-electricity-calculation.html#cb132-7" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>a) <span class="sc">%&gt;%</span> </span>
+<span id="cb132-8"><a href="mea-electricity-calculation.html#cb132-8" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb132-9"><a href="mea-electricity-calculation.html#cb132-9" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>sector, <span class="at">names_to =</span> <span class="st">&quot;year&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;mea_gwh&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb132-10"><a href="mea-electricity-calculation.html#cb132-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year),</span>
+<span id="cb132-11"><a href="mea-electricity-calculation.html#cb132-11" tabindex="-1"></a>         <span class="at">year_th =</span> <span class="fu">as.numeric</span>(year) <span class="sc">+</span> <span class="dv">543</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb132-12"><a href="mea-electricity-calculation.html#cb132-12" tabindex="-1"></a>  <span class="fu">filter</span>(sector <span class="sc">==</span> <span class="st">&quot;MEA&#39;s System Requirement&quot;</span>)</span></code></pre></div>
+<ul>
+<li>Merge 2 datasets</li>
+</ul>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="mea-electricity-calculation.html#cb133-1" tabindex="-1"></a>newmea_ene <span class="ot">&lt;-</span></span>
+<span id="cb133-2"><a href="mea-electricity-calculation.html#cb133-2" tabindex="-1"></a>  </span>
+<span id="cb133-3"><a href="mea-electricity-calculation.html#cb133-3" tabindex="-1"></a>  <span class="fu">rbind</span>(b_mea_ene <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2019</span>), </span>
+<span id="cb133-4"><a href="mea-electricity-calculation.html#cb133-4" tabindex="-1"></a>        pdp2022_mea_ene <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">&gt;=</span><span class="dv">2029</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<img src="electricity-profiles_files/figure-html/plot-newmea_ene-1.png" alt="Estimated MEA electricity requirement from the budget load and the NIDA study" width="90%" />
+<p class="caption">
+(#fig:plot-newmea_ene)Estimated MEA electricity requirement from the budget load and the NIDA study
+</p>
+</div>
 
 </div>
             </section>
