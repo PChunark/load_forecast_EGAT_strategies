@@ -2,7 +2,6 @@
 
 This section explains the MEA electricity calculation. Existing VSPPs electricity generation are needed. Such a generation is obtained R code chunks provided in Chapter \@ref(vsppsituation).\
 
-## There are 2 scenarios 
 
 This study merges 2 MEA's electricity load datasets as follows:
 
@@ -85,7 +84,7 @@ annonewmeaene2037 <-
   
 ```
 
-Electricity generation increases from 53,290 GWh in 2022 to 71,127 GWh in 2037. It increases `r (((71127/53290)^(1/(2037-2022)))-1)*100`% annually. 
+The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh in 2037. It increases `r (((71127/53290)^(1/(2037-2022)))-1)*100`% annually. 
 
 ```{r plot-newmeaene, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Estimated MEA electricity requirement from the budget load and the NIDA study', fig.align='center', out.width= '90%'}
 # ggplotly(
@@ -164,5 +163,138 @@ Electricity generation increases from 53,290 GWh in 2022 to 71,127 GWh in 2037. 
                   nudge_y = -10000,
                   inherit.aes = FALSE)
 # )
+```
+
+
+## VSPP in MEA in PDP2018REV1
+
+* Extract VSPP data
+```{r meavspppdp2018r1, echo=TRUE, warning=FALSE, message=FALSE}
+mea_vspp_pdp2018r1 <-
+  
+  read_excel("raw_data/01 Load_PDP2018 ปรับ VSPP_13Jan2020_Final (PDP2018R1).xlsx",
+           sheet = "I_VSPP",
+           range = "B29:L51",
+           col_names = c("year","solar", "wind", "hydro", "biomass", "biogas", "waste", "crop", "geothermal", "re_eeothers", "cogen")) %>%
+  replace(is.na(.), 0 ) %>%
+  mutate(total = rowSums(across(c(solar:cogen)))) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "mea_gwh") %>% 
+  mutate(year_th = as.numeric(year) + 543) 
+```
+
+```{r}
+mea_newvspp_pdp2018r1 <-
+  
+  read_excel("raw_data/01 Load_PDP2018 ปรับ VSPP_13Jan2020_Final (PDP2018R1).xlsx",
+             sheet = "I_VSPP",
+             range = "M29:T51",
+             col_names = c("biomass", "biogas", "solar_community", "waste", "wind", "ind_waste", "biomass_community", "ee")) %>%
+  replace(is.na(.), 0 ) %>%
+  mutate(year = 2015:2037,
+         total = rowSums(across(c(biomass:ee)))) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "mea_gwh") %>% 
+  mutate(year = as.numeric(year),
+         year_th = as.numeric(year + 543)) 
+```
+* Select MEA vspp and new vspp from PDP2018REV1
+```{r}
+# Select MEA vspp and new vspp from PDP2018REV1 ####
+tot_mea_vspp_pdp2018r1 <- 
+  
+mea_vspp_pdp2018r1 %>% 
+  select(year,fuel, mea_gwh) %>% 
+  filter(fuel == "total")
+
+tot_mea_newvspp_pdp2018r1 <-
+  
+mea_newvspp_pdp2018r1 %>% 
+  select(year,fuel, mea_gwh) %>% 
+  filter(fuel == "total")
+
+tot_mea_vspp_pdp2018rev1 <-
+
+tot_mea_vspp_pdp2018r1 %>%
+  mutate(tot_mea_gwh = mea_gwh + tot_mea_newvspp_pdp2018r1$mea_gwh) %>% 
+  select(!mea_gwh)
+```
+
+### Calculate EGAT sale from PDP2018REV1
+```{r}
+
+egt_sle_mea_pdp2018r1 <-
+
+left_join(newmea_ene,
+          tot_mea_vspp_pdp2018rev1%>% 
+            select(year,tot_mea_gwh) %>% 
+            filter(year >= 2019)) %>% 
+  mutate(egatsale = mea_gwh - tot_mea_gwh)
+```
+
+## VSPP in MEA region from PDP2023 case7
+
+* Extract VSPP data
+```{r}
+# Extract VSPP in MEA region from PDP2023 case7
+
+tot_mea_vspp_pdp2022c7 <-
+  
+  
+read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
+           sheet = "MAC",
+           range = "A28:Q49",
+           col_names = c("fuel", 2022:2037)) %>%
+  replace(is.na(.), 0 ) %>% 
+  pivot_longer(-fuel, names_to = "year", values_to = "mea_gwh") %>% 
+  mutate(year = as.numeric(year)) %>% 
+  pivot_wider(names_from = fuel, values_from = mea_gwh) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "tot_mea_gwh") %>% 
+  filter(fuel == "total")
+```
+
+```{r}
+tot_mea_vspp_ene_pdp2022c7 <-
+  
+full_join(mea_vspp_ene_ext %>% 
+  filter(year >= 2015,
+         fuel == "tot_vspp_gwh") %>% 
+  select(year, year_th, mea_vspp_gwh),
+tot_mea_vspp_pdp2022c7%>% 
+  select(year,tot_mea_gwh) %>% 
+  filter(year >= 2019) ,
+by= c("mea_vspp_gwh" = "tot_mea_gwh",
+      "year" = "year")) %>% 
+  select(!year_th) 
+```
+
+### Calculate EGAT sale from PDP2022 Case 7
+
+```{r}
+egt_sle_mea_pdp2022c7 <-
+  
+  left_join(newmea_ene,
+            tot_mea_vspp_ene_pdp2022c7 %>% 
+              select(year,mea_vspp_gwh) %>% 
+              filter(year >= 2019)) %>% 
+  mutate(egatsale = mea_gwh - mea_vspp_gwh)
+```
+
+## Calculate electricity requirement in the MEA area
+
+* Calculating for the worst case
+```{r}
+### Calculating for worst case  
+### Calculation for MEA electricity demand
+
+newmea_ene_req <-
+newload3u %>% 
+  mutate(cumulative = lag(cumprod(grw_mea_dmd$growth),n = 0,default = 1)) %>% 
+  mutate(mea_ene_req_gwh = cumulative * mea_ene_latest) %>% 
+  select(year_th, year, mea_ene_req_gwh) %>% 
+  mutate(tot_mea_vspp_pdp2018rev1 %>% 
+           filter(year >= 2019)%>% 
+           select(-year, -fuel)) %>% 
+  select(year, year_th, mea_ene_req_gwh, mea_vspp_pdp2018r1 = tot_mea_gwh) %>% 
+  mutate(egt_sle_mea_worst_case = mea_ene_req_gwh - mea_vspp_pdp2018r1)
 ```
 
