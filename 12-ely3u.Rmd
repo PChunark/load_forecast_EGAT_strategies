@@ -1,0 +1,147 @@
+# Net electricity generation from 3 Utilities
+
+This section explains the net electricity generation from 3 utilities. Those utilities consist of EGAT, MEA, PEA. 
+The project combines the net electricity generation from 2 data sets as follows:
+
+1. The budget load 2566–2567 (2023–2024)
+2. The electricity load from the NIDA study approved on 25 August 2022
+
+The net peak and the net electricity generation are obtained from R code chunks below.
+
+* The Budget load 20 Oct 2022
+
+```{r b_load, echo=TRUE, warning=FALSE, message=FALSE}
+b_load <- 
+  read_excel("raw_data/load25aug2022andbudegetload.xlsx", skip = 3) %>% 
+  select(year_th, year, peak_budget20oct2022, ene_budget20oct2022) %>% 
+  drop_na() %>% 
+  rename(a = peak_budget20oct2022, b = ene_budget20oct2022) 
+```
+
+* The PDP2022 load BAU ND EE70%
+
+```{r pdp2022_load, echo=TRUE, warning=FALSE, message=FALSE}
+
+pdp2022_load <- read_excel("raw_data/load25aug2022andbudegetload.xlsx", skip = 3) %>% 
+  select(year_th, year, peak_bau_nd_ee70, ene_bau_nd_ee70) %>% 
+  drop_na() %>% 
+  filter(year >= 2029) %>% 
+  rename(a = peak_bau_nd_ee70, b = ene_bau_nd_ee70)
+```
+
+* Combine 2 data sets by using `rbind` function
+
+```{r newload3u, echo=TRUE, warning=FALSE, message=FALSE}
+
+newload3u <- 
+  rbind(x = b_load, y = pdp2022_load) %>% 
+  rename(netGenPeak3U_mw = a, netGenEne3u_gwh=b)
+```
+
+```{r annonewload3u, echo=FALSE, warning=FALSE, message=FALSE}
+annonewload3u2019<-
+  newload3u %>% 
+  select(year, netGenEne3u_gwh) %>% 
+  filter(year == 2019)
+
+annonewload3u2022<-
+  newload3u %>% 
+  select(year, netGenEne3u_gwh) %>% 
+  filter(year == 2022)
+
+annonewload3u2025<-
+  newload3u %>% 
+  select(year, netGenEne3u_gwh) %>% 
+  filter(year == 2025)
+
+annonewload3u2028<-
+  newload3u %>% 
+  select(year, netGenEne3u_gwh) %>% 
+  filter(year == 2028)
+
+annonewload3u2037<-
+  newload3u %>% 
+  select(year, netGenEne3u_gwh) %>% 
+  filter(year == 2037)
+```
+
+Net electricity generation increases from 209,538 GWh in 2019 to 335,592 GWh in 2037. It increses 2.65% annually (see Figure \@ref(fig:plot-newload3u)). 
+```{r plot-newload3u, echo=FALSE, warning=FALSE, warning=FALSE, fig.cap='Combined net electricity generation from 3 utilities from the budget load and the NIDA study', fig.align='center', out.width= '90%'}
+
+newload3u %>% 
+  ggplot(aes(x = year, y = netGenEne3u_gwh)) +
+  geom_line(aes(color = "salmon"),
+            show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "salmon",
+             fill = "grey")+
+  geom_vline(xintercept = 2019)+
+  geom_vline(xintercept = 2022)+
+  geom_vline(xintercept = 2028)+
+  geom_vline(xintercept = 2037)+
+  geom_text(label = "Historical data",
+            aes(x = 2020.5, y = 400000),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "Budget load 2566–2567 \n (2023–2024)",
+            aes(x = 2025, y = 400000),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  geom_text(label = "NIDA load 25 AUG 2022",
+            aes(x = 2032.5, y = 400000),
+            color = "dodgerblue",
+            show.legend = FALSE,
+            inherit.aes = FALSE)+
+  scale_x_continuous(breaks = c(2019, 2022, 2025, 2028, 2030, 2035, 2037))+
+  scale_y_continuous(breaks = seq(0,400000,50000),
+                     limits = c(0, 400000),
+                     labels = comma)+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Net electricity generation from 3 Utilities (GWh)")+
+  geom_text_repel(data = annonewload3u2019,
+                  aes(x = year, y = netGenEne3u_gwh,
+                      label = paste0(formatC(annonewload3u2019$netGenEne3u_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = 1,
+                  nudge_y = 50000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annonewload3u2022,
+                  aes(x = year, y = netGenEne3u_gwh,
+                      label = paste0(formatC(annonewload3u2022$netGenEne3u_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = -1,
+                  nudge_y = -50000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annonewload3u2025,
+                  aes(x = year, y = netGenEne3u_gwh,
+                      label = paste0(formatC(annonewload3u2025$netGenEne3u_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = -1,
+                  nudge_y = 50000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annonewload3u2028,
+                  aes(x = year, y = netGenEne3u_gwh,
+                      label = paste0(formatC(annonewload3u2028$netGenEne3u_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = -1,
+                  nudge_y = -50000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annonewload3u2037,
+                  aes(x = year, y = netGenEne3u_gwh,
+                      label = paste0(formatC(annonewload3u2037$netGenEne3u_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = -1,
+                  nudge_y = 30000,
+                  inherit.aes = FALSE)
+  
+```
+
