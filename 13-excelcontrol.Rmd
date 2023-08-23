@@ -1,0 +1,107 @@
+# Setting assumptions
+
+An excel control is created to add exogenous variables. Users can add their assumptions. As of August 2023, there are 3 sheets as follows:
+
+1. The growth rate of electricity generation in 3 utilities (the **grw_3u** sheet)
+2. The growth rate of electricity generation in the MEA electricity demand (the **grw_mea_dmd** sheet)
+3. The growth rate of electricity generation in the PEA electricity demand (the **grw_pea_dmd** sheet)
+
+## The 3 utilities growth rate
+
+The excel control sheet's logic are given as follows:
+
+1. Users assumptions is extracted from the excel control sheet. Users **must** fill in their assumption in terms of **the growth rate increase/decrease**. Their assumptions are kept in the `grw_3u_excel` data frame (see the 1st session in the R code chunk below). 
+2. The actual percentage growth rate are calculated and are saved in the `grw_3u_excel` data frame (see the 2nd session code chunk).
+3. The year without a growth rate assumption is extracted as a reference for a base year growth rate calculation. The value is stored in the `previous_year_grw` data frame (see the 3rd session).
+
+```{r grw_3u, echo=TRUE, message=FALSE, warning=FALSE}
+# 1st session
+grw_3u_excel <-
+  read_excel("process_data/excel_control.xlsx",
+             sheet = "grw_3u",
+             range = "A1:B83") %>% 
+  drop_na()
+
+# 2nd session
+grw_3u <- 
+  grw_3u_excel %>% 
+  select(growth) %>% 
+  mutate(growth = 1+growth)
+
+# 3rd session
+previous_year_grw <-
+grw_3u_excel %>%
+  mutate(years = growth<0 | growth > 0) %>% 
+  filter(years == first(years)) %>% 
+  last() %>% 
+  select(year) %>% 
+pull(year)
+```
+
+## The MEA electricity demand growth rate
+
+1. Users assumptions is extracted from the excel control sheet. Users **must** fill in their assumption in terms of **the growth rate increase/decrease**. Their assumptions are kept in the `grw_mea_dmd_excel` data frame (see the 1st session in the R code chunk below). 
+2. The actual percentage growth rate are calculated and are saved in the `grw_mea_dmd` data frame (see the 2nd session code chunk).
+3. The year without a growth rate assumption is extracted as a reference for a base year growth rate calculation. The value is stored in the `previous_year_mea_dmd_grw` data frame (see the 3rd session).
+
+```{r grw_mea_dmd, echo=TRUE, warning=FALSE, message=FALSE}
+
+# 1st session
+
+grw_mea_dmd_excel <-
+  read_excel("process_data/excel_control.xlsx",
+             sheet = "grw_mea_dmd",
+             range = "A1:B83") %>% 
+  drop_na()
+
+# 2nd session
+
+grw_mea_dmd <- 
+  grw_mea_dmd_excel %>% 
+  select(growth)%>% 
+  mutate(growth = 1+growth)
+
+# 3rd session
+previous_year_mea_dmd_grw <-
+  grw_mea_dmd_excel %>%
+  mutate(years = growth<0 | growth > 0) %>% 
+  filter(years == first(years)) %>% 
+  last() %>% 
+  select(year) %>% 
+  pull(year)
+
+```
+
+## The PEA electricity demand growth rate
+
+1. Users assumptions is extracted from the excel control sheet. Users **must** fill in their assumption in terms of **the growth rate increase/decrease**. Their assumptions are kept in the `grw_pea_dmd_excel` data frame (see the 1st session in the R code chunk below). 
+2. The actual percentage growth rate are calculated and are saved in the `grw_pea_dmd` data frame (see the 2nd session code chunk).
+3. The year without a growth rate assumption is extracted as a reference for a base year growth rate calculation. The value is stored in the `previous_year_pea_dmd_grw` data frame (see the 3rd session).
+
+```{r grw_pea_dmd, echo=TRUE, warning=FALSE, message=FALSE}
+# 1st session
+
+grw_pea_dmd_excel <-
+  read_excel("process_data/excel_control.xlsx",
+             sheet = "grw_pea_dmd",
+             range = "A1:B83") %>% 
+  drop_na()
+
+# 2nd session
+
+grw_pea_dmd <- 
+  grw_pea_dmd_excel %>% 
+  select(growth)%>% 
+  mutate(growth = 1+growth)
+
+# 3nd session
+
+previous_year_pea_dmd_grw <-
+  grw_pea_dmd_excel %>%
+  mutate(years = growth<0 | growth > 0) %>% 
+  filter(years == first(years)) %>% 
+  last() %>% 
+  select(year) %>% 
+  pull(year)
+```
+
