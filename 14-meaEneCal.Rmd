@@ -183,6 +183,20 @@ mea_vspp_pdp2018r1 <-
   mutate(year_th = as.numeric(year) + 543) 
 ```
 
+```{r}
+mea_vspp_pdp2018r1 %>% 
+  ggplot(aes(x = year, y = mea_gwh)) + 
+  geom_line(aes(group = fuel, color = fuel),
+            show.legend = FALSE) +
+  facet_wrap(~fuel,
+             scales = "free_y")+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")+
+  scale_color_manual(values = linepalette1)
+```
+
+
 ```{r mea_newvspp_pdp2018r1, echo=FALSE, warning=FALSE, message=FALSE}
 mea_newvspp_pdp2018r1 <-
   
@@ -197,6 +211,22 @@ mea_newvspp_pdp2018r1 <-
   mutate(year = as.numeric(year),
          year_th = as.numeric(year + 543)) 
 ```
+
+```{r}
+mea_newvspp_pdp2018r1 %>% 
+  ggplot(aes(x = year, 
+             y = mea_gwh))+
+  geom_line(aes(group = fuel, color = fuel),
+            show.legend = FALSE)+
+  facet_wrap(~fuel,
+             scales = "free_y")+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")+
+  scale_color_manual(values = linepalette1)
+```
+
+
 
 * Select MEA vspp and new vspp from PDP2018REV1
 
@@ -221,6 +251,28 @@ tot_mea_vspp_pdp2018r1 %>%
   select(!mea_gwh)
 ```
 
+```{r}
+tot_mea_vspp_pdp2018rev1 %>% 
+  ggplot(aes(x = year,
+             y = tot_mea_gwh))+
+  geom_line(aes(group = fuel, color = fuel),
+            show.legend = FALSE)+
+  geom_point(shape = 21,
+             size = 2,
+             color = "dodgerblue",
+             fill = "grey")+
+  ThemeLine+
+  labs(x = NULL,
+       y = "VSPP Electricity generation (GWh)")+
+  scale_x_continuous(breaks = c(2015, 2020, 2025, 2030, 2035, 2037))+
+  scale_y_continuous(breaks = seq(0, 12000, 2000),
+                     limits = c(0, 12000),
+                     labels = comma)+
+  scale_color_manual(values = "dodgerblue")
+```
+
+
+
 ### Calculate EGAT sale from PDP2018REV1
 
 The `left_join` function is used to combine a data frame and a calculated electricity sale from EGAT to MEA. It is calculated by a following equation.
@@ -242,6 +294,30 @@ left_join(newmea_ene,
             filter(year >= 2019)) %>% 
   mutate(egatsale = mea_gwh - tot_mea_gwh)
 ```
+
+```{r}
+egt_sle_mea_pdp2018r1 %>% 
+  ggplot()+
+  geom_line(aes(x = year, y = egatsale))+
+  geom_line(aes(x = year, y = mea_gwh))+
+  geom_point(aes(x = year, y = egatsale),
+             shape = 21,
+             size = 2,
+             color = "dodgerblue",
+             fill = "grey")+
+  geom_point(aes(x = year, y = mea_gwh),
+             shape = 15,
+             size = 2,
+             color = "salmon",
+             fill = "yellow",
+             inherit.aes = FALSE)+
+  geom_point(aes(x = year, y = mea_gwh))+
+  ThemeLine+
+  labs(x = NULL,
+       y = "Electricity sale by EGAT to MEA (GWh")+
+  scale_x_continuous(breaks = c(2019, 2025, 2030, 2035, 2037))
+```
+
 
 ## VSPP in MEA region from PDP2023 case7
 
