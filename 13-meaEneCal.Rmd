@@ -246,9 +246,8 @@ left_join(newmea_ene,
 ## VSPP in MEA region from PDP2023 case7
 
 * Extract VSPP data
-```{r}
-# Extract VSPP in MEA region from PDP2023 case7
 
+```{r tot_mea_vspp_pdp2022c7, echo=TRUE, warning=FALSE, message=FALSE}
 tot_mea_vspp_pdp2022c7 <-
   
   
@@ -264,8 +263,9 @@ read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
   pivot_longer(-year, names_to = "fuel", values_to = "tot_mea_gwh") %>% 
   filter(fuel == "total")
 ```
+* Join an electricity generation from VSPP in the MEA area and the PDP2022 case 7. The `full_join` function is used. 
 
-```{r}
+```{r tot_mea_vspp_ene_pdp2022c7, echo=TRUE, message=FALSE, warning=FALSE}
 tot_mea_vspp_ene_pdp2022c7 <-
   
 full_join(mea_vspp_ene_ext %>% 
@@ -282,7 +282,9 @@ by= c("mea_vspp_gwh" = "tot_mea_gwh",
 
 ### Calculate EGAT sale from PDP2022 Case 7
 
-```{r}
+The `left_join` function is used to combine a data frame and a calculated electricity sale from EGAT to MEA. It is calculated by using equation \@ref(eq:egtsleMEApdp2018rev1).
+
+```{r egt_sle_mea_pdp2022c7, echo=TRUE, warning=FALSE, message=FALSE}
 egt_sle_mea_pdp2022c7 <-
   
   left_join(newmea_ene,
@@ -295,7 +297,7 @@ egt_sle_mea_pdp2022c7 <-
 ## Calculate electricity requirement in the MEA area
 
 * Calculating for the worst case
-```{r}
+```{r newmea_ene_req, echo=TRUE, warning=FALSE, message=FALSE}
 ### Calculating for worst case  
 ### Calculation for MEA electricity demand
 
