@@ -168,7 +168,8 @@ The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh 
 
 ## VSPP in MEA in PDP2018REV1
 
-* Extract VSPP data
+* Extract VSPP data\
+The electricity generation from VSPP in the MEA area was divided into existing VSPPs and newly VSPP contracts. Solar and biomass for communities were added. 
 ```{r meavspppdp2018r1, echo=TRUE, warning=FALSE, message=FALSE}
 mea_vspp_pdp2018r1 <-
   
@@ -182,7 +183,7 @@ mea_vspp_pdp2018r1 <-
   mutate(year_th = as.numeric(year) + 543) 
 ```
 
-```{r}
+```{r mea_newvspp_pdp2018r1, echo=FALSE, warning=FALSE, message=FALSE}
 mea_newvspp_pdp2018r1 <-
   
   read_excel("raw_data/01 Load_PDP2018 ปรับ VSPP_13Jan2020_Final (PDP2018R1).xlsx",
@@ -196,8 +197,10 @@ mea_newvspp_pdp2018r1 <-
   mutate(year = as.numeric(year),
          year_th = as.numeric(year + 543)) 
 ```
+
 * Select MEA vspp and new vspp from PDP2018REV1
-```{r}
+
+```{r tot_mea_vspp_pdp2018r1, echo=TRUE, warning=FALSE, message=FALSE}
 # Select MEA vspp and new vspp from PDP2018REV1 ####
 tot_mea_vspp_pdp2018r1 <- 
   
@@ -219,7 +222,17 @@ tot_mea_vspp_pdp2018r1 %>%
 ```
 
 ### Calculate EGAT sale from PDP2018REV1
-```{r}
+
+The `left_join` function is used to combine a data frame and a calculated electricity sale from EGAT to MEA. It is calculated by a following equation.
+
+\begin{equation}
+
+EGTSLE_{MEA,t} = MEAReq_{t} - VSPP_{MEA,t}
+(\#eq:egtsleMEApdp2018rev1)
+
+\end{equation}
+
+```{r egt_sle_mea_pdp2018r1, echo=TRUE, warning=FALSE, message=FALSE}
 
 egt_sle_mea_pdp2018r1 <-
 
