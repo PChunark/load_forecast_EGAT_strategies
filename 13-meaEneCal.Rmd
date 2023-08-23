@@ -3,7 +3,7 @@
 This section explains the MEA electricity calculation. Existing VSPPs electricity generation are needed. Such a generation is obtained R code chunks provided in Chapter \@ref(vsppsituation).\
 
 
-This study merges 2 MEA's electricity load datasets as follows:
+This study merges 2 MEA's electricity load data sets as follows:
 
 1. A budget load 2566–2567 (2023–2024)
 2. An electricity load from the NIDA study approved on 25 August 2022
