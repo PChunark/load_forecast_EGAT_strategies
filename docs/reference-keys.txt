@@ -136,6 +136,9 @@ fig:plot-meaeneext
 fig:plot-meaelycon
 fig:plot-pearequire
 fig:plot-peaelycon
+fig:plot-newload3u
+fig:plot-newmeaene
+eq:egtsleMEApdp2018rev1
 introduction
 electricity-consumption-situation
 electricity-generation-situation
@@ -219,4 +222,14 @@ mea-and-pea-electricity-requirement
 mea-actual-electricity-requirement
 pea-actual-electricity-requirement
 electricity-consumption-in-pea-areas-is-divided-into-9-categories-as-follows
+net-electricity-generation-from-3-utilities
+setting-assumptions
+the-3-utilities-growth-rate
+the-mea-electricity-demand-growth-rate
+the-pea-electricity-demand-growth-rate
 mea-electricity-calculation
+vspp-in-mea-in-pdp2018rev1
+calculate-egat-sale-from-pdp2018rev1
+vspp-in-mea-region-from-pdp2023-case7
+calculate-egat-sale-from-pdp2022-case-7
+calculate-electricity-requirement-in-the-mea-area
