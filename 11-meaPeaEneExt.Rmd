@@ -664,12 +664,7 @@ plot_grid(plot_peareq,plot_peacon,
 ```
 
 
-<<<<<<< HEAD
-
 Electricity consumption in PEA areas is divided into 9 categories as follows:
-=======
-Electricity consumption in PEA area is divided into 9 categories as follows:
->>>>>>> dc16594b6455b68c7981358e48db48bbc0565069
 
 * Residences
 * Small general services
