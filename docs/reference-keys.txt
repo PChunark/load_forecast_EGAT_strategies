@@ -221,7 +221,6 @@ egat-direct-customers
 mea-and-pea-electricity-requirement
 mea-actual-electricity-requirement
 pea-actual-electricity-requirement
-electricity-consumption-in-pea-areas-is-divided-into-9-categories-as-follows
 net-electricity-generation-from-3-utilities
 setting-assumptions
 the-3-utilities-growth-rate
