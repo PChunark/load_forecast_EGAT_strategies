@@ -138,7 +138,11 @@ fig:plot-pearequire
 fig:plot-peaelycon
 fig:plot-newload3u
 fig:plot-newmeaene
+fig:plot-meavspppdp2018r1
+fig:plot-meanewvspppdp2018r1
+fig:plot-totmeavspppdp2018rev1
 eq:egtsleMEApdp2018rev1
+fig:plot-egtsleMeaPdp2018r1
 introduction
 electricity-consumption-situation
 electricity-generation-situation
