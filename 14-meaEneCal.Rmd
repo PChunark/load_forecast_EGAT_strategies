@@ -1,6 +1,6 @@
 # MEA electricity calculation
 
-This section explains the MEA electricity calculation. Existing VSPPs electricity generation are needed. Such a generation is obtained R code chunks provided in Chapter \@ref(vsppsituation).\
+This section explains the MEA electricity calculation. Existing VSPPs electricity generation are needed. Such a generation is obtained from R code chunks provided in Chapter \@ref(vsppsituation).\
 
 
 This study merges 2 MEA's electricity load data sets as follows:
@@ -8,7 +8,7 @@ This study merges 2 MEA's electricity load data sets as follows:
 1. A budget load 2566–2567 (2023–2024)
 2. An electricity load from the NIDA study approved on 25 August 2022
 
-The budget load provides a required electricity demand. It covers from EGAT sales to total net generation for 3 utilities' power system. An estimated electricity generation ranges from 2023-2028.\
+The budget load provides a required electricity demand from the MEA areas. It covers from EGAT sales to total net generation for 3 utilities' power system. An estimated electricity generation ranges from 2023-2028.\
 
 The MEA electricity load from the NIDA study is merged to the budget load from 2029 onward.\
 
@@ -50,6 +50,7 @@ read_excel("raw_data/93 EGAT_25Aug2022_13 Energy ภาพรวม NIDA_BAU_ND_
 ```
 
 * Merge 2 datasets
+The `rbind` function combined both the MEA's budget load and the NIDA's load.
 ```{r newmea_ene, echo=TRUE, message=FALSE, warning=FALSE}
 newmea_ene <-
   
@@ -84,7 +85,7 @@ annonewmeaene2037 <-
   
 ```
 
-The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh in 2037. It increases `r (((71127/53290)^(1/(2037-2022)))-1)*100`% annually. 
+The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh in 2037. It increases `r round((((71127/53290)^(1/(2037-2022)))-1)*100,3)`% annually. 
 
 ```{r plot-newmeaene, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Estimated MEA electricity requirement from the budget load and the NIDA study', fig.align='center', out.width= '90%'}
 # ggplotly(
@@ -169,7 +170,7 @@ The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh 
 ## VSPP in MEA in PDP2018REV1
 
 * Extract VSPP data\
-The electricity generation from VSPP in the MEA area was divided into existing VSPPs and newly VSPP contracts. Solar and biomass for communities were added. 
+The electricity generation from VSPP in the MEA area was divided into existing VSPPs and newly VSPP contracts. Solar and biomass for communities were added in a newly VSPP category. 
 ```{r meavspppdp2018r1, echo=TRUE, warning=FALSE, message=FALSE}
 mea_vspp_pdp2018r1 <-
   
@@ -183,8 +184,9 @@ mea_vspp_pdp2018r1 <-
   mutate(year_th = as.numeric(year) + 543) 
 ```
 
-```{r}
-mea_vspp_pdp2018r1 %>% 
+```{r plot-meavspppdp2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Projected electricity generation from existing VSPP contracts in the PDP2018 revision 1', fig.align='center', out.width= '90%'}
+mea_vspp_pdp2018r1 %>%
+  filter(!fuel %in% c("biogas","biomass","crop","geothermal","re_eeothers","wind")) %>% 
   ggplot(aes(x = year, y = mea_gwh)) + 
   geom_line(aes(group = fuel, color = fuel),
             show.legend = FALSE) +
