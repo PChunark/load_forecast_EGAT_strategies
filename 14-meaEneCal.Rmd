@@ -85,7 +85,7 @@ annonewmeaene2037 <-
   
 ```
 
-The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh in 2037. It increases `r round((((71127/53290)^(1/(2037-2022)))-1)*100,3)`% annually. 
+The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh in 2037. It increases `r round((((71127/53290)^(1/(2037-2022)))-1)*100,3)`% annually (see Figure \@ref(fig:plot-newmeaene)). 
 
 ```{r plot-newmeaene, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Estimated MEA electricity requirement from the budget load and the NIDA study', fig.align='center', out.width= '90%'}
 # ggplotly(
@@ -184,6 +184,8 @@ mea_vspp_pdp2018r1 <-
   mutate(year_th = as.numeric(year) + 543) 
 ```
 
+An electricity generation from existing VSPP in the MEA areas is from cogeneration power plants, hydropower, solar power, waste power plants. Total generation would reach its peak 235 GWh in 2017. It would remain 193 GWh from 2019-2037 (see Figure \@ref(fig:plot-meavspppdp2018r1)).
+
 ```{r plot-meavspppdp2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Projected electricity generation from existing VSPP contracts in the PDP2018 revision 1', fig.align='center', out.width= '90%'}
 mea_vspp_pdp2018r1 %>%
   filter(!fuel %in% c("biogas","biomass","crop","geothermal","re_eeothers","wind")) %>% 
@@ -214,8 +216,11 @@ mea_newvspp_pdp2018r1 <-
          year_th = as.numeric(year + 543)) 
 ```
 
-```{r}
+An electricity generation from newly VSPP in the MEA areas is from biogas, biomass hydropower, solar power for community, waste power plants and energy efficiency improvement. Total generation would be almost 10,000 GWh in 2037 (see Figure \@ref(fig:plot-meanewvspppdp2018r1)).
+
+```{r plot-meanewvspppdp2018r1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Projected electricity generation from newly VSPP contracts in the PDP2018 revision 1', fig.align='center', out.width= '90%'}
 mea_newvspp_pdp2018r1 %>% 
+  filter(!fuel %in% c("biomass_community", "ind_waste", "wind")) %>% 
   ggplot(aes(x = year, 
              y = mea_gwh))+
   geom_line(aes(group = fuel, color = fuel),
@@ -230,7 +235,7 @@ mea_newvspp_pdp2018r1 %>%
 
 
 
-* Select MEA vspp and new vspp from PDP2018REV1
+* Select and combine MEA vspp and new vspp from PDP2018REV1
 
 ```{r tot_mea_vspp_pdp2018r1, echo=TRUE, warning=FALSE, message=FALSE}
 # Select MEA vspp and new vspp from PDP2018REV1 ####
@@ -253,7 +258,26 @@ tot_mea_vspp_pdp2018r1 %>%
   select(!mea_gwh)
 ```
 
-```{r}
+```{r annototmeavspppdp2018r1, echo=FALSE, warning=FALSE, message=FALSE}
+annototmeavspppdp2018r12015 <-
+  tot_mea_vspp_pdp2018rev1 %>% 
+  filter(year == 2015)
+
+annototmeavspppdp2018r12020 <-
+  tot_mea_vspp_pdp2018rev1 %>% 
+  filter(year == 2020)
+
+annototmeavspppdp2018r12030 <-
+  tot_mea_vspp_pdp2018rev1 %>% 
+  filter(year == 2030)
+
+annototmeavspppdp2018r12037 <-
+  tot_mea_vspp_pdp2018rev1 %>% 
+  filter(year == 2037)
+```
+
+The PDP2018 rev.1 estimated that total electricity generation from VSPP in the MEA area will increase from 54 GWh in 2015 to 10,227 GWh in 2037. Solar power for community will dominate the generation.
+```{r plot-totmeavspppdp2018rev1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from MEA's VSPP in the PDP2018 revision 1', fig.align='center', out.width= '90%'}
 tot_mea_vspp_pdp2018rev1 %>% 
   ggplot(aes(x = year,
              y = tot_mea_gwh))+
@@ -270,7 +294,39 @@ tot_mea_vspp_pdp2018rev1 %>%
   scale_y_continuous(breaks = seq(0, 12000, 2000),
                      limits = c(0, 12000),
                      labels = comma)+
-  scale_color_manual(values = "dodgerblue")
+  scale_color_manual(values = "dodgerblue")+
+  geom_text_repel(data = annototmeavspppdp2018r12015,
+                  aes(x = year, y = tot_mea_gwh,
+                      label = paste0(formatC(tot_mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = 1,
+                  nudge_y = 1000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annototmeavspppdp2018r12020,
+                  aes(x = year, y = tot_mea_gwh,
+                      label = paste0(formatC(tot_mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = 1,
+                  nudge_y = 1000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annototmeavspppdp2018r12030,
+                  aes(x = year, y = tot_mea_gwh,
+                      label = paste0(formatC(tot_mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = -1,
+                  nudge_y = 1000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annototmeavspppdp2018r12037,
+                  aes(x = year, y = tot_mea_gwh,
+                      label = paste0(formatC(tot_mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = -1,
+                  nudge_y = 1000,
+                  inherit.aes = FALSE)
 ```
 
 
@@ -297,27 +353,109 @@ left_join(newmea_ene,
   mutate(egatsale = mea_gwh - tot_mea_gwh)
 ```
 
-```{r}
-egt_sle_mea_pdp2018r1 %>% 
-  ggplot()+
-  geom_line(aes(x = year, y = egatsale))+
-  geom_line(aes(x = year, y = mea_gwh))+
-  geom_point(aes(x = year, y = egatsale),
-             shape = 21,
-             size = 2,
-             color = "dodgerblue",
-             fill = "grey")+
-  geom_point(aes(x = year, y = mea_gwh),
-             shape = 15,
-             size = 2,
-             color = "salmon",
-             fill = "yellow",
-             inherit.aes = FALSE)+
-  geom_point(aes(x = year, y = mea_gwh))+
+```{r annoegtslemeapdp2018r1, echo=FALSE, warning=FALSE, message=FALSE}
+annoegtslemeapdp2018r12019 <-
+  egt_sle_mea_pdp2018r1 %>% 
+  filter(year == 2019) %>% 
+  select(sector,year,egatsale)
+
+annoegtslemeapdp2018r12030 <-
+  egt_sle_mea_pdp2018r1 %>% 
+  filter(year == 2030) %>% 
+  select(sector,year,egatsale)
+
+annoegtslemeapdp2018r12037 <-
+  egt_sle_mea_pdp2018r1 %>% 
+  filter(year == 2037) %>% 
+  select(sector,year,egatsale)
+```
+
+```{r annomeareqpdp2018r1, echo=FALSE, warning=FALSE, message=FALSE}
+annomeareqpdp2018r12019 <-
+  egt_sle_mea_pdp2018r1 %>% 
+  filter(year == 2019) %>% 
+  select(sector,year,mea_gwh)
+
+annomeareqpdp2018r12030 <-
+  egt_sle_mea_pdp2018r1 %>% 
+  filter(year == 2030) %>% 
+  select(sector,year,mea_gwh)
+
+annomeareqpdp2018r12037 <-
+  egt_sle_mea_pdp2018r1 %>% 
+  filter(year == 2037) %>% 
+  select(sector,year,mea_gwh)
+```
+
+
+```{r plot-egtsleMeaPdp2018r1, echo=FALSE, warning=FALSE, warning=FALSE, fig.cap='MEA electricity requirement and EGAT electricity sale to MEA in the PDP2018 revision 1', fig.align='center', out.width= '90%'}
+egt_sle_mea_pdp2018r1 %>%
+  pivot_longer(-c(sector,year,year_th), names_to = "category", values_to = "ene_gwh") %>%
+  filter(category != "tot_mea_gwh") %>%
+  ggplot(aes(x = year, y = ene_gwh, group = category, color=category))+
+  geom_line(color = "black", show.legend = TRUE)+
+  geom_point(shape = 21,
+             fill = "grey",
+             size = 2.2)+
+  scale_color_manual(name = NULL,
+                     values = linepalette1,
+                     labels = c("EGAT sale to MEA", "MEA requirement"))+
   ThemeLine+
+  theme(legend.position = c(0.15, 0.9))+
   labs(x = NULL,
-       y = "Electricity sale by EGAT to MEA (GWh")+
-  scale_x_continuous(breaks = c(2019, 2025, 2030, 2035, 2037))
+       y = "Electricity sale by EGAT to MEA (GWh)")+
+  scale_x_continuous(breaks = c(2019, 2025, 2030, 2035, 2037))+
+  scale_y_continuous(breaks = seq(0,80000,10000),
+                     limits = c(0,80000),
+                     labels = comma)+
+  geom_text_repel(data = annoegtslemeapdp2018r12019,
+                  aes(x = year, y = egatsale,
+                      label = paste0(formatC(egatsale, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = 1,
+                  nudge_y = -10000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annoegtslemeapdp2018r12030,
+                  aes(x = year, y = egatsale,
+                      label = paste0(formatC(egatsale, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  # nudge_x = 1,
+                  nudge_y = -10000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annoegtslemeapdp2018r12037,
+                  aes(x = year, y = egatsale,
+                      label = paste0(formatC(egatsale, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = -1,
+                  nudge_y = -10000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annomeareqpdp2018r12019,
+                  aes(x = year, y = mea_gwh,
+                      label = paste0(formatC(mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = 1,
+                  nudge_y = 7000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annomeareqpdp2018r12030,
+                  aes(x = year, y = mea_gwh,
+                      label = paste0(formatC(mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  # nudge_x = 1,
+                  nudge_y = 10000,
+                  inherit.aes = FALSE)+
+  geom_text_repel(data = annomeareqpdp2018r12037,
+                  aes(x = year, y = mea_gwh,
+                      label = paste0(formatC(mea_gwh, format = "d", big.mark = ","), " GWh")),
+                  hjust = 0.5,
+                  size = 3.2,
+                  nudge_x = -1,
+                  nudge_y = 7000,
+                  inherit.aes = FALSE)
 ```
 
 
