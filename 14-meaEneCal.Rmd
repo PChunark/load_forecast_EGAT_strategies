@@ -277,7 +277,7 @@ annototmeavspppdp2018r12037 <-
 ```
 
 The PDP2018 rev.1 estimated that total electricity generation from VSPP in the MEA area will increase from 54 GWh in 2015 to 10,227 GWh in 2037. Solar power for community will dominate the generation.
-```{r plot-totmeavspppdp2018rev1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total electricity generation from MEA's VSPP in the PDP2018 revision 1', fig.align='center', out.width= '90%'}
+```{r plot-totmeavspppdp2018rev1, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Total MEA electricity generation from VSPP in the PDP2018 revision 1', fig.align='center', out.width= '90%'}
 tot_mea_vspp_pdp2018rev1 %>% 
   ggplot(aes(x = year,
              y = tot_mea_gwh))+
