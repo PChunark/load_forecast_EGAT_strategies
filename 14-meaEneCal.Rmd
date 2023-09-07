@@ -31,6 +31,8 @@ b_mea_ene <-
   filter(sector == "MEA's System Requirement")
 ```
 
+
+
 * The electricity load from the NIDA study approved on 25 August 2022
 
 ```{r pdp2022_mea_ene, echo=TRUE, warning=FALSE, message=FALSE}
@@ -56,6 +58,7 @@ newmea_ene <-
   
   rbind(b_mea_ene %>% filter(year >= 2019), 
         pdp2022_mea_ene %>% filter(year >=2029))
+
 ```
 
 ```{r annonewmea_ene, echo=FALSE, warning=FALSE, message=FALSE}
@@ -88,7 +91,7 @@ annonewmeaene2037 <-
 The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh in 2037. It increases `r round((((71127/53290)^(1/(2037-2022)))-1)*100,3)`% annually (see Figure \@ref(fig:plot-newmeaene)). 
 
 ```{r plot-newmeaene, echo=FALSE, warning=FALSE, message=FALSE, fig.cap='Estimated MEA electricity requirement from the budget load and the NIDA study', fig.align='center', out.width= '90%'}
-# ggplotly(
+
   newmea_ene %>% 
   ggplot(aes(x = year, y = mea_gwh))+
   geom_line(aes(group = sector, color = "salmon"),
@@ -123,9 +126,12 @@ The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh 
   ThemeLine+
   labs(x = NULL,
        y = "MEA's electricity requirement (GWh)")+
-  geom_text_repel(data = annonewmeaene2019,
+  
+    
+    
+    geom_text_repel(data = annonewmeaene2019,
                   aes(x = year, y = mea_gwh,
-                      label = paste0(formatC(annonewmeaene2019$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                      label = paste0(formatC(mea_gwh, format = "d", big.mark = ","), " GWh")),
                   hjust = 0.5,
                   size = 3.5,
                   nudge_x = 1,
@@ -133,7 +139,7 @@ The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh 
                   inherit.aes = FALSE)+
   geom_text_repel(data = annonewmeaene2022,
                   aes(x = year, y = mea_gwh,
-                      label = paste0(formatC(annonewmeaene2022$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                      label = paste0(formatC(mea_gwh, format = "d", big.mark = ","), " GWh")),
                   hjust = 0.3,
                   size = 3.5,
                   nudge_x = 1,
@@ -141,7 +147,7 @@ The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh 
                   inherit.aes = FALSE)+
   geom_text_repel(data = annonewmeaene2025,
                   aes(x = year, y = mea_gwh,
-                      label = paste0(formatC(annonewmeaene2025$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                      label = paste0(formatC(mea_gwh, format = "d", big.mark = ","), " GWh")),
                   hjust = 1,
                   size = 3.5,
                   nudge_x = 1,
@@ -149,7 +155,7 @@ The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh 
                   inherit.aes = FALSE)+
   geom_text_repel(data = annonewmeaene2028,
                   aes(x = year, y = mea_gwh,
-                      label = paste0(formatC(annonewmeaene2028$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                      label = paste0(formatC(mea_gwh, format = "d", big.mark = ","), " GWh")),
                   hjust = 0.2,
                   size = 3.5,
                   nudge_x = 1,
@@ -157,13 +163,12 @@ The MEA electricity requirement increases from 53,290 GWh in 2022 to 71,127 GWh 
                   inherit.aes = FALSE)+
   geom_text_repel(data = annonewmeaene2037,
                   aes(x = year, y = mea_gwh,
-                      label = paste0(formatC(annonewmeaene2037$mea_gwh, format = "d", big.mark = ","), " GWh")),
+                      label = paste0(formatC(mea_gwh, format = "d", big.mark = ","), " GWh")),
                   hjust = 0.5,
                   size = 3.5,
                   nudge_x = -1.2,
                   nudge_y = -10000,
                   inherit.aes = FALSE)
-# )
 ```
 
 
@@ -459,14 +464,13 @@ egt_sle_mea_pdp2018r1 %>%
 ```
 
 
-## VSPP in MEA region from PDP2023 case7
+## VSPP in MEA in the PDP2023 case7
 
 * Extract VSPP data
 
 ```{r tot_mea_vspp_pdp2022c7, echo=TRUE, warning=FALSE, message=FALSE}
 tot_mea_vspp_pdp2022c7 <-
-  
-  
+
 read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
            sheet = "MAC",
            range = "A28:Q49",
@@ -479,6 +483,32 @@ read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
   pivot_longer(-year, names_to = "fuel", values_to = "tot_mea_gwh") %>% 
   filter(fuel == "total")
 ```
+```{r}
+read_excel("raw_data/Case7_VSPP+DEDE+NVSPP_เพิ่มภาค.xlsx",
+           sheet = "MAC",
+           range = "A28:Q49",
+           col_names = c("fuel", 2022:2037)) %>%
+  replace(is.na(.), 0 ) %>% 
+  pivot_longer(-fuel, names_to = "year", values_to = "mea_gwh") %>% 
+  mutate(year = as.numeric(year)) %>% 
+  pivot_wider(names_from = fuel, values_from = mea_gwh) %>% 
+  rename_all(tolower) %>% 
+  pivot_longer(-year, names_to = "fuel", values_to = "tot_mea_gwh") %>%
+  filter(fuel %in% c("gas", "msw", "solar","total")) %>%
+  ggplot(aes(x = year, y = tot_mea_gwh))+
+  geom_line(aes(group = fuel, color = fuel),
+            show.legend = FALSE)+
+  facet_wrap(~fuel,
+             scales = "free_y")+
+  ThemeLine+
+  scale_color_manual(values = linepalette1)+
+  labs(x = NULL,
+       y = "Electricity generation (GWh)")
+  
+```
+
+
+
 * Join an electricity generation from VSPP in the MEA area and the PDP2022 case 7. The `full_join` function is used. 
 
 ```{r tot_mea_vspp_ene_pdp2022c7, echo=TRUE, message=FALSE, warning=FALSE}
